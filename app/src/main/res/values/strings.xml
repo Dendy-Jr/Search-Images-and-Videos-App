@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">Search-Images-and-Videos-App</string>
+    <string name="app_name">Search-Images-And-Videos-App</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="photos">Photos</string>
+    <string name="videos">Videos</string>
+    <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
+    <string name="video">Video</string>
+    <string name="search_image">Search image</string>
+    <string name="search_video">Search video</string>
+    <string name="search_icon">Search icon</string>
+    <string name="hint_search_query">Enter search query…</string>
+    <string name="error_check_the_connection">Error. Check the connection</string>
+    <string name="update">Update</string>
+    <string name="retry">Retry</string>
+    <string name="unknown_error_occurred">An unknown error occurred</string>
+    <string name="could_not_load_search_results">Could not load search results: %s</string>
+    <string name="images">Images</string>
+    <string name="file_download_title">Download file</string>
+    <string name="file_download_progress">Download progress</string>
+    <string name="file_download_cancel">Download cancel</string>
+    <string name="file_download_connection_error">File download connection error</string>
+    <string name="file_local_create_error">File local create error</string>
+    <string name="file_decode_error">File decode error</string>
+    <string name="file_download_finish">File download finish</string>
+    <string name="image_download_channel_name">Image download channel name</string>
+    <string name="file_download_error">File download error</string>
 </resources>
