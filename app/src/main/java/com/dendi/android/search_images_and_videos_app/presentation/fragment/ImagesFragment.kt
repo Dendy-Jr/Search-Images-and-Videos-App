@@ -3,7 +3,6 @@ package com.dendi.android.search_images_and_videos_app.presentation.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
@@ -12,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.core.*
-import com.dendi.android.search_images_and_videos_app.data.image.cache.ImageEntity
 import com.dendi.android.search_images_and_videos_app.databinding.FragmentImagesBinding
-import com.dendi.android.search_images_and_videos_app.presentation.image.ImagePagingAdapter
-import com.dendi.android.search_images_and_videos_app.presentation.image.ImageViewModel
-import com.dendi.android.search_images_and_videos_app.presentation.video.LoadAdapter
+import com.dendi.android.search_images_and_videos_app.domain.image.Image
+import com.dendi.android.search_images_and_videos_app.presentation.adapter.ImagePagingAdapter
+import com.dendi.android.search_images_and_videos_app.presentation.viewmodel.ImageViewModel
+import com.dendi.android.search_images_and_videos_app.presentation.adapter.LoadAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,22 +35,22 @@ class ImagesFragment : BaseFragment(R.layout.fragment_images) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val imageAdapter = ImagePagingAdapter(object : OnClickListener<ImageEntity> {
-            override fun click(item: ImageEntity) {
+        val imageAdapter = ImagePagingAdapter(object : OnClickListener<Image> {
+            override fun click(item: Image) {
                 Log.d("QAZ", item.user)
                 val direction =
                     ImagesFragmentDirections.actionPhotosFragmentToImageDetailFragment(item)
                 navController.navigate(direction)
             }
         },
-            object : OnClickListener<ImageEntity> {
-                override fun click(item: ImageEntity) {
+            object : OnClickListener<Image> {
+                override fun click(item: Image) {
                     viewModel.addToFavorite(item)
                     showSnackbar("Image is added to your favorites")
                 }
             },
-            object : OnClickListener<ImageEntity> {
-                override fun click(item: ImageEntity) {
+            object : OnClickListener<Image> {
+                override fun click(item: Image) {
                     shareItem(item.user, item.pageURL)
                 }
             }
@@ -63,8 +62,9 @@ class ImagesFragment : BaseFragment(R.layout.fragment_images) {
             searchInput.requestFocus()
             searchInput.afterTextChanged(viewModel::searchImage)
 
-            imageAdapter.withLoadStateFooter(
-                LoadAdapter(imageAdapter::retry)
+            imageAdapter.withLoadStateHeaderAndFooter(
+                header = LoadAdapter(imageAdapter::retry),
+                footer = LoadAdapter(imageAdapter::retry)
             )
 
             collectLatestLifecycleFlow(viewModel.images) { data ->

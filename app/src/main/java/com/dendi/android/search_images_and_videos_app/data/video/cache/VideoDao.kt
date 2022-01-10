@@ -2,7 +2,6 @@ package com.dendi.android.search_images_and_videos_app.data.video.cache
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.dendi.android.search_images_and_videos_app.data.image.cache.ImageEntity
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -12,21 +11,21 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface VideoDao {
 
-    @Query("SELECT * FROM ${VideoEntity.TABLE_VIDEOS}")
-    fun getPagingVideo(): PagingSource<Int, VideoEntity>
+    @Query("SELECT * FROM ${VideoCache.TABLE_VIDEOS}")
+    fun getPagingVideo(): PagingSource<Int, VideoCache>
 
-    @Query("SELECT * FROM ${VideoEntity.TABLE_VIDEOS}")
-    fun getVideos(): Flow<List<VideoEntity>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(images: List<VideoEntity>)
+    @Query("SELECT * FROM ${VideoCache.TABLE_VIDEOS}")
+    fun getVideos(): Flow<List<VideoCache>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertImage(image: VideoEntity)
+    suspend fun insertAll(images: List<VideoCache>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertImage(image: VideoCache)
 
     @Delete
-    suspend fun deleteVideo(image: VideoEntity)
+    suspend fun deleteVideo(image: VideoCache)
 
-    @Query("DELETE FROM ${VideoEntity.TABLE_VIDEOS}")
+    @Query("DELETE FROM ${VideoCache.TABLE_VIDEOS}")
     suspend fun deleteAllVideos()
 }

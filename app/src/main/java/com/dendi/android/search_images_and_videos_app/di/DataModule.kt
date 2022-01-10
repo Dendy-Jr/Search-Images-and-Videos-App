@@ -2,19 +2,14 @@ package com.dendi.android.search_images_and_videos_app.di
 
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
-import androidx.paging.ExperimentalPagingApi
 import androidx.room.Room
 import com.dendi.android.search_images_and_videos_app.data.core.PixabayDb
-import com.dendi.android.search_images_and_videos_app.data.image.ImagesRepositoryImpl
 import com.dendi.android.search_images_and_videos_app.data.image.cache.ImageDao
 import com.dendi.android.search_images_and_videos_app.data.image.cache.ImageRemoteKeysDao
 import com.dendi.android.search_images_and_videos_app.data.image.cache.ImagesLocalDataSource
 import com.dendi.android.search_images_and_videos_app.data.image.cloud.ImagesRemoteDataSource
-import com.dendi.android.search_images_and_videos_app.data.video.VideosRepositoryImpl
 import com.dendi.android.search_images_and_videos_app.data.video.cache.VideoDao
 import com.dendi.android.search_images_and_videos_app.data.video.cache.VideosLocalDataSource
-import com.dendi.android.search_images_and_videos_app.domain.image.ImagesRepository
-import com.dendi.android.search_images_and_videos_app.domain.video.VideosRepository
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -25,20 +20,9 @@ import org.koin.dsl.module
 private const val DATABASE_NAME = "pixabay_db"
 
 
-@ExperimentalPagingApi
 val dataModule = module {
 
     single<SavedStateHandle> { SavedStateHandle() }
-
-    single<VideosRepository> { VideosRepositoryImpl(service = get(), localDataSource = get()) }
-
-    single<ImagesRepository> {
-        ImagesRepositoryImpl(
-            service = get(),
-            localDataSource = get(),
-            remoteDataSource = get()
-        )
-    }
 
     fun getPixabayDatabase(application: Application): PixabayDb {
         return Room.databaseBuilder(

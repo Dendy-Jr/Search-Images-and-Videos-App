@@ -5,6 +5,7 @@
     android:id="@+id/swipeRevealLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
     app:dragEdge="right"
     app:mode="same_level">
 
@@ -49,7 +50,6 @@
             android:id="@+id/image_card_view"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:layout_marginBottom="4dp"
             android:background="@color/white"
             app:cardCornerRadius="20dp">
 

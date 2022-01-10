@@ -3,15 +3,14 @@ package com.dendi.android.search_images_and_videos_app.data.core
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.room.TypeConverter
-import com.dendi.android.search_images_and_videos_app.data.video.cache.LargeEntity
-import com.dendi.android.search_images_and_videos_app.data.video.cache.MediumEntity
-import com.dendi.android.search_images_and_videos_app.data.video.cache.SmallEntity
-import com.dendi.android.search_images_and_videos_app.data.video.cache.TinyEntity
+import com.dendi.android.search_images_and_videos_app.data.video.cache.LargeCache
+import com.dendi.android.search_images_and_videos_app.data.video.cache.MediumCache
+import com.dendi.android.search_images_and_videos_app.data.video.cache.SmallCache
+import com.dendi.android.search_images_and_videos_app.data.video.cache.TinyCache
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 /**
  * @author Dendy-Jr on 21.12.2021
@@ -20,50 +19,50 @@ import java.util.*
 class Converters {
 
     @TypeConverter
-    fun fromLarge(large: LargeEntity): String {
-        val type = object : TypeToken<LargeEntity>() {}.type
+    fun fromLarge(large: LargeCache): String {
+        val type = object : TypeToken<LargeCache>() {}.type
         return Gson().toJson(large, type)
     }
 
     @TypeConverter
-    fun toLarge(json: String): LargeEntity {
-        val type = object : TypeToken<LargeEntity>() {}.type
+    fun toLarge(json: String): LargeCache {
+        val type = object : TypeToken<LargeCache>() {}.type
         return Gson().fromJson(json, type)
     }
 
     @TypeConverter
-    fun fromMedium(medium: MediumEntity): String {
-        val type = object : TypeToken<MediumEntity>() {}.type
+    fun fromMedium(medium: MediumCache): String {
+        val type = object : TypeToken<MediumCache>() {}.type
         return Gson().toJson(medium, type)
     }
 
     @TypeConverter
-    fun toMedium(json: String): MediumEntity {
-        val type = object : TypeToken<MediumEntity>() {}.type
+    fun toMedium(json: String): MediumCache {
+        val type = object : TypeToken<MediumCache>() {}.type
         return Gson().fromJson(json, type)
     }
 
     @TypeConverter
-    fun fromSmall(small: SmallEntity): String {
-        val type = object : TypeToken<SmallEntity>() {}.type
+    fun fromSmall(small: SmallCache): String {
+        val type = object : TypeToken<SmallCache>() {}.type
         return Gson().toJson(small, type)
     }
 
     @TypeConverter
-    fun toSmall(json: String): SmallEntity {
-        val type = object : TypeToken<SmallEntity>() {}.type
+    fun toSmall(json: String): SmallCache {
+        val type = object : TypeToken<SmallCache>() {}.type
         return Gson().fromJson(json, type)
     }
 
     @TypeConverter
-    fun fromTiny(tiny: TinyEntity): String {
-        val type = object : TypeToken<TinyEntity>() {}.type
+    fun fromTiny(tiny: TinyCache): String {
+        val type = object : TypeToken<TinyCache>() {}.type
         return Gson().toJson(tiny, type)
     }
 
     @TypeConverter
-    fun toTiny(json: String): TinyEntity {
-        val type = object : TypeToken<TinyEntity>() {}.type
+    fun toTiny(json: String): TinyCache {
+        val type = object : TypeToken<TinyCache>() {}.type
         return Gson().fromJson(json, type)
     }
 

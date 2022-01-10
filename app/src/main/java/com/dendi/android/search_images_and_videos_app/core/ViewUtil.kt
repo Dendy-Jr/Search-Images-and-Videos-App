@@ -4,10 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
@@ -27,6 +30,14 @@ import com.google.android.material.snackbar.Snackbar
  * olehvynnytskyi@gmail.com
  */
 
+fun logi(message: String) {
+    Log.i("Download Worker - ", message)
+}
+//@StringRes
+ fun showToast( messageRes: String, context: Context) {
+    Toast.makeText(context, messageRes, Toast.LENGTH_SHORT).show()
+}
+
 fun Fragment.showSnackbar(
     message: String,
     duration: Int = Snackbar.LENGTH_SHORT,
@@ -35,10 +46,10 @@ fun Fragment.showSnackbar(
     Snackbar.make(view, message, duration).show()
 }
 
-inline fun <T: View> T.showIfOrInvisible(condition: (T) -> Boolean) {
+inline fun <T : View> T.showIfOrInvisible(condition: (T) -> Boolean) {
     if (condition(this)) {
         this.visibility = View.VISIBLE
-    }else {
+    } else {
         this.visibility = View.INVISIBLE
     }
 }
@@ -112,11 +123,6 @@ fun Context.showKeyboard(view: View) {
     val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
 }
-
-//fun Context.hideKeyboard(view: View) {
-//    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-//    imm?.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-//}
 
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

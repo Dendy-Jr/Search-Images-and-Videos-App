@@ -1,6 +1,5 @@
 package com.dendi.android.search_images_and_videos_app.data.image.cache
 
-import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 
 
@@ -10,29 +9,26 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ImagesLocalDataSource {
 
-    fun getPagingImage(): PagingSource<Int, ImageEntity>
-    fun getImages(): Flow<List<ImageEntity>>
-    suspend fun insertAllImages(images: List<ImageEntity>)
-    suspend fun insertImage(image: ImageEntity)
-    suspend fun deleteImage(image: ImageEntity)
+    fun getImages(): Flow<List<ImageCache>>
+    suspend fun insertAllImages(images: List<ImageCache>)
+    suspend fun insertImage(image: ImageCache)
+    suspend fun deleteImage(image: ImageCache)
     suspend fun deleteAllImages()
 
     class ImagesLocalDataSourceImpl(
         private val imageDao: ImageDao
     ) : ImagesLocalDataSource {
-        override fun getPagingImage(): PagingSource<Int, ImageEntity> =
-            imageDao.getPagingImage()
 
-        override fun getImages(): Flow<List<ImageEntity>> =
+        override fun getImages(): Flow<List<ImageCache>> =
             imageDao.getImages()
 
-        override suspend fun insertAllImages(images: List<ImageEntity>) =
+        override suspend fun insertAllImages(images: List<ImageCache>) =
             imageDao.insertAll(images)
 
-        override suspend fun insertImage(image: ImageEntity) =
+        override suspend fun insertImage(image: ImageCache) =
             imageDao.insertImage(image)
 
-        override suspend fun deleteImage(image: ImageEntity) =
+        override suspend fun deleteImage(image: ImageCache) =
             imageDao.deleteImage(image)
 
         override suspend fun deleteAllImages() =

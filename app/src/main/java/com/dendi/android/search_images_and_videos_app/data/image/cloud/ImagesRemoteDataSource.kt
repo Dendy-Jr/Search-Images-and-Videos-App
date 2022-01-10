@@ -7,11 +7,19 @@ package com.dendi.android.search_images_and_videos_app.data.image.cloud
  */
 interface ImagesRemoteDataSource {
 
-    suspend fun getImages(): List<ImageDto>
+    suspend fun getImages(
+        query: String,
+        page: Int,
+        perPage: Int
+    ): List<ImageCloud>
 
-    class ImagesRemoteDataSourceImpl(private val imagesApi: ImagesApi): ImagesRemoteDataSource {
-        override suspend fun getImages(): List<ImageDto> {
-           return imagesApi.searchImages().hits
+    class ImagesRemoteDataSourceImpl(private val imagesApi: ImagesApi) : ImagesRemoteDataSource {
+        override suspend fun getImages(
+            query: String,
+            page: Int,
+            perPage: Int
+        ): List<ImageCloud> {
+            return imagesApi.searchImages(query, page, perPage).hits
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.dendi.android.search_images_and_videos_app.data.image.cache
 
-import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -11,21 +10,18 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ImageDao {
 
-    @Query("SELECT * FROM ${ImageEntity.TABLE_IMAGES}")
-    fun getPagingImage(): PagingSource<Int, ImageEntity>
-
-    @Query("SELECT * FROM ${ImageEntity.TABLE_IMAGES} ORDER BY data_time DESC")
-    fun getImages(): Flow<List<ImageEntity>>
+    @Query("SELECT * FROM ${ImageCache.TABLE_IMAGES} ORDER BY data_time DESC")
+    fun getImages(): Flow<List<ImageCache>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(images: List<ImageEntity>)
+    suspend fun insertAll(images: List<ImageCache>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertImage(image: ImageEntity)
+    suspend fun insertImage(image: ImageCache)
 
     @Delete
-    suspend fun deleteImage(image: ImageEntity)
+    suspend fun deleteImage(image: ImageCache)
 
-    @Query("DELETE FROM ${ImageEntity.TABLE_IMAGES}")
+    @Query("DELETE FROM ${ImageCache.TABLE_IMAGES}")
     suspend fun clearAll()
 }

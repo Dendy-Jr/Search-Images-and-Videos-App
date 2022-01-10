@@ -8,10 +8,11 @@ import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.core.OnClickListener
 import com.dendi.android.search_images_and_videos_app.core.afterTextChanged
 import com.dendi.android.search_images_and_videos_app.core.showSnackbar
-import com.dendi.android.search_images_and_videos_app.data.video.cache.VideoEntity
+import com.dendi.android.search_images_and_videos_app.data.video.cache.VideoCache
 import com.dendi.android.search_images_and_videos_app.databinding.FragmentVideosBinding
+import com.dendi.android.search_images_and_videos_app.presentation.adapter.VideoPagingAdapter
 import com.dendi.android.search_images_and_videos_app.presentation.core.KohiiProvider
-import com.dendi.android.search_images_and_videos_app.presentation.video.*
+import com.dendi.android.search_images_and_videos_app.presentation.viewmodel.VideoViewModel
 import kohii.v1.core.MemoryMode
 import kohii.v1.core.Strategy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,25 +40,25 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             .addBucket(view = binding.recyclerViewVideo,
                 strategy = Strategy.MULTI_PLAYER,
                 selector = { candidates ->
-                    candidates.take(3)
+                    candidates.take(2)
                 }
             )
 
-        val videoAdapter = VideoPagingAdapter(kohii, object : OnClickListener<VideoEntity> {
-            override fun click(item: VideoEntity) {
+        val videoAdapter = VideoPagingAdapter(kohii, object : OnClickListener<VideoCache> {
+            override fun click(item: VideoCache) {
                 val direction =
                     VideosFragmentDirections.actionVideosFragmentToVideoDetailsFragment(item)
                 navController.navigate(direction)
             }
         },
-            object : OnClickListener<VideoEntity> {
-                override fun click(item: VideoEntity) {
+            object : OnClickListener<VideoCache> {
+                override fun click(item: VideoCache) {
                     viewModel.addToFavorite(item)
                     showSnackbar("Video is added to your favorites")
                 }
             },
-            object : OnClickListener<VideoEntity> {
-                override fun click(item: VideoEntity) {
+            object : OnClickListener<VideoCache> {
+                override fun click(item: VideoCache) {
                     shareItem(item.user, item.pageURL)
                 }
             }

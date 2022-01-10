@@ -3,8 +3,8 @@ package com.dendi.android.search_images_and_videos_app.presentation.fragment
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -16,8 +16,7 @@ import androidx.work.workDataOf
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.core.loadImageOriginal
-import com.dendi.android.search_images_and_videos_app.data.image.cloud.DownloadWorker
-import com.dendi.android.search_images_and_videos_app.data.video.cache.VideoEntity
+import com.dendi.android.search_images_and_videos_app.data.core.DownloadWorker
 import com.dendi.android.search_images_and_videos_app.databinding.FragmentVideoDetailsBinding
 import com.dendi.android.search_images_and_videos_app.presentation.core.KohiiProvider
 import com.eazypermissions.common.model.PermissionResult
@@ -95,26 +94,26 @@ class VideoDetailsFragment : BaseFragment(R.layout.fragment_video_details),
     }
 
     private fun startWorker() {
-        val v = args.video
+        val argument = args.video
         val workRequest = OneTimeWorkRequest.Builder(DownloadWorker::class.java)
             .setInputData(
                 workDataOf(
                     DownloadWorker.FILE_TYPE_PARAM to DownloadWorker.DownloadFileType.VIDEO.name,
-                    DownloadWorker.FILE_URL_PARAM to v.videos.large.url,
-                    DownloadWorker.FILE_ID_PARAM to v.id
+                    DownloadWorker.FILE_URL_PARAM to argument.videos.large.url,
+                    DownloadWorker.FILE_ID_PARAM to argument.id
                 )
             )
             .build()
 
         workManager.getWorkInfoByIdLiveData(workRequest.id)
             .observe(viewLifecycleOwner, Observer { workInfo: WorkInfo? ->
-
-                if (workInfo != null) {
-                    val progress = workInfo.progress
-                    val value = progress.getInt(DownloadWorker.UPLOAD_CHANNEL_ID, 0)
-                    binding.tvProgressPercent.text = value.toString()
-                    binding.progressBar.progress = value
-                    Log.d("progress", value.toString())
+                binding.run {
+                    progressBar.isVisible = false
+                    progressBar.progress = 0
+                    if (workInfo != null && workInfo.state.isFinished) {
+                        progressBar.isVisible = true
+                        progressBar.progress = 100
+                    }
                 }
             })
         workManager.enqueue(workRequest)

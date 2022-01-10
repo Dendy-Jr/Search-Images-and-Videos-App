@@ -9,30 +9,30 @@ import kotlinx.coroutines.flow.Flow
  */
 interface VideosLocalDataSource {
 
-    fun getPagingVideo(): PagingSource<Int, VideoEntity>
-    fun getVideos(): Flow<List<VideoEntity>>
-    suspend fun insertAllVideos(images: List<VideoEntity>)
-    suspend fun insertImage(image: VideoEntity)
-    suspend fun deleteImage(image: VideoEntity)
+    fun getPagingVideo(): PagingSource<Int, VideoCache>
+    fun getVideos(): Flow<List<VideoCache>>
+    suspend fun insertAllVideos(images: List<VideoCache>)
+    suspend fun insertImage(image: VideoCache)
+    suspend fun deleteImage(image: VideoCache)
     suspend fun deleteAllVideos()
 
     class VideosLocalDataSourceImpl(
         private val videoDao: VideoDao
     ) : VideosLocalDataSource {
-        override fun getPagingVideo(): PagingSource<Int, VideoEntity> {
+        override fun getPagingVideo(): PagingSource<Int, VideoCache> {
             return videoDao.getPagingVideo()
         }
 
-        override fun getVideos(): Flow<List<VideoEntity>> =
+        override fun getVideos(): Flow<List<VideoCache>> =
             videoDao.getVideos()
 
-        override suspend fun insertAllVideos(images: List<VideoEntity>) =
+        override suspend fun insertAllVideos(images: List<VideoCache>) =
             videoDao.insertAll(images)
 
-        override suspend fun insertImage(image: VideoEntity) =
+        override suspend fun insertImage(image: VideoCache) =
             videoDao.insertImage(image)
 
-        override suspend fun deleteImage(image: VideoEntity) =
+        override suspend fun deleteImage(image: VideoCache) =
             videoDao.deleteVideo(image)
 
         override suspend fun deleteAllVideos() =

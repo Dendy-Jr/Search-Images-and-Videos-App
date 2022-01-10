@@ -3,6 +3,7 @@ package com.dendi.android.search_images_and_videos_app.presentation.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope

@@ -1,13 +1,11 @@
 package com.dendi.android.search_images_and_videos_app.di
 
 import androidx.paging.ExperimentalPagingApi
-import com.dendi.android.search_images_and_videos_app.data.image.cloud.DownloadWorker
-import com.dendi.android.search_images_and_videos_app.presentation.favorite.FavoritesImageViewModel
-import com.dendi.android.search_images_and_videos_app.presentation.favorite.FavoritesVideoViewModel
-import com.dendi.android.search_images_and_videos_app.presentation.image.ImageDetailViewModel
-import com.dendi.android.search_images_and_videos_app.presentation.image.ImageViewModel
-import com.dendi.android.search_images_and_videos_app.presentation.video.VideoViewModel
-import org.koin.android.ext.koin.androidApplication
+import com.dendi.android.search_images_and_videos_app.data.core.DownloadWorker
+import com.dendi.android.search_images_and_videos_app.presentation.viewmodel.FavoritesImageViewModel
+import com.dendi.android.search_images_and_videos_app.presentation.viewmodel.FavoritesVideoViewModel
+import com.dendi.android.search_images_and_videos_app.presentation.viewmodel.ImageViewModel
+import com.dendi.android.search_images_and_videos_app.presentation.viewmodel.VideoViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
@@ -24,21 +22,33 @@ val appModule = module {
 
     viewModel<ImageViewModel> {
         ImageViewModel(
-            repository = get(),
-            state = get(),
-            internetConnection = get()
+            searchImageUseCase = get(),
+            insertImageUseCase = get(),
+            state = get()
         )
     }
 
-    viewModel<VideoViewModel> { VideoViewModel(repository = get(), state = get()) }
+    viewModel<VideoViewModel> {
+        VideoViewModel(
+            searchVideoUseCase = get(),
+            insertVideoUseCase = get(),
+            state = get()
+        )
+    }
 
     viewModel<FavoritesImageViewModel> {
         FavoritesImageViewModel(
-            imagesRepository = get(),
+            getImagesUseCase = get(),
+            deleteImageUseCase = get(),
+            clearImagesUseCase = get()
         )
     }
 
-    viewModel<FavoritesVideoViewModel> { FavoritesVideoViewModel(videosRepository = get()) }
-
-    viewModel<ImageDetailViewModel> { ImageDetailViewModel(state = get()) }
+    viewModel<FavoritesVideoViewModel> {
+        FavoritesVideoViewModel(
+            getVideosUseCase = get(),
+            deleteVideoUseCase = get(),
+            clearVideosUseCase = get()
+        )
+    }
 }

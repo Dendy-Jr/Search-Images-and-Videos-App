@@ -3,10 +3,8 @@ package com.dendi.android.search_images_and_videos_app.presentation.fragment
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequest
@@ -16,15 +14,11 @@ import androidx.work.workDataOf
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.core.loadImageOriginal
-import com.dendi.android.search_images_and_videos_app.data.image.cloud.DownloadWorker
-import com.dendi.android.search_images_and_videos_app.data.image.cloud.DownloadWorker.Companion.Progress
+import com.dendi.android.search_images_and_videos_app.data.core.DownloadWorker
 import com.dendi.android.search_images_and_videos_app.databinding.FragmentImageDetailsBinding
-import com.dendi.android.search_images_and_videos_app.presentation.image.ImageDetailViewModel
 import com.eazypermissions.common.model.PermissionResult
 import com.eazypermissions.coroutinespermission.PermissionManager
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 /**
@@ -34,14 +28,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ImageDetailFragment : BaseFragment(R.layout.fragment_image_details) {
     override fun setRecyclerView(): RecyclerView? = null
     private val binding by viewBinding(FragmentImageDetailsBinding::bind)
-    private val viewModel by viewModel<ImageDetailViewModel>()
     private val args by lazy { ImageDetailFragmentArgs.fromBundle(requireArguments()) }
 
     private val workManager by lazy { WorkManager.getInstance(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val argument = args.image
         binding.run {
@@ -70,14 +62,15 @@ class ImageDetailFragment : BaseFragment(R.layout.fragment_image_details) {
             )
             .build()
         workManager.getWorkInfoByIdLiveData(workRequest.id)
-            .observe(viewLifecycleOwner, Observer { workInfo: WorkInfo? ->
+            .observe(viewLifecycleOwner, { workInfo: WorkInfo? ->
 
-                if (workInfo != null) {
-                    val progress = workInfo.progress
-                    val value = progress.getInt(DownloadWorker.UPLOAD_CHANNEL_ID, 0)
-                    binding.tvProgressPercent.text = value.toString()
-
-                    Log.d("progress", value.toString())
+                binding.run {
+                    progressBar.isVisible = false
+                    progressBar.progress = 0
+                    if (workInfo != null && workInfo.state.isFinished) {
+                        progressBar.isVisible = true
+                        progressBar.progress = 100
+                    }
                 }
             })
         workManager.enqueue(workRequest)

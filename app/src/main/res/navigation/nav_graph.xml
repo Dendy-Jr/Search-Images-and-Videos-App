@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_video_details" >
         <argument
             android:name="video"
-            app:argType="com.dendi.android.search_images_and_videos_app.data.video.cache.VideoEntity" />
+            app:argType="com.dendi.android.search_images_and_videos_app.data.video.cache.VideoCache" />
     </fragment>
     <fragment
         android:id="@+id/imageDetailFragment"
@@ -38,7 +38,7 @@
         tools:layout="@layout/fragment_image_details" >
         <argument
             android:name="image"
-            app:argType="com.dendi.android.search_images_and_videos_app.data.image.cache.ImageEntity" />
+            app:argType="com.dendi.android.search_images_and_videos_app.domain.image.Image" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"

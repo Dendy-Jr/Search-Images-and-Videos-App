@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.databinding.FragmentFavoritesBinding
-import com.dendi.android.search_images_and_videos_app.presentation.favorite.FavoritesAdapter
+import com.dendi.android.search_images_and_videos_app.presentation.adapter.FavoritesAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 /**
