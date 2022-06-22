@@ -4,45 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/photosFragment">
+
     <fragment
         android:id="@+id/photosFragment"
-        android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.ImagesFragment"
+        android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.SearchImagesFragment"
         android:label="fragment_photos"
-        tools:layout="@layout/fragment_images" >
+        tools:layout="@layout/fragment_images">
+
         <action
             android:id="@+id/action_photosFragment_to_imageDetailFragment"
             app:destination="@id/imageDetailFragment" />
+
     </fragment>
+
     <fragment
         android:id="@+id/videosFragment"
-        android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.VideosFragment"
+        android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.SearchVideosFragment"
         android:label="fragment_videos"
-        tools:layout="@layout/fragment_videos" >
+        tools:layout="@layout/fragment_videos">
+
         <action
             android:id="@+id/action_videosFragment_to_videoDetailsFragment"
             app:destination="@id/videoDetailsFragment" />
+
     </fragment>
+
     <fragment
         android:id="@+id/videoDetailsFragment"
         android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.VideoDetailsFragment"
         android:label="fragment_video_details"
-        tools:layout="@layout/fragment_video_details" >
+        tools:layout="@layout/fragment_video_details">
+
         <argument
             android:name="video"
-            app:argType="com.dendi.android.search_images_and_videos_app.data.video.cache.VideoCache" />
+            app:argType="com.dendi.android.search_images_and_videos_app.domain.video.Video" />
+
     </fragment>
+
     <fragment
         android:id="@+id/imageDetailFragment"
         android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.ImageDetailFragment"
         android:label="fragment_image_details"
-        tools:layout="@layout/fragment_image_details" >
+        tools:layout="@layout/fragment_image_details">
+
         <argument
             android:name="image"
             app:argType="com.dendi.android.search_images_and_videos_app.domain.image.Image" />
+
     </fragment>
+
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" />
+
 </navigation>

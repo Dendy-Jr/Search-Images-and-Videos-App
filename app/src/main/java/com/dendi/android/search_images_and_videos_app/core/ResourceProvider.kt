@@ -1,33 +1,30 @@
 package com.dendi.android.search_images_and_videos_app.core
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.net.ConnectivityManager
 import androidx.annotation.StringRes
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
+import javax.inject.Singleton
 
-/**
- * @author Dendy-Jr on 22.12.2021
- * olehvynnytskyi@gmail.com
- */
 interface ResourceProvider {
 
     fun provideString(@StringRes id: Int): String
+}
 
-    fun getConnectivityManager(): ConnectivityManager
+class ResourceProviderImpl @Inject constructor(
+    private val context: Context,
+) : ResourceProvider {
+    override fun provideString(id: Int) = context.getString(id)
+}
 
-    fun provideSharedPreferences(): SharedPreferences
+@Module
+@InstallIn(SingletonComponent::class)
+interface ResourceProviderModule {
 
-    class ResourceProviderImpl(private val context: Context) : ResourceProvider {
-        override fun provideString(id: Int) = context.getString(id)
-        override fun getConnectivityManager() =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        override fun provideSharedPreferences(): SharedPreferences {
-           return context.getSharedPreferences(SHARED_NAME, Context.MODE_PRIVATE)
-        }
-    }
-
-    private companion object {
-        const val SHARED_NAME = "shared_name"
-    }
+    @Binds
+    @Singleton
+    fun bind(impl: ResourceProviderImpl): ResourceProvider
 }

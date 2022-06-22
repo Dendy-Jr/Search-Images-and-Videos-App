@@ -1,15 +1,11 @@
 package com.dendi.android.search_images_and_videos_app.presentation.activity
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dendi.android.search_images_and_videos_app.R
+import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * @author Dendy-Jr on 11.12.2021
- * olehvynnytskyi@gmail.com
- */
-@SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

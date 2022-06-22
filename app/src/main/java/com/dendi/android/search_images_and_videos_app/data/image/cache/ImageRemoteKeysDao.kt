@@ -5,10 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
-/**
- * @author Dendy-Jr on 20.12.2021
- * olehvynnytskyi@gmail.com
- */
 @Dao
 interface ImageRemoteKeysDao {
 

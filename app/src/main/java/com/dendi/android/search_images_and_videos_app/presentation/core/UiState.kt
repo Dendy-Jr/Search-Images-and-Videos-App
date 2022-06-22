@@ -1,18 +1,16 @@
 package com.dendi.android.search_images_and_videos_app.presentation.core
 
-/**
- * @author Dendy-Jr on 08.01.2022
- * olehvynnytskyi@gmail.com
- */
-sealed class UiState {
+sealed class UiState<T> {
 
-    data class ResultState<T>(private val item: List<T>) : UiState()
+    data class ResultState<T>(private val item: List<T>) : UiState<T>()
 
-    data class ErrorState(private val message: String) : UiState()
+    data class ErrorState(private val message: String) : UiState<Nothing>()
 
-    data class EmptyState(private val query: String) : UiState()
+    data class EmptyState(private val query: String) : UiState<Nothing>()
 
-    object InitialIdleState : UiState()
+    object InitialIdleState : UiState<Nothing>()
 
-    object LoadingState : UiState()
+    object LoadingState : UiState<Nothing>()
 }
+
+//TODO maybe delete it

@@ -7,11 +7,6 @@ import kohii.v1.exoplayer.Kohii
 import kohii.v1.exoplayer.createKohii
 import kohii.v1.utils.Capsule
 
-
-/**
- * @author Dendy-Jr on 14.12.2021
- * olehvynnytskyi@gmail.com
- */
 object KohiiProvider {
 
     private val capsule = Capsule<Kohii, Context>(creator = { context ->
@@ -20,7 +15,7 @@ object KohiiProvider {
                 minBufferMs = DefaultLoadControl.DEFAULT_MIN_BUFFER_MS / 10,
                 maxBufferMs = DefaultLoadControl.DEFAULT_MAX_BUFFER_MS / 10,
                 bufferForPlaybackMs = DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS / 10,
-                bufferForPlaybackAfterRebufferMs = DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS / 10
+                bufferForPlaybackAfterRebufferMs = DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS / 10,
             )
         )
     })

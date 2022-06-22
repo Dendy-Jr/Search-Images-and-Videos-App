@@ -1,11 +1,15 @@
 package com.dendi.android.search_images_and_videos_app.domain.image.usecase
 
+import androidx.paging.PagingData
+import com.dendi.android.search_images_and_videos_app.domain.image.Image
 import com.dendi.android.search_images_and_videos_app.domain.image.repository.ImagesRepository
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-/**
- * @author Dendy-Jr on 02.01.2022
- * olehvynnytskyi@gmail.com
- */
-class SearchImageUseCase(private val repository: ImagesRepository) {
-    fun searchImage(query: String) = repository.searchImage(query)
+@Singleton
+class SearchImageUseCase @Inject constructor(
+    private val repository: ImagesRepository,
+) {
+    fun searchImage(query: String): Flow<PagingData<Image>> = repository.search(query)
 }

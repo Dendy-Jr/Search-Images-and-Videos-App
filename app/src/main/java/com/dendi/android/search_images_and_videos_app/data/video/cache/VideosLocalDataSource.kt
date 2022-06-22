@@ -1,41 +1,30 @@
 package com.dendi.android.search_images_and_videos_app.data.video.cache
 
-import androidx.paging.PagingSource
+import com.dendi.android.search_images_and_videos_app.domain.video.Video
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-/**
- * @author Dendy-Jr on 20.12.2021
- * olehvynnytskyi@gmail.com
- */
-interface VideosLocalDataSource {
+@Singleton
+class VideosLocalDataSource @Inject constructor(
+    private val videoDao: VideoDao,
+) {
+//    fun getPagingVideo(): PagingSource<Int, Video> {
+//        return videoDao.getPagingVideo()
+//    }
 
-    fun getPagingVideo(): PagingSource<Int, VideoCache>
-    fun getVideos(): Flow<List<VideoCache>>
-    suspend fun insertAllVideos(images: List<VideoCache>)
-    suspend fun insertImage(image: VideoCache)
-    suspend fun deleteImage(image: VideoCache)
-    suspend fun deleteAllVideos()
+    fun getVideos(): Flow<List<VideoCache>> =
+        videoDao.getVideos()
 
-    class VideosLocalDataSourceImpl(
-        private val videoDao: VideoDao
-    ) : VideosLocalDataSource {
-        override fun getPagingVideo(): PagingSource<Int, VideoCache> {
-            return videoDao.getPagingVideo()
-        }
+    suspend fun insertAllVideos(images: List<Video>) =
+        videoDao.insertAll(images.map { it.toCache() })
 
-        override fun getVideos(): Flow<List<VideoCache>> =
-            videoDao.getVideos()
+    suspend fun insertImage(image: Video) =
+        videoDao.insertImage(image.toCache())
 
-        override suspend fun insertAllVideos(images: List<VideoCache>) =
-            videoDao.insertAll(images)
+    suspend fun deleteImage(image: Video) =
+        videoDao.deleteVideo(image.toCache())
 
-        override suspend fun insertImage(image: VideoCache) =
-            videoDao.insertImage(image)
-
-        override suspend fun deleteImage(image: VideoCache) =
-            videoDao.deleteVideo(image)
-
-        override suspend fun deleteAllVideos() =
-            videoDao.deleteAllVideos()
-    }
+    suspend fun deleteAllVideos() =
+        videoDao.deleteAllVideos()
 }

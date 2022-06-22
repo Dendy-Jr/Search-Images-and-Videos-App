@@ -6,30 +6,26 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
-import com.dendi.android.search_images_and_videos_app.core.GlideLoadStatus
-import com.dendi.android.search_images_and_videos_app.core.OnClickListener
-import com.dendi.android.search_images_and_videos_app.core.loadImageOriginal
+import com.dendi.android.search_images_and_videos_app.core.extension.loadImageOriginal
 import com.dendi.android.search_images_and_videos_app.databinding.ImageItemBinding
 import com.dendi.android.search_images_and_videos_app.domain.image.Image
 
-/**
- * @author Dendy-Jr on 10.12.2021
- * olehvynnytskyi@gmail.com
- */
 class ImagePagingAdapter(
-    private val toImage: OnClickListener<Image>,
-    private val addToFavorite: OnClickListener<Image>,
-    private val shareImage: OnClickListener<Image>,
-) : PagingDataAdapter<Image, ImagePagingAdapter.ImageViewHolder>(Companion) {
+    private val toImage: (Image) -> Unit,
+    private val addToFavorite: (Image) -> Unit,
+    private val shareImage: (Image) -> Unit,
+) : PagingDataAdapter<Image, ImagePagingAdapter.ImagePagingViewHolder>(ItemCallback) {
 
     private val viewBinderHelper = ViewBinderHelper()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val binding = ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ImageViewHolder(binding, toImage, addToFavorite, shareImage)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ImageItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        ).let(::ImagePagingViewHolder)
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+
+    override fun onBindViewHolder(holder: ImagePagingViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
             holder.bind(currentItem)
@@ -39,46 +35,33 @@ class ImagePagingAdapter(
         }
     }
 
-    inner class ImageViewHolder(
+    inner class ImagePagingViewHolder(
         private val binding: ImageItemBinding,
-        private val toImage: OnClickListener<Image>,
-        private val addToFavorite: OnClickListener<Image>,
-        private val shareImage: OnClickListener<Image>
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var imageEntity: Image
-        private var imageLoadAnyStatus = false
-        private val glideLoadStatus = object : GlideLoadStatus {
-            override fun imageLoadStatus(success: Boolean) {
-                imageLoadAnyStatus = success
-            }
-        }
         val swipe = binding.swipeRevealLayout
 
-        fun bind(image: Image) {
-            this.imageEntity = image
-            binding.imageView.loadImageOriginal(image.largeImageURL, glideLoadStatus)
-        }
+        fun bind(item: Image) = with(binding) {
+            imageView.loadImageOriginal(item.largeImageURL)
 
-        init {
-            binding.imageView.setOnClickListener {
-                toImage.click(imageEntity)
+            imageView.setOnClickListener {
+                toImage.invoke(item)
             }
 
-            binding.addToFavorite.setOnClickListener {
-                imageEntity.isFavorite = true
-                addToFavorite.click(imageEntity)
+            ibAdd.setOnClickListener {
+                item.isFavorite = true
+                addToFavorite.invoke(item)
                 swipe.close(false)
             }
 
-            binding.shareBnt.setOnClickListener {
-                shareImage.click(imageEntity)
+            shareBnt.setOnClickListener {
+                shareImage.invoke(item)
                 swipe.close(false)
             }
         }
     }
 
-    companion object : DiffUtil.ItemCallback<Image>() {
+    companion object ItemCallback : DiffUtil.ItemCallback<Image>() {
         override fun areItemsTheSame(oldItem: Image, newItem: Image) =
             oldItem.id == newItem.id
 

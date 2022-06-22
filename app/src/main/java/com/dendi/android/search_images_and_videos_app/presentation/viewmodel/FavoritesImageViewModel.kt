@@ -3,20 +3,18 @@ package com.dendi.android.search_images_and_videos_app.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dendi.android.search_images_and_videos_app.domain.image.Image
-import com.dendi.android.search_images_and_videos_app.domain.image.usecase.ClearImagesUseCase
-import com.dendi.android.search_images_and_videos_app.domain.image.usecase.DeleteImageUseCase
-import com.dendi.android.search_images_and_videos_app.domain.image.usecase.GetImagesUseCase
+import com.dendi.android.search_images_and_videos_app.domain.image.usecase.ClearFavoritesImagesUseCase
+import com.dendi.android.search_images_and_videos_app.domain.image.usecase.DeleteFavoriteImageUseCase
+import com.dendi.android.search_images_and_videos_app.domain.image.usecase.GetFavoritesImageUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-/**
- * @author Dendy-Jr on 27.12.2021
- * olehvynnytskyi@gmail.com
- */
-class FavoritesImageViewModel(
-    private val getImagesUseCase: GetImagesUseCase,
-    private val deleteImageUseCase: DeleteImageUseCase,
-    private val clearImagesUseCase: ClearImagesUseCase
+@HiltViewModel
+class FavoritesImageViewModel @Inject constructor(
+    private val getImagesUseCase: GetFavoritesImageUseCase,
+    private val deleteImageUseCase: DeleteFavoriteImageUseCase,
+    private val clearImagesUseCase: ClearFavoritesImagesUseCase,
 ) : ViewModel() {
 
     val favoritesImage = getImagesUseCase.getFavoritesImages()

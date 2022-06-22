@@ -9,53 +9,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.databinding.ProgressCircularItemBinding
 
-/**
- * @author Dendy-Jr on 13.12.2021
- * olehvynnytskyi@gmail.com
- */
-class LoadAdapter(private val retry: () -> Unit) :
-    LoadStateAdapter<LoadAdapter.ProgressHolderCircular>() {
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        loadState: LoadState,
-    ): ProgressHolderCircular {
-        return ProgressHolderCircular(
-            ProgressCircularItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ),
-            retry
-        )
-    }
+class LoadAdapter(
+    private val retry: () -> Unit,
+) : LoadStateAdapter<LoadAdapter.ProgressHolderCircular>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
+        ProgressCircularItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        ).let(::ProgressHolderCircular)
 
     override fun onBindViewHolder(holder: ProgressHolderCircular, loadState: LoadState) {
         holder.bind(loadState)
     }
 
     inner class ProgressHolderCircular(
-        private val view: ProgressCircularItemBinding,
-        retry: () -> Unit
-    ) : RecyclerView.ViewHolder(view.root) {
+        private val binding: ProgressCircularItemBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            view.run {
-                buttonRetry.setOnClickListener {
-                    retry.invoke()
-                }
+        fun bind(loadState: LoadState) = with(binding) {
+            progressBar.isVisible = loadState is LoadState.Loading
+            buttonRetry.isVisible = loadState is LoadState.Error
+            textViewError.isVisible = loadState is LoadState.Error
+
+            if (loadState is LoadState.Error) {
+                textViewError.text = loadState.error.localizedMessage
+                    ?: binding.root.context.getString(R.string.unknown_error_occurred)
             }
-        }
-
-        fun bind(loadState: LoadState) {
-            view.apply {
-                progressBar.isVisible = loadState is LoadState.Loading
-                buttonRetry.isVisible = loadState is LoadState.Error
-                textViewError.isVisible = loadState is LoadState.Error
-
-                if (loadState is LoadState.Error) {
-                    textViewError.text = loadState.error.localizedMessage
-                        ?: view.root.context.getString(R.string.unknown_error_occurred)
-                }
+            buttonRetry.setOnClickListener {
+                retry.invoke()
             }
         }
     }

@@ -4,10 +4,6 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
-/**
- * @author Dendy-Jr on 20.12.2021
- * olehvynnytskyi@gmail.com
- */
 @Dao
 interface VideoDao {
 

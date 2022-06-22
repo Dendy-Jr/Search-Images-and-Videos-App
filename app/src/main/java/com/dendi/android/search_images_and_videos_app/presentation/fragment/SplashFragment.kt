@@ -8,14 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.databinding.FragmentSplashBinding
 import com.dendi.android.search_images_and_videos_app.presentation.activity.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-/**
- * @author Dendy-Jr on 11.12.2021
- * olehvynnytskyi@gmail.com
- */
+@AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private lateinit var binding: FragmentSplashBinding

@@ -7,35 +7,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
-import com.dendi.android.search_images_and_videos_app.core.OnClickListener
-import com.dendi.android.search_images_and_videos_app.data.video.cache.VideoCache
 import com.dendi.android.search_images_and_videos_app.databinding.FavoriteVideoItemBinding
+import com.dendi.android.search_images_and_videos_app.domain.video.Video
 import kohii.v1.core.Common
 import kohii.v1.exoplayer.Kohii
 
-/**
- * @author Dendy-Jr on 27.12.2021
- * olehvynnytskyi@gmail.com
- */
 class FavoritesVideoAdapter(
     private val kohii: Kohii,
-    private val deleteFromFavorite: OnClickListener<VideoCache>
-) : ListAdapter<VideoCache, FavoritesVideoAdapter.ListViewHolder>(Companion) {
+    private val deleteFromFavorite: (Video) -> Unit,
+) : ListAdapter<Video, FavoritesVideoAdapter.FavoritesVideoViewHolder>(ItemCallback) {
 
     private val viewBinderHelper = ViewBinderHelper()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        return ListViewHolder(
-            FavoriteVideoItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ),
-            deleteFromFavorite
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        FavoriteVideoItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        ).let(::FavoritesVideoViewHolder)
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoritesVideoViewHolder, position: Int) {
         val videoItem = getItem(position) ?: return
         kohii.setUp(videoItem.videos.tiny.url) {
             tag = "${videoItem.videos.tiny.url}+${position}"
@@ -49,35 +39,28 @@ class FavoritesVideoAdapter(
         viewBinderHelper.closeLayout(videoItem.id.toString())
     }
 
-    inner class ListViewHolder(
+    inner class FavoritesVideoViewHolder(
         private val binding: FavoriteVideoItemBinding,
-        private val deleteFromFavorite: OnClickListener<VideoCache>
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var videoEntity: VideoCache
         val swipe = binding.swipeRevealLayout
         val playerContainer = binding.playerContainer
 
-        fun bind(image: VideoCache) {
-            videoEntity = image
-        }
-
-        init {
-            binding.deleteFromFavorite.setOnClickListener {
-                videoEntity.isFavorite = false
-                deleteFromFavorite.click(videoEntity)
+        fun bind(item: Video) = with(binding) {
+            ibDelete.setOnClickListener {
+                item.isFavorite = false
+                deleteFromFavorite.invoke(item)
                 swipe.close(false)
             }
         }
     }
 
-    companion object : DiffUtil.ItemCallback<VideoCache>() {
-        override fun areItemsTheSame(oldItem: VideoCache, newItem: VideoCache) =
+    companion object ItemCallback : DiffUtil.ItemCallback<Video>() {
+        override fun areItemsTheSame(oldItem: Video, newItem: Video) =
             oldItem.id == newItem.id
 
 
-        override fun areContentsTheSame(oldItem: VideoCache, newItem: VideoCache) =
+        override fun areContentsTheSame(oldItem: Video, newItem: Video) =
             oldItem == newItem
     }
 }

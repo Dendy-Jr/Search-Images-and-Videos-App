@@ -39,10 +39,10 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_volume_up_grey_24dp.xml" value="0.165625" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/activity_splash.xml" value="0.1" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/custom_exo_controller_view.xml" value="0.21666666666666667" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/custom_exo_controller_view.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/favorite_image_item.xml" value="0.1111111111111111" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/favorite_item.xml" value="0.176" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/favorite_video_item.xml" value="0.264" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/favorite_video_item.xml" value="0.2" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_favorites.xml" value="0.2" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_favorites_image.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_favorites_video.xml" value="0.26614583333333336" />
@@ -54,6 +54,7 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_videos.xml" value="0.176" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/image_item.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/image_round_corners.xml" value="0.1" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/image_search_item.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/images_load_initial_items.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/layout_media_list_item.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/layout_video_list_item.xml" value="0.144" />
@@ -69,7 +70,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

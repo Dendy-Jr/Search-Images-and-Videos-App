@@ -3,7 +3,6 @@ package com.dendi.android.search_images_and_videos_app.presentation.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,15 +11,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dendi.android.search_images_and_videos_app.core.hideKeyboard
+import com.dendi.android.search_images_and_videos_app.core.extension.hideKeyboard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-/**
- * @author Dendy-Jr on 15.12.2021
- * olehvynnytskyi@gmail.com
- */
 abstract class BaseFragment(fragmentImages: Int) : Fragment(fragmentImages) {
 
     protected val navController by lazy { findNavController() }
@@ -67,9 +62,9 @@ abstract class BaseFragment(fragmentImages: Int) : Fragment(fragmentImages) {
         recyclerView?.adapter = adapter
     }
 
-    protected fun <T> Fragment.collectLatestLifecycleFlow(
+    protected fun <T> Fragment.collectWithLifecycle(
         flow: Flow<T>,
-        collect: suspend (T) -> Unit
+        collect: suspend (T) -> Unit,
     ) {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

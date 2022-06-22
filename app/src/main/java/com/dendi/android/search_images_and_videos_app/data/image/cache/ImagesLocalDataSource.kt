@@ -1,37 +1,30 @@
 package com.dendi.android.search_images_and_videos_app.data.image.cache
 
+import com.dendi.android.search_images_and_videos_app.domain.image.Image
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
+class ImagesLocalDataSource @Inject constructor(
+    private val imageDao: ImageDao,
+) {
 
-/**
- * @author Dendy-Jr on 20.12.2021
- * olehvynnytskyi@gmail.com
- */
-interface ImagesLocalDataSource {
+    fun getImages(): Flow<List<Image>> =
+        imageDao.getImages().map {
+            it.map { it.toDomain() }
+        }
 
-    fun getImages(): Flow<List<ImageCache>>
-    suspend fun insertAllImages(images: List<ImageCache>)
-    suspend fun insertImage(image: ImageCache)
-    suspend fun deleteImage(image: ImageCache)
-    suspend fun deleteAllImages()
+    suspend fun insertAllImages(images: List<Image>) =
+        imageDao.insertAll(images.map { it.toCache() })
 
-    class ImagesLocalDataSourceImpl(
-        private val imageDao: ImageDao
-    ) : ImagesLocalDataSource {
+    suspend fun insertImage(image: Image) =
+        imageDao.insertImage(image.toCache())
 
-        override fun getImages(): Flow<List<ImageCache>> =
-            imageDao.getImages()
+    suspend fun deleteImage(image: Image) =
+        imageDao.deleteImage(image.toCache())
 
-        override suspend fun insertAllImages(images: List<ImageCache>) =
-            imageDao.insertAll(images)
-
-        override suspend fun insertImage(image: ImageCache) =
-            imageDao.insertImage(image)
-
-        override suspend fun deleteImage(image: ImageCache) =
-            imageDao.deleteImage(image)
-
-        override suspend fun deleteAllImages() =
-            imageDao.clearAll()
-    }
+    suspend fun deleteAllImages() =
+        imageDao.clearAll()
 }

@@ -5,21 +5,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-/**
- * @author Dendy-Jr on 29.12.2021
- * olehvynnytskyi@gmail.com
- */
 class FavoritesAdapter(
     list: ArrayList<Fragment>,
     fm: FragmentManager,
-    lifecycle: Lifecycle
+    lifecycle: Lifecycle,
 ) : FragmentStateAdapter(fm, lifecycle) {
 
-    private val fragmentList = list
+    private val fragments = list
 
-    override fun getItemCount() = fragmentList.size
+    override fun getItemCount() = fragments.size
 
     override fun createFragment(position: Int): Fragment {
-        return fragmentList[position]
+        return fragments[position]
     }
 }
