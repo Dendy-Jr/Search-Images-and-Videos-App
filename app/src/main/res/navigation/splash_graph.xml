@@ -7,12 +7,13 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.dendi.android.search_images_and_videos_app.presentation.fragment.SplashFragment"
+        android:name="com.dendi.android.search_images_and_videos_app.app.fragment.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" />
+
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.dendi.android.search_images_and_videos_app.presentation.activity.MainActivity"
+        android:name="com.dendi.android.search_images_and_videos_app.app.activity.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>

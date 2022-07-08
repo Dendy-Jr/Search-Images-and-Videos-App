@@ -9,7 +9,7 @@
     <string name="search_image">Search image</string>
     <string name="search_video">Search video</string>
     <string name="search_icon">Search icon</string>
-    <string name="hint_search_query">Enter search query…</string>
+    <string name="hint_search_query">enter search query…</string>
     <string name="error_check_the_connection">Error. Check the connection</string>
     <string name="update">Update</string>
     <string name="retry">Retry</string>
@@ -37,4 +37,11 @@
     <string name="favorites_removed">Favorites are removed</string>
     <string name="favorites_not_deleted">Favorites are not deleted</string>
     <string name="no_connection_message">No connection</string>
+    <string name="image_downloaded_successfully">Image downloaded successfully</string>
+    <string name="download_file">Download file…</string>
+    <string name="no_internet_connection">No Internet connection</string>
+    <string name="load_error">Oops, can\'t load data</string>
+    <string name="error">Error</string>
+    <string name="tags">tags:</string>
+    <string name="type">type:</string>
 </resources>

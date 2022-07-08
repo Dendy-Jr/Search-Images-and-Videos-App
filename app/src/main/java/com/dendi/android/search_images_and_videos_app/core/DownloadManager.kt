@@ -1,22 +1,55 @@
 package com.dendi.android.search_images_and_videos_app.core
 
+import android.content.Context
+import com.dendi.android.search_images_and_videos_app.core.network.DownloadFileApi
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import java.io.File
-import java.io.FileOutputStream
+import java.io.InputStream
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private const val DIR_NAME = "downloads"
 
 @Singleton
 class DownloadManager @Inject constructor(
     private val api: DownloadFileApi,
+    @ApplicationContext private val context: Context,
 ) {
 
-    suspend fun download(url: String, file: File) {
-        api.downloadFile(url).byteStream().use {
-            file.parentFile?.mkdirs()
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun download(url: String, fileName: String): Result<Unit> {
+        val file = File(getDir(), fileName)
+        return Result.success(api.downloadFile(url)
+            .byteStream().use { inputStream ->
+                inputStream.copyToFile(
+                    file = file,
+                )
+            })
+    }
 
-            FileOutputStream(file).use { targetOutputStream ->
-                it.copyTo(targetOutputStream)
+    @Suppress("BlockingMethodInNonBlockingContext")
+    private suspend fun InputStream.copyToFile(
+        file: File,
+    ) = withContext(Dispatchers.IO) {
+        use {
+            file.outputStream().use { output ->
+                var bytesCopied: Long = 0
+                val buffer = ByteArray(8 * 1024)
+                var bytes = read(buffer)
+                while (bytes >= 0) {
+                    output.write(buffer, 0, bytes)
+                    bytesCopied += bytes
+                    bytes = read(buffer)
+                    yield()
+                }
             }
         }
+    }
+
+    private fun getDir(): File = File(context.filesDir, DIR_NAME).also {
+        it.mkdir()
     }
 }

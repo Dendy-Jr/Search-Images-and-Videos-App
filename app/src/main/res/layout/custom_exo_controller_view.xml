@@ -17,55 +17,55 @@
         android:orientation="horizontal"
         android:paddingTop="4dp">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_prev"
             style="@style/ExoMediaButton.Previous"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_rew"
             style="@style/ExoMediaButton.Rewind"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_shuffle"
             style="@style/ExoMediaButton"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_repeat_toggle"
             style="@style/ExoMediaButton"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_play"
             style="@style/ExoMediaButton.Play"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_pause"
             style="@style/ExoMediaButton.Pause"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_ffwd"
             style="@style/ExoMediaButton.FastForward"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_next"
             style="@style/ExoMediaButton.Next"
             android:tintMode="src_in"
             app:tint="@color/colorPrimaryDark" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@id/exo_vr"
             style="@style/ExoMediaButton.VR"
             android:tintMode="src_in"
@@ -80,7 +80,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@id/exo_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             app:played_color="@color/colorPrimaryDark"
             app:unplayed_color="@color/grey_800" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@id/exo_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
