@@ -13,6 +13,12 @@ interface ImageDao {
     @Query("SELECT * FROM ${ImageCache.TABLE_IMAGES} ORDER BY date")
     fun getImagesPagingSource(): PagingSource<Int,ImageCache>
 
+    @Transaction
+    suspend fun refresh(images: List<ImageCache>) {
+        clearAll()
+        insertAll(images)
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(images: List<ImageCache>)
 

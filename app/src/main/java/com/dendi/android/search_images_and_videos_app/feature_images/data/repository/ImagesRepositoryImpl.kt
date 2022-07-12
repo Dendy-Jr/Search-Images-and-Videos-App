@@ -1,16 +1,19 @@
 package com.dendi.android.search_images_and_videos_app.feature_images.data.repository
 
 import androidx.paging.*
+import com.dendi.android.search_images_and_videos_app.core.db.PixabayDb
+import com.dendi.android.search_images_and_videos_app.feature_images.data.local.ImageDao
 import com.dendi.android.search_images_and_videos_app.feature_images.data.local.ImagesLocalDataSource
+import com.dendi.android.search_images_and_videos_app.feature_images.data.local.ImagesRemoteMediator
 import com.dendi.android.search_images_and_videos_app.feature_images.data.remote.ImagesRemoteDataSource
 import com.dendi.android.search_images_and_videos_app.feature_images.domain.Image
 import com.dendi.android.search_images_and_videos_app.feature_images.domain.repository.ImagesRepository
-import com.dendi.android.search_images_and_videos_app.feature_images.data.remote.ImagesPagingSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,24 +21,27 @@ import javax.inject.Singleton
 class ImagesRepositoryImpl @Inject constructor(
     private val localDataSource: ImagesLocalDataSource,
     private val remoteDataSource: ImagesRemoteDataSource,
+    private val imageDao: ImageDao,
+    private val database: PixabayDb
 ) : ImagesRepository {
 
-    override fun getPagedItems(query: String): Flow<PagingData<Image>> =
-        Pager(
+    override fun getPagedItems(query: String): Flow<PagingData<Image>> {
+        return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                initialLoadSize = PAGE_SIZE,
-                prefetchDistance = PAGE_SIZE / 2,
-                enablePlaceholders = false
             ),
+            remoteMediator = ImagesRemoteMediator(remoteDataSource, query, database),
             pagingSourceFactory = {
-                ImagesPagingSource(
-                    remoteDataSource = remoteDataSource,
-                    localDataSource = localDataSource,
-                    query = query,
-                )
+                imageDao.getImagesPagingSource()
             },
         ).flow
+            .map { pagingData ->
+                pagingData.map {
+                    it.toDomain()
+                }
+            }
+    }
+
 
     override fun getItems(): Flow<List<Image>> =
         localDataSource.getImages()
@@ -55,7 +61,7 @@ class ImagesRepositoryImpl @Inject constructor(
     override suspend fun deleteAllItems() = localDataSource.deleteAllImages()
 
     private companion object {
-        const val PAGE_SIZE = 40
+        const val PAGE_SIZE = 30
     }
 }
 

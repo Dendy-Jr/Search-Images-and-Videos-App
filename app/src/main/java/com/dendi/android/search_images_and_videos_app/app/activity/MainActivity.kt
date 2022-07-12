@@ -6,15 +6,16 @@ import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dendi.android.search_images_and_videos_app.R
-import com.dendi.android.search_images_and_videos_app.app.navigation.Navigator
-import com.dendi.android.search_images_and_videos_app.app.navigation.setupWithNavController
+import com.dendi.android.search_images_and_videos_app.app.navigation.BackNavDirections
 import com.dendi.android.search_images_and_videos_app.core.extension.showToast
 import com.dendi.android.search_images_and_videos_app.core.managers.ConnectionLiveDataManager
 import com.dendi.android.search_images_and_videos_app.databinding.ActivityMainBinding
@@ -25,46 +26,86 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    @Inject
-    lateinit var navigator: Navigator
+    private val viewModel: MainViewModel by viewModels()
 
     @Inject
     lateinit var connectionLiveDataManager: ConnectionLiveDataManager
 
-    private val binding by viewBinding(ActivityMainBinding::bind)
+    private val binding: ActivityMainBinding by viewBinding()
+
+    private val requestPermission = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions(),
+        ::onPermissionsResult
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
 
-        val navController = binding.fragmentContainer.getFragment<NavHostFragment>().navController
-        navigator.setupWithNavController(this, navController)
-        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        requestPermission.launch(
+            arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+            )
+        )
 
-        Timber.d("is connected? version three: -> ${isInternetAvailable()}")
+        Timber.d(savedInstanceState.toString())
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.navigation.collect { navDirections ->
+                if (navDirections is BackNavDirections) {
+                    onBackPressed()
+                    return@collect
+                }
+
+                viewModel.navController?.navigate(navDirections)
+            }
+        }
+
+//        Timber.d("is connected? version three: -> ${isInternetAvailable()}")
 
         connectionLiveDataManager = ConnectionLiveDataManager(this)
         connectionLiveDataManager.observe(this) { isNetworkAvailable ->
             if (isNetworkAvailable) {
-                showToast("Internet connection established")
+//                showToast("Internet connection established")
             } else {
-                showToast("No internet connection")
+//                showToast("No internet connection")
             }
             Timber.i(isNetworkAvailable.toString())
         }
 
-        if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE).not() &&
-            checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).not()
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                ),
-                201
-            )
+//        if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE).not() &&
+//            checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).not()
+//        ) {
+//            ActivityCompat.requestPermissions(
+//                this,
+//                arrayOf(
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                ),
+//                201
+//            )
+//        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.navController = findNavController(R.id.navContainer)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.navController = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onActive()
+    }
+
+    private fun onPermissionsResult(grandResults: Map<String, Boolean>) {
+        if (grandResults.entries.all { it.value }) {
+            showToast("Permissions granted")
         }
     }
 
@@ -85,10 +126,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return result
     }
 
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
+//    private fun checkPermission(permission: String): Boolean {
+//        return ContextCompat.checkSelfPermission(
+//            this,
+//            permission
+//        ) == PackageManager.PERMISSION_GRANTED
+//    }
 }

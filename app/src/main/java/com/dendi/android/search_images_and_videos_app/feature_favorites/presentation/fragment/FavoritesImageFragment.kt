@@ -23,8 +23,6 @@ class FavoritesImageFragment :
         viewModel.deleteFromFavoritesImage(it)
     }
 
-    override fun setRecyclerView() = binding.favoritesRecyclerView
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBind()
@@ -39,7 +37,7 @@ class FavoritesImageFragment :
             btnDeleteAll.isVisible = needShowButton
         }
 
-        setAdapter(imageAdapter)
+        favoritesRecyclerView.adapter = imageAdapter
         btnDeleteAll.setOnClickListener {
             viewModel.deleteAllImages()
         }

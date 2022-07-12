@@ -10,15 +10,56 @@ import com.dendi.android.search_images_and_videos_app.feature_images.data.remote
 import okio.IOException
 import retrofit2.HttpException
 import timber.log.Timber
-
 private const val IMAGE_STARTING_PAGE_INDEX = 1
-
 @ExperimentalPagingApi
 class ImagesRemoteMediator(
     private val remoteDataSource: ImagesRemoteDataSource,
     private val query: String,
     private val database: PixabayDb,
 ) : RemoteMediator<Int, ImageCache>() {
+
+//    private var pageIndex = 1
+//
+//    override suspend fun load(
+//        loadType: LoadType,
+//        state: PagingState<Int, ImageCache>
+//    ): MediatorResult {
+//        pageIndex =
+//            getPageIndex(loadType) ?: return MediatorResult.Success(endOfPaginationReached = true)
+//
+//        val limit = state.config.pageSize
+//        val offset = pageIndex
+//
+//        return try {
+//            val images = getImages(query, offset, limit)
+//            Timber.d("limit: $limit, offset: $offset")
+//            if (loadType == LoadType.REFRESH) {
+//                imageDao.refresh(images)
+//            } else {
+//                imageDao.insertAll(images)
+//            }
+//            MediatorResult.Success(
+//                endOfPaginationReached = images.size < limit
+//            )
+//        } catch (e: Exception) {
+//            MediatorResult.Error(e)
+//        }
+//    }
+//
+//    private suspend fun getImages(query: String, offset: Int, limit: Int): List<ImageCache> {
+//        return remoteDataSource.getImages(query, offset, limit)
+//            .map { it.toCache() }
+//    }
+//
+//    private fun getPageIndex(loadType: LoadType): Int? {
+//        pageIndex = when (loadType) {
+//            LoadType.REFRESH -> 1
+//            LoadType.PREPEND -> return null
+//            LoadType.APPEND -> ++pageIndex
+//        }
+//        Timber.d(loadType.name)
+//        return pageIndex
+//    }
 
     private val imageDao = database.imageDao()
     private val imageRemoteKeyDao = database.imageRemoteKeysDao()

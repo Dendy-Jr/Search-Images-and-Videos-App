@@ -8,5 +8,5 @@ import javax.inject.Singleton
 class GetFavoriteImagesUseCase @Inject constructor(
     private val repository: FavoritesImageRepository,
 ) {
-    fun getFavoriteImages() = repository.getFavoritesImage()
+    operator fun invoke() = repository.getFavoritesImage()
 }

@@ -17,17 +17,17 @@ class FavoritesVideoViewModel @Inject constructor(
     private val clearVideosUseCase: ClearVideosUseCase,
 ) : BaseViewModel() {
 
-    val favoritesVideo = getVideosUseCase.getFavoritesVideos()
+    val favoritesVideo = getVideosUseCase()
 
     fun deleteFromFavoritesVideo(video: Video) {
         viewModelScope.launch {
-            deleteVideoUseCase.deleteFavorite(video)
+            deleteVideoUseCase(video)
         }
     }
 
     fun deleteAllFavoritesVideos() {
         viewModelScope.launch {
-            clearVideosUseCase.clearAllFavorites()
+            clearVideosUseCase()
         }
     }
 }

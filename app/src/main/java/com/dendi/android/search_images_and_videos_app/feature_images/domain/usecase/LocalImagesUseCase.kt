@@ -10,5 +10,5 @@ import javax.inject.Singleton
 class LocalImagesUseCase @Inject constructor(
     private val repository: ImagesRepository,
 ) {
-    fun getImages(): Flow<List<Image>> = repository.getItems()
+    operator fun invoke(): Flow<List<Image>> = repository.getItems()
 }

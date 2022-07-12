@@ -22,7 +22,6 @@ class FavoritesVideoFragment :
 
     private val binding: FragmentFavoritesVideoBinding by viewBinding()
     override val viewModel: FavoritesVideoViewModel by viewModels()
-    override fun setRecyclerView() = binding.rvVideosFavorite
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +49,7 @@ class FavoritesVideoFragment :
         collectWithLifecycle(viewModel.favoritesVideo) {
             videoAdapter.submitList(listOf())
         }
-        setAdapter(videoAdapter)
+        rvVideosFavorite.adapter = videoAdapter
         btnDeleteAll.setOnClickListener {
             //TODO
         }

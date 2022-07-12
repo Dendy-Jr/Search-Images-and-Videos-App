@@ -18,5 +18,5 @@ class ImagesStorage @Inject constructor(
         set(value) {
             storage.edit().putString(SEARCH_IMAGES_QUERY, value).apply()
         }
-        get() = storage.getString(SEARCH_IMAGES_QUERY, "cars")
+        get() = storage.getString(SEARCH_IMAGES_QUERY, "")
 }

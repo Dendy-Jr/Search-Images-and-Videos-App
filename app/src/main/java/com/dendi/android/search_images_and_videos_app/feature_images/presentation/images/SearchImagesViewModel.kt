@@ -3,7 +3,6 @@ package com.dendi.android.search_images_and_videos_app.feature_images.presentati
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.dendi.android.search_images_and_videos_app.app.navigation.AppNavDirections
-import com.dendi.android.search_images_and_videos_app.app.navigation.Navigator
 import com.dendi.android.search_images_and_videos_app.core.base.BaseViewModel
 import com.dendi.android.search_images_and_videos_app.feature_images.data.local.ImagesStorage
 import com.dendi.android.search_images_and_videos_app.feature_images.domain.Image
@@ -14,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -23,7 +23,6 @@ class SearchImagesViewModel @Inject constructor(
     private val searchImageUseCase: SearchImagesUseCase,
     private val insertImageUseCase: InsertImageUseCase,
     private val localImagesUseCase: LocalImagesUseCase,
-    private val navigator: Navigator,
     private val storage: ImagesStorage,
 ) : BaseViewModel() {
 
@@ -31,11 +30,17 @@ class SearchImagesViewModel @Inject constructor(
     private val _scrollList = MutableStateFlow(Unit)
     val scrollList = _scrollList.asStateFlow()
 
-    val localImages = localImagesUseCase.getImages()
+    init {
+        viewModelScope.launch {
+            localImagesUseCase.invoke().collectLatest {
+                Timber.d("list -> $it, size -> ${it.size}")
+            }
+        }
+    }
 
     val imagesFlow = searchBy
         .flatMapLatest { query ->
-            searchImageUseCase.searchImages(query ?: "")
+            searchImageUseCase(query ?: "")
         }.cachedIn(viewModelScope)
 
     fun setSearchBy(query: String) {
@@ -51,11 +56,11 @@ class SearchImagesViewModel @Inject constructor(
 
     fun addToFavorite(image: Image) {
         viewModelScope.launch {
-            insertImageUseCase.saveImageToFavorites(image)
+            insertImageUseCase(image)
         }
     }
 
     fun launchDetailScreen(image: Image) {
-        navigator.navigateTo(appNavDirections.imageDetailsScreen(image))
+        navigateTo(appNavDirections.imageDetailsScreen(image))
     }
 }

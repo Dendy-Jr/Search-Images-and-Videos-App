@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kohii.v1.core.MemoryMode
 import kohii.v1.core.Strategy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
@@ -24,7 +25,6 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
 
     private val binding: FragmentVideosBinding by viewBinding()
     override val viewModel: SearchVideosViewModel by viewModels()
-    override fun setRecyclerView(): RecyclerView = binding.recyclerViewVideo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,15 +42,15 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             )
 
         val videoAdapter = VideosPagingAdapter(
-            kohii,
-            {
+            kohii = kohii,
+            toVideoDetails = {
                 viewModel.launchDetailsScreen(it)
             },
-            {
+            addToFavorite = {
                 viewModel.addToFavorite(it)
                 showSnackbar("Video is added to your favorites")
             },
-            {
+            shareVideo = {
                 shareItem(it.user, it.pageURL)
             },
         )
@@ -59,10 +59,13 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             viewModel.searchVideo(it)
         }
 
-        setAdapter(videoAdapter)
-        collectWithLifecycle(viewModel.videosFlow) { data ->
-            lifecycleScope.launch {
-                videoAdapter.submitData(data)
+        recyclerViewVideo.adapter = videoAdapter
+//        collectWithLifecycle(viewModel.videosFlow) { data ->
+//                videoAdapter.submitData(data)
+//        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.videosFlow.collectLatest {
+                videoAdapter.submitData(it)
             }
         }
     }

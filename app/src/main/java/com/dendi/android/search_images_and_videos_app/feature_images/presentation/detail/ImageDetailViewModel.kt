@@ -25,7 +25,7 @@ class ImageDetailViewModel @Inject constructor(
 
     fun downloadImage() {
         viewModelScope.launch {
-            downloadFileUseCase.downloadFile(
+            downloadFileUseCase(
                 url = args.image.largeImageURL,
                 fileName = args.image.tags.replace(", ", "-") + ".jpg",
             )

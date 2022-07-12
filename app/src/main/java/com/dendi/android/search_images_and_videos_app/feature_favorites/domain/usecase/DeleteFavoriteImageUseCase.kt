@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class DeleteFavoriteImageUseCase @Inject constructor(
     private val repository: FavoritesImageRepository,
 ) {
-    suspend fun deleteFavorite(image: Image) {
+    suspend operator fun invoke(image: Image) {
         repository.deleteImage(image)
     }
 }

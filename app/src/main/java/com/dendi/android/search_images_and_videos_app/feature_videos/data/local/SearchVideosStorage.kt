@@ -13,9 +13,9 @@ class SearchVideosStorage @Inject constructor(
 ) {
     private val storage = storageProvider.getStorage(KEY_STORAGE)
 
-    var query: String
+    var query: String?
         set(value) {
             storage.edit().putString(SEARCH_VIDEOS_QUERY, value).apply()
         }
-        get() = storage.getString(SEARCH_VIDEOS_QUERY, "usa") ?: ""
+        get() = storage.getString(SEARCH_VIDEOS_QUERY, "")
 }

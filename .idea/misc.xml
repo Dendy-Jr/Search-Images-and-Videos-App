@@ -50,8 +50,11 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_bookmark_remove_20.xml" value="0.2035" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_cancel.xml" value="0.1755" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_close.xml" value="0.173" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_download.xml" value="0.2025" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_favorite.xml" value="0.20185185185185187" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_icon_download_file.xml" value="0.2025" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_like.xml" value="0.2025" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_likes.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_photo_background.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/ic_photo_foreground.xml" value="0.1" />
@@ -68,7 +71,7 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/tab_indicator.xml" value="0.185" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/drawable/test.xml" value="0.1755" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/font/lemon.xml" value="0.284375" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/custom_edit_text.xml" value="0.4" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/custom_exo_controller_view.xml" value="0.2" />
@@ -76,11 +79,11 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/favorite_item.xml" value="0.176" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/favorite_video_item.xml" value="0.2" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_favorites.xml" value="0.25" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_favorites_image.xml" value="0.2" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_favorites_image.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_favorites_video.xml" value="0.26614583333333336" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_image_details.xml" value="0.4" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_image_details.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_images.xml" value="0.264" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_main.xml" value="0.253125" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_photos.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_splash.xml" value="0.176" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/SearchImagesandVideosApp/app/src/main/res/layout/fragment_video_details.xml" value="0.4" />

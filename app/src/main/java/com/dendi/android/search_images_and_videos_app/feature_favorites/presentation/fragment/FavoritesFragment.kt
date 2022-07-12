@@ -19,7 +19,6 @@ class FavoritesFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_favorit
 
     private val binding by viewBinding(FragmentFavoritesBinding::bind)
     override val viewModel: EmptyViewModel by viewModels()
-    override fun setRecyclerView(): RecyclerView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

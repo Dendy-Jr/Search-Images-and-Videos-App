@@ -8,5 +8,5 @@ import javax.inject.Singleton
 class ClearVideosUseCase @Inject constructor(
     private val repository: VideosRepository,
 ) {
-    suspend fun clearAllFavorites() = repository.deleteAllItems()
+    suspend operator fun invoke() = repository.deleteAllItems()
 }

@@ -2,31 +2,47 @@ package com.dendi.android.search_images_and_videos_app.feature_images.presentati
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.core.base.BaseFragment
-import com.dendi.android.search_images_and_videos_app.core.extension.collectWithLifecycle
 import com.dendi.android.search_images_and_videos_app.core.extension.showToast
-import com.dendi.android.search_images_and_videos_app.core.managers.ConnectionLiveDataManager
+import com.dendi.android.search_images_and_videos_app.core.extension.simpleScan
 import com.dendi.android.search_images_and_videos_app.databinding.FragmentImagesBinding
-import com.dendi.android.search_images_and_videos_app.presentation.adapter.LocalImagesAdapter
+import com.dendi.android.search_images_and_videos_app.core.base.DefaultLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import javax.inject.Inject
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragment_images) {
 
     private val binding: FragmentImagesBinding by viewBinding()
     override val viewModel: SearchImagesViewModel by viewModels()
-    override fun setRecyclerView(): RecyclerView = binding.recyclerViewImages
 
-    @Inject
-    lateinit var connectionLiveDataManager: ConnectionLiveDataManager
+    private val adapter = SearchImagesPagingAdapter(
+        toImage = {
+            viewModel.launchDetailScreen(it)
+        },
+        addToFavorite = {
+            viewModel.addToFavorite(it)
+            requireContext().showToast(getString(R.string.added_to_favorites))
+        },
+        shareImage = {
+            shareItem(it.user, it.pageURL)
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,48 +50,96 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun onBind() = with(binding) {
-        val pagingAdapter = SearchImagesPagingAdapter(
-            {
-                viewModel.launchDetailScreen(it)
-            },
-            {
-                viewModel.addToFavorite(it)
-                requireContext().showToast("Added to favorites")
-            },
-            {
-                shareItem(it.user, it.pageURL)
-            },
-        )
-
-        val localAdapter = LocalImagesAdapter()
-
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
         }
 
-//        setAdapter(pagingAdapter)
+        setupList()
+        setupRefreshLayout()
+
+        collectImages()
+        observeState()
+
+        handleListVisibility()
+        handleScrollingToTop()
+    }
+
+    private fun setupList() = with(binding) {
+        recyclerView.adapter = adapter
+        (recyclerView.itemAnimator as? DefaultItemAnimator)
+            ?.supportsChangeAnimations = false
+        recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
+
+        lifecycleScope.launch {
+            waiteForLoad()
+            val footerAdapter = DefaultLoadStateAdapter { adapter.retry() }
+            val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
+            recyclerView.adapter = adapterWithLoadState
+        }
+    }
+
+    private suspend fun waiteForLoad() {
+        adapter.onPagesUpdatedFlow
+            .map { adapter.itemCount }
+            .first { it > 0 }
+    }
+
+    private fun setupRefreshLayout() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
+    }
+
+    private fun collectImages() {
 //        collectWithLifecycle(viewModel.imagesFlow) {
-//            pagingAdapter.submitData(it)
+//            adapter.submitData(it)
 //        }
 
-        connectionLiveDataManager = ConnectionLiveDataManager(requireContext())
-        connectionLiveDataManager.observe(viewLifecycleOwner) { isNetworkAvailable ->
-            searchEditText.isVisible = isNetworkAvailable
-            if (isNetworkAvailable) {
-                setAdapter(pagingAdapter)
-                collectWithLifecycle(viewModel.imagesFlow) {
-                    pagingAdapter.submitData(it)
-                }
-            } else {
-                setAdapter(localAdapter)
-                collectWithLifecycle(viewModel.localImages) {
-                    localAdapter.submitList(it)
-                }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.imagesFlow.collectLatest {
+                adapter.submitData(it)
             }
         }
+    }
 
-//        collectWithLifecycle(viewModel.scrollList) {
-//            recyclerView?.scrollToPosition(0)
-//        }
+    private fun observeState() = with(binding) {
+        val loadStateHolder = DefaultLoadStateAdapter.Holder(
+            loadingState,
+            swipeRefreshLayout
+        ) { adapter.retry() }
+        adapter.loadStateFlow
+            .debounce(300)
+            .onEach {
+                loadStateHolder.bind(it.refresh)
+            }
+            .launchIn(lifecycleScope)
+    }
+
+    private fun handleListVisibility() = lifecycleScope.launch {
+        getRefreshLoadState(adapter)
+            .simpleScan(count = 3)
+            .collectLatest { (beforePrevious, previous, current) ->
+                binding.recyclerView.isInvisible = current is LoadState.Error
+                        || previous is LoadState.Error
+                        || (beforePrevious is LoadState.Error
+                        && previous is LoadState.NotLoading
+                        && current is LoadState.Loading)
+            }
+    }
+
+    private fun handleScrollingToTop() = lifecycleScope.launch {
+        getRefreshLoadState(adapter)
+            .simpleScan(count = 2)
+            .collect { (previousState, currentState) ->
+                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
+                    delay(200)
+                    binding.recyclerView.scrollToPosition(0)
+                }
+            }
+    }
+
+    private fun getRefreshLoadState(adapter: SearchImagesPagingAdapter): Flow<LoadState> {
+        return adapter.loadStateFlow
+            .map { it.refresh }
     }
 }

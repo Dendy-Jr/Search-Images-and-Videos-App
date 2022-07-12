@@ -11,5 +11,5 @@ import javax.inject.Singleton
 class SearchVideosUseCase @Inject constructor(
     private val repository: VideosRepository,
 ) {
-    fun searchVideo(query: String): Flow<PagingData<Video>> = repository.getPagedItems(query)
+     operator fun invoke(query: String): Flow<PagingData<Video>> = repository.getPagedItems(query)
 }

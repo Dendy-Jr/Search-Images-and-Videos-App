@@ -6,6 +6,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
+import timber.log.Timber
 import java.io.File
 import java.io.InputStream
 import javax.inject.Inject
@@ -22,6 +23,7 @@ class DownloadManager @Inject constructor(
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun download(url: String, fileName: String): Result<Unit> {
         val file = File(getDir(), fileName)
+        Timber.d(file.path)
         return Result.success(api.downloadFile(url)
             .byteStream().use { inputStream ->
                 inputStream.copyToFile(

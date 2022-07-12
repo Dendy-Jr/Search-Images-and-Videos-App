@@ -9,5 +9,5 @@ import javax.inject.Singleton
 class InsertImagesUseCase @Inject constructor(
     private val repository: ImagesRepository,
 ) {
-    suspend fun saveImagesToFavorites(images: List<Image>) = repository.insertAllItems(images)
+    suspend operator fun invoke(images: List<Image>) = repository.insertAllItems(images)
 }

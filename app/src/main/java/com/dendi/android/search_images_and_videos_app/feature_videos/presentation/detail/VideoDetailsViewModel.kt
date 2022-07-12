@@ -2,7 +2,6 @@ package com.dendi.android.search_images_and_videos_app.feature_videos.presentati
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.core.managers.DialogManager
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideoDetailsViewModel @Inject constructor(
-    private val useCase: DownloadFileUseCase,
+    private val downloadFileUseCase: DownloadFileUseCase,
     private val dialogManager: DialogManager,
     private val resourceProvider: ResourceProvider,
     savedStateHandle: SavedStateHandle,
@@ -25,7 +24,7 @@ class VideoDetailsViewModel @Inject constructor(
 
     fun downloadVideo() {
         viewModelScope.launch {
-            useCase.downloadFile(
+            downloadFileUseCase(
                 url = args.video.videos.large.url,
                 fileName = args.video.tags.replace(", ", "-") + ".mp4",
             )

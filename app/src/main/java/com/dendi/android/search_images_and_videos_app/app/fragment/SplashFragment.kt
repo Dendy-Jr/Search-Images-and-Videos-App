@@ -1,11 +1,11 @@
 package com.dendi.android.search_images_and_videos_app.app.fragment
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dendi.android.search_images_and_videos_app.R
 import com.dendi.android.search_images_and_videos_app.app.activity.MainActivity
@@ -22,7 +22,6 @@ class SplashFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_splash) {
 
     private val binding: FragmentSplashBinding by viewBinding()
     override val viewModel: EmptyViewModel by viewModels()
-    override fun setRecyclerView(): RecyclerView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +43,7 @@ class SplashFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_splash) {
     }
 
     private fun playAnimation() = with(binding) {
-        lottie.speed = 2F
+        lottie.repeatMode = ValueAnimator.INFINITE
         lottie.playAnimation()
     }
 }

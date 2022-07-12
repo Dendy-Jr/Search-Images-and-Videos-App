@@ -2,8 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/appNavGraph"
-    app:startDestination="@id/main_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
 
     <include app:graph="@navigation/main_graph" />
     <include app:graph="@navigation/image_details_graph" />
@@ -20,5 +20,11 @@
     <action
         android:id="@+id/navigateToVideoDetailsScreen"
         app:destination="@+id/video_details_graph" />
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.dendi.android.search_images_and_videos_app.core.base.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main" />
 
 </navigation>

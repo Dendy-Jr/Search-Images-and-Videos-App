@@ -34,7 +34,7 @@ class FavoritesImageViewModel @Inject constructor(
 
     fun deleteFromFavoritesImage(image: Image) {
         viewModelScope.launch {
-            deleteFavoriteImageUseCase.deleteFavorite(image)
+            deleteFavoriteImageUseCase(image)
         }
     }
 
@@ -44,7 +44,7 @@ class FavoritesImageViewModel @Inject constructor(
             messageResId = "Are you sure you want to delete all saved images?",
             positiveAction = {
                 viewModelScope.launch {
-                    clearFavoriteImagesUseCase.clearFavoriteImages()
+                    clearFavoriteImagesUseCase()
                 }
             },
         )
@@ -52,7 +52,7 @@ class FavoritesImageViewModel @Inject constructor(
 
     private fun getFavoriteImages() {
         viewModelScope.launch {
-            getFavoriteImagesUseCase.getFavoriteImages()
+            getFavoriteImagesUseCase()
                 .collect { result ->
                     result.onSuccess {
                         Timber.d(it.toString())

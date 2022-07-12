@@ -9,5 +9,5 @@ import javax.inject.Singleton
 class DeleteVideoUseCase @Inject constructor(
     private val repository: VideosRepository,
 ) {
-    suspend fun deleteFavorite(video: Video) = repository.deleteItem(video)
+    suspend operator fun invoke(video: Video) = repository.deleteItem(video)
 }

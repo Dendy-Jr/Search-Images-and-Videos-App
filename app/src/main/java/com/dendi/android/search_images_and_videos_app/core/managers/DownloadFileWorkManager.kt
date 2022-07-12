@@ -110,16 +110,30 @@ class DownloadFileWorkManager @AssistedInject constructor(
 
         } else {
 
-            val target = filename?.let {
-                File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), it)
-            }
+//            val target = filename?.let {
+//                File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), it)
+//            }
+//            URL(url).openStream().use { input ->
+//                FileOutputStream(target).use { output ->
+//                    input.copyTo(output)
+//                }
+//            }
+//
+//            return target?.toUri()
+
+            val root = context.getExternalFilesDir(null)?.absolutePath
+
+            val target = File(
+                context.getExternalFilesDir("$root/Download"),
+                filename!!
+            )
             URL(url).openStream().use { input ->
                 FileOutputStream(target).use { output ->
                     input.copyTo(output)
                 }
             }
 
-            return target?.toUri()
+            return target.toUri()
         }
     }
 }

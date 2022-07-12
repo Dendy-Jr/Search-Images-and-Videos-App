@@ -3,7 +3,6 @@ package com.dendi.android.search_images_and_videos_app.feature_videos.presentati
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.dendi.android.search_images_and_videos_app.app.navigation.AppNavDirections
-import com.dendi.android.search_images_and_videos_app.app.navigation.Navigator
 import com.dendi.android.search_images_and_videos_app.core.base.BaseViewModel
 import com.dendi.android.search_images_and_videos_app.feature_videos.data.local.SearchVideosStorage
 import com.dendi.android.search_images_and_videos_app.feature_videos.domain.Video
@@ -21,7 +20,6 @@ import javax.inject.Inject
 class SearchVideosViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
     private val insertVideoUseCase: InsertVideoUseCase,
-    private val navigator: Navigator,
     private val searchVideosUseCase: SearchVideosUseCase,
     private val storage: SearchVideosStorage,
 ) : BaseViewModel() {
@@ -29,7 +27,7 @@ class SearchVideosViewModel @Inject constructor(
     private val searchBy = MutableStateFlow(storage.query)
 
     val videosFlow = searchBy.flatMapLatest { query ->
-        searchVideosUseCase.searchVideo(query)
+        searchVideosUseCase(query ?: "")
     }.cachedIn(viewModelScope)
 
     fun searchVideo(query: String) {
@@ -40,11 +38,11 @@ class SearchVideosViewModel @Inject constructor(
 
     fun addToFavorite(video: Video) {
         viewModelScope.launch {
-            insertVideoUseCase.addToFavorite(video)
+            insertVideoUseCase(video)
         }
     }
 
     fun launchDetailsScreen(video: Video) {
-        navigator.navigateTo(appNavDirections.videoDetailsScreen(video))
+        navigateTo(appNavDirections.videoDetailsScreen(video))
     }
 }

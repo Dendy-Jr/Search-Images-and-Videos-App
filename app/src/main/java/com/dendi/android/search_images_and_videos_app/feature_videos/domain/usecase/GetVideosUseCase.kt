@@ -10,5 +10,5 @@ import javax.inject.Singleton
 class GetVideosUseCase @Inject constructor(
     private val repository: VideosRepository,
 ) {
-    fun getFavoritesVideos(): Flow<List<Video>> = repository.getItems()
+    operator fun invoke(): Flow<List<Video>> = repository.getItems()
 }

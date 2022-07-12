@@ -9,7 +9,7 @@ class DownloadFileUseCase @Inject constructor(
     private val downloadManager: DownloadManager,
 ) {
 
-    suspend fun downloadFile(url: String, fileName: String): Result<Unit> {
+    suspend operator fun invoke(url: String, fileName: String): Result<Unit> {
         return downloadManager.download(url = url, fileName = fileName)
     }
 }

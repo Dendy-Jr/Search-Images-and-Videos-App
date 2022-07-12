@@ -5,7 +5,7 @@ import retrofit2.http.Query
 
 interface ImagesApi {
 
-    @GET("?safesearch=true&editors_choice=true")
+    @GET("?safesearch=true")
     suspend fun searchImages(
         @Query("q") query: String = "cat",
         @Query("page") page: Int = 1,

@@ -35,7 +35,6 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
     override val viewModel: VideoDetailsViewModel by viewModels()
     private val workManager by lazy { WorkManager.getInstance(requireContext()) }
     private val args by lazy { VideoDetailsFragmentArgs.fromBundle(requireArguments()) }
-    override fun setRecyclerView(): RecyclerView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

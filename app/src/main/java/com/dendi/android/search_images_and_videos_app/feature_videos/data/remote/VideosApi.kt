@@ -5,7 +5,7 @@ import retrofit2.http.Query
 
 interface VideosApi {
 
-    @GET("videos/?safesearch=true&editors_choice=true")
+    @GET("videos/?safesearch=true")
     suspend fun searchVideo(
         @Query("q") query: String,
         @Query("page") page: Int,

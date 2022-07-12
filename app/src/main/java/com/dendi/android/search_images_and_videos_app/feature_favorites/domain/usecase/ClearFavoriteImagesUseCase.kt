@@ -8,5 +8,6 @@ import javax.inject.Singleton
 class ClearFavoriteImagesUseCase @Inject constructor(
     private val repository: FavoritesImageRepository,
 ) {
-    suspend fun clearFavoriteImages() = repository.deleteAllImage()
+    suspend operator fun invoke() = repository.deleteAllImage()
+
 }
