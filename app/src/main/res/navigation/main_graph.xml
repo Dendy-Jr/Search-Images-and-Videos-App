@@ -12,19 +12,19 @@
 
     <fragment
         android:id="@+id/imagesFragment"
-        android:name="com.dendi.android.search_images_and_videos_app.feature_images.presentation.images.SearchImagesFragment"
+        android:name="ui.dendi.android.finder.feature_images.presentation.images.SearchImagesFragment"
         android:label="fragment_images"
         tools:layout="@layout/fragment_images" />
 
     <fragment
         android:id="@+id/videosFragment"
-        android:name="com.dendi.android.search_images_and_videos_app.feature_videos.presentation.videos.SearchVideosFragment"
+        android:name="ui.dendi.android.finder.feature_videos.presentation.videos.SearchVideosFragment"
         android:label="fragment_videos"
         tools:layout="@layout/fragment_videos" />
 
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.dendi.android.search_images_and_videos_app.feature_favorites.presentation.fragment.FavoritesFragment"
+        android:name="ui.dendi.android.finder.feature_favorites.presentation.fragment.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" />
 

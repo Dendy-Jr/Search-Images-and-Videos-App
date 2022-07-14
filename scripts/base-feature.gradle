@@ -1,0 +1,89 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+// We still use kapt for Dagger
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+    compileSdkVersion androidTargetSdkVersion
+    buildToolsVersion gradleBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+    }
+    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_11
+//        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += "-opt-in=kotlin.ExperimentalStdlibApi"
+        freeCompilerArgs += "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
+        freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += '-opt-in=kotlinx.coroutines.FlowPreview'
+        freeCompilerArgs += '-opt-in=kotlinx.coroutines.DelicateCoroutinesApi'
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-opt-in=kotlin.time.ExperimentalTime"
+        freeCompilerArgs += "-Xcontext-receivers"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures.viewBinding = true
+
+    kapt {
+        correctErrorTypes = true
+    }
+    hilt {
+        enableAggregatingTask = true
+    }
+
+//    dependencies {
+//        implementation kotlin_deps.coroutines
+//        implementation kotlin_deps.serialization
+//
+//        implementation androidx.core
+//        implementation androidx.activity
+//        implementation androidx.fragment.core
+//        implementation androidx.appcompat
+//        implementation androidx.material
+//        implementation androidx.constraintLayout
+//        implementation androidx.recyclerView
+//        implementation androidx.viewPager
+//
+//        // Lifecycle
+//        implementation androidx.lifecycle.common
+//        implementation androidx.lifecycle.runtime
+//        implementation androidx.lifecycle.viewmodel
+//        implementation androidx.lifecycle.livedata
+//        implementation androidx.lifecycle.savedstate
+//        implementation androidx.lifecycle.process
+//
+//        // Navigation
+//        implementation androidx.navigation.common
+//        implementation androidx.navigation.fragment
+//        implementation androidx.navigation.ui
+//
+//        // DI
+//        implementation dagger.core
+//        kapt dagger.compiler
+//
+//        // ViewBinding
+//        implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
+//
+//        // Utils
+//        implementation glide.glide
+//        implementation glide.compiler
+//        implementation lottie
+//        implementation swipeRevealLayout
+//    }
+}

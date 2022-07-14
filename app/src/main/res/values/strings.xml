@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Search Images And Videos</string>
+    <string name="app_name">Finder: Images &amp; Videos</string>
     <string name="please_wait">Please wait…</string>
     <string name="photos">Photos</string>
     <string name="videos">Videos</string>
@@ -45,4 +45,13 @@
     <string name="tags">tags:</string>
     <string name="type">type:</string>
     <string name="added_to_favorites">Added to favorites</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

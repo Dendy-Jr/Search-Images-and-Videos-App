@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/videoDetailsFragment"
-        android:name="com.dendi.android.search_images_and_videos_app.feature_videos.presentation.detail.VideoDetailsFragment"
+        android:name="ui.dendi.android.finder.feature_videos.presentation.detail.VideoDetailsFragment"
         android:label="fragment_video_details"
         tools:layout="@layout/fragment_video_details">
 
         <argument
             android:name="video"
-            app:argType="com.dendi.android.search_images_and_videos_app.feature_videos.domain.Video" />
+            app:argType="ui.dendi.android.finder.feature_videos.domain.Video" />
 
     </fragment>
 
