@@ -1,18 +1,55 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext {
+        kotlin = '1.7.10'
+        coroutines = '1.6.1'
+        serializationJson = '1.3.3'
+        androidxNavigation = '2.5.0'
+        androidxLifecycle = '2.2.0'
+        androidxRoom = '2.4.2'
+        androidxCore = '1.8.0'
+        androidxActivity = '1.4.0'
+        androidxFragment = '1.5.0'
+        androidxAppcompat = '1.4.2'
+        material = '1.6.1'
+        androidxConstraintLayout = '2.1.4'
+        androidxRecyclerView = '1.2.1'
+        androidxViewPager2 = '1.0.0'
+        androidxPaging = '3.1.1'
+        androidxSwiperefresh = '1.1.0'
+        androidxWorkmanagerRuntime = '2.7.1'
+        androidxWorkmanagerHiltWork = '1.0.0'
+        daggerHilt = '2.42'
+        gson = '2.9.0'
+        retrofit = '2.9.0'
+        okhttp = '4.9.3'
+        timber = '5.0.1'
+        glide = '4.13.2'
+        exoplayer = '2.11.3'
+        kohii = '1.1.0.2011003'
+        lottie = '5.0.3'
+        swipeRevealLayout = '5.0.3'
+        viewBinding = '1.5.6'
+
+        // plugin
+        androidGradle = '7.2.0'
+        kotlinGradle = '1.6.21'
+        kotlinSerialization = '1.6.20'
+        hiltGradle = '2.42'
+        navigationSaveArgs = '2.5.0'
+    }
+
     repositories {
         google()
         mavenCentral()
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0"
-        classpath "org.jetbrains.kotlin:kotlin-serialization:1.6.20"
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.41")
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    dependencies {
+        classpath "com.android.tools.build:gradle:$androidGradle"
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationSaveArgs"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinSerialization"
+        classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltGradle")
     }
 }
 

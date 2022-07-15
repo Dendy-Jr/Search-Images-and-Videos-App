@@ -1,4 +1,4 @@
-package ui.dendi.android.finder.core.app
+package ui.dendi.android.finder.core
 
 import android.app.Activity
 import android.app.Application

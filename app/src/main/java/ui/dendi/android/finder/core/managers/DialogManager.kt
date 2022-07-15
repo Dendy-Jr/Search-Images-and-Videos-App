@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import androidx.annotation.DrawableRes
 import ui.dendi.android.finder.R
-import ui.dendi.android.finder.core.app.ActivityEngine
+import ui.dendi.android.finder.core.ActivityEngine
 import javax.inject.Inject
 import javax.inject.Singleton
 
