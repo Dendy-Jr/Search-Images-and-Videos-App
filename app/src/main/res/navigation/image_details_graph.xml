@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/imageDetailFragment"
-        android:name="ui.dendi.android.finder.feature_images.presentation.detail.ImageDetailFragment"
+        android:name="ui.dendi.finder.app.feature_images.presentation.detail.ImageDetailFragment"
         android:label="fragment_image_details"
         tools:layout="@layout/fragment_image_details">
 
         <argument
             android:name="image"
-            app:argType="ui.dendi.android.finder.feature_images.domain.Image" />
+            app:argType="ui.dendi.finder.app.feature_images.domain.Image" />
 
     </fragment>
 

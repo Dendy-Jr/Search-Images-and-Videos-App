@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".feature_images.presentation.images.SearchImagesFragment">
 
-    <ui.dendi.android.finder.core.widget.SearchEditText
+    <ui.dendi.finder.app.core.widget.SearchEditText
         android:id="@+id/searchEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
