@@ -53,6 +53,17 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
         }
+//        imagesStorage.query?.let { searchEditText.setLastQuery(it) }
+
+//        collectWithLifecycle(viewModel.searchBy) {
+//            it?.let { searchEditText.setLastQuery(it) }
+//        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.searchBy.collectLatest {
+                it?.let { searchEditText.setQuery(it) }
+            }
+        }
 
         setupList()
         setupRefreshLayout()

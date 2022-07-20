@@ -57,10 +57,14 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             viewModel.searchVideo(it)
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.searchBy.collectLatest {
+                it?.let { searchEditText.setQuery(it) }
+            }
+        }
+
         recyclerViewVideo.adapter = videoAdapter
-//        collectWithLifecycle(viewModel.videosFlow) { data ->
-//                videoAdapter.submitData(data)
-//        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.videosFlow.collectLatest {
                 videoAdapter.submitData(it)

@@ -22,32 +22,33 @@ class SearchImagesViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
     private val searchImageUseCase: SearchImagesUseCase,
     private val insertImageUseCase: InsertImageUseCase,
-    private val localImagesUseCase: LocalImagesUseCase,
+//    private val localImagesUseCase: LocalImagesUseCase,
     private val storage: ImagesStorage,
 ) : BaseViewModel() {
 
-    private val searchBy = MutableStateFlow(storage.query)
+    private val _searchBy = MutableStateFlow(storage.query)
+    val searchBy = _searchBy.asStateFlow()
     private val _scrollList = MutableStateFlow(Unit)
     val scrollList = _scrollList.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            localImagesUseCase.invoke().collectLatest {
-                Timber.d("list -> $it, size -> ${it.size}")
-            }
-        }
-    }
+//    init {
+//        viewModelScope.launch {
+//            localImagesUseCase.invoke().collectLatest {
+//                Timber.d("list -> $it, size -> ${it.size}")
+//            }
+//        }
+//    }
 
-    val imagesFlow = searchBy
+    val imagesFlow = _searchBy
         .flatMapLatest { query ->
             searchImageUseCase(query ?: "")
         }.cachedIn(viewModelScope)
 
     fun setSearchBy(query: String) {
-        if (searchBy.value == query) return
+        if (_searchBy.value == query) return
         storage.query = query
-        searchBy.value = storage.query
-        scrollListToTop()
+        _searchBy.value = storage.query
+//        scrollListToTop()
     }
 
     private fun scrollListToTop() {

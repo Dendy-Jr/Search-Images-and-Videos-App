@@ -5,6 +5,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import ui.dendi.finder.app.navigation.AppNavDirections
@@ -24,16 +25,17 @@ class SearchVideosViewModel @Inject constructor(
     private val storage: SearchVideosStorage,
 ) : BaseViewModel() {
 
-    private val searchBy = MutableStateFlow(storage.query)
+    private val _searchBy = MutableStateFlow(storage.query)
+    val searchBy = _searchBy.asStateFlow()
 
-    val videosFlow = searchBy.flatMapLatest { query ->
+    val videosFlow = _searchBy.flatMapLatest { query ->
         searchVideosUseCase(query ?: "")
     }.cachedIn(viewModelScope)
 
     fun searchVideo(query: String) {
-        if (searchBy.value == query) return
+        if (_searchBy.value == query) return
         storage.query = query
-        searchBy.value = storage.query
+        _searchBy.value = storage.query
     }
 
     fun addToFavorite(video: Video) {

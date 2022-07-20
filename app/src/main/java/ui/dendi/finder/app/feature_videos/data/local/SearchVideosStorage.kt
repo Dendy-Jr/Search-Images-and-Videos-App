@@ -17,5 +17,5 @@ class SearchVideosStorage @Inject constructor(
         set(value) {
             storage.edit().putString(SEARCH_VIDEOS_QUERY, value).apply()
         }
-        get() = storage.getString(SEARCH_VIDEOS_QUERY, "")
+        get() = storage.getString(SEARCH_VIDEOS_QUERY, "cat")
 }

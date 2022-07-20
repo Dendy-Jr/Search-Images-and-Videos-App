@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import ui.dendi.finder.app.databinding.ItemEditTextBinding
 
-
 class SearchEditText(context: Context, attributeSet: AttributeSet? = null) :
     ConstraintLayout(context, attributeSet) {
 
@@ -30,5 +29,10 @@ class SearchEditText(context: Context, attributeSet: AttributeSet? = null) :
 
     fun setSearchTextChangedClickListener(listener: ((String) -> Unit)?) {
         onSearchTextChangedListener = listener
+    }
+
+    fun setQuery(query: String) = with(binding) {
+        if (editText.text.isNotEmpty()) return@with
+        editText.setText(query)
     }
 }
