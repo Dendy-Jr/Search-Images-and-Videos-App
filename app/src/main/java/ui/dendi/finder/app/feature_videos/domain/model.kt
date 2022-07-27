@@ -1,8 +1,8 @@
 package ui.dendi.finder.app.feature_videos.domain
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import ui.dendi.finder.app.feature_videos.data.local.*
 
 @Parcelize

@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import ui.dendi.finder.app.core.db.converters.*
 import ui.dendi.finder.app.feature_favorites.data.FavoriteImage
 import ui.dendi.finder.app.feature_favorites.data.FavoriteImageDao
-import ui.dendi.finder.app.feature_images.data.local.ImageCache
+import ui.dendi.finder.app.feature_images.data.local.ImageEntity
 import ui.dendi.finder.app.feature_images.data.local.ImageDao
 import ui.dendi.finder.app.feature_images.data.local.ImageRemoteKeys
 import ui.dendi.finder.app.feature_images.data.local.ImageRemoteKeysDao
@@ -16,7 +16,7 @@ import ui.dendi.finder.app.feature_videos.data.local.VideoDao
 
 @Database(
     entities = [
-        ImageCache::class,
+        ImageEntity::class,
         VideoCache::class,
         ImageRemoteKeys::class,
         FavoriteImage::class,

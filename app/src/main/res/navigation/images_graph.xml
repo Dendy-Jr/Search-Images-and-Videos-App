@@ -10,5 +10,10 @@
         android:name="ui.dendi.finder.app.feature_images.presentation.images.SearchImagesFragment"
         android:label="fragment_images"
         tools:layout="@layout/fragment_images" />
+    <dialog
+        android:id="@+id/imageFilterBottomDialog"
+        android:name="ui.dendi.finder.app.feature_images.presentation.images.ImageFilterBottomDialog"
+        android:label="ImageFilterBottomDialog"
+        tools:layout="@layout/bottom_dialog_image_filter"/>
 
 </navigation>

@@ -50,6 +50,7 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationSaveArgs"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinSerialization"
         classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltGradle")
+        classpath 'com.google.gms:google-services:4.3.13'
     }
 }
 

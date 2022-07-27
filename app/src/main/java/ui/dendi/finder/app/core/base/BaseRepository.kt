@@ -5,7 +5,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface BaseRepository<T : Any> {
 
-    fun getPagedItems(query: String): Flow<PagingData<T>>
+    fun getPagedItems(
+        query: String,
+        type: String? = null,
+        category: String? = null,
+    ): Flow<PagingData<T>>
 
     fun getItems(): Flow<List<T>>
 

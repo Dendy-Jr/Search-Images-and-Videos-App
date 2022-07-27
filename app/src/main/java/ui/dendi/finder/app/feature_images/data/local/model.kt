@@ -3,15 +3,15 @@ package ui.dendi.finder.app.feature_images.data.local
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
-import ui.dendi.finder.app.feature_images.data.local.ImageCache.Companion.TABLE_IMAGES
+import kotlinx.parcelize.Parcelize
+import ui.dendi.finder.app.feature_images.data.local.ImageEntity.Companion.TABLE_IMAGES
 import ui.dendi.finder.app.feature_images.data.local.ImageRemoteKeys.Companion.IMAGE_REMOTE_KEY_TABLE
 import ui.dendi.finder.app.feature_images.domain.Image
 import java.util.*
 
 @Parcelize
 @Entity(tableName = TABLE_IMAGES)
-data class ImageCache(
+data class ImageEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val collections: Int,

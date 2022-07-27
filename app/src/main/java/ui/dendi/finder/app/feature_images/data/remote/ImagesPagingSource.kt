@@ -13,13 +13,15 @@ class ImagesPagingSource @Inject constructor(
     private val remoteDataSource: ImagesRemoteDataSource,
     private val localDataSource: ImagesLocalDataSource,
     private val query: String,
+    private val type: String,
+    private val category: String,
 ) : PagingSource<Int, Image>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         return try {
             val pageNumber = params.key ?: PAGE_NUMBER
             val pageSize = params.loadSize
-            val items = remoteDataSource.getImages(query, pageNumber, pageSize)
+            val items = remoteDataSource.getImages(query, pageNumber, pageSize, type, category)
 
             localDataSource.insertAllImages(items)
 

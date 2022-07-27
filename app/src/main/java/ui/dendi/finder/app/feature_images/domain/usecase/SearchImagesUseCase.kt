@@ -11,5 +11,5 @@ import javax.inject.Singleton
 class SearchImagesUseCase @Inject constructor(
     private val repository: ImagesRepository,
 ) {
-    operator fun invoke(query: String): Flow<PagingData<Image>> = repository.getPagedItems(query)
+    operator fun invoke(query: String, type: String, category: String): Flow<PagingData<Image>> = repository.getPagedItems(query, type, category)
 }

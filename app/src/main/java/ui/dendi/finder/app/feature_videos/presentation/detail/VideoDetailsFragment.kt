@@ -16,7 +16,7 @@ import kohii.v1.core.Playback
 import timber.log.Timber
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.core.base.BaseFragment
-import ui.dendi.finder.app.core.extension.loadImageOriginal
+import ui.dendi.finder.app.core.extension.customSnackbar
 import ui.dendi.finder.app.core.managers.DownloadFileWorkManager
 import ui.dendi.finder.app.core.util.Constants.KEY_FILE_NAME
 import ui.dendi.finder.app.core.util.Constants.KEY_FILE_TYPE
@@ -55,12 +55,12 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
             preload = true
         }.bind(playerView)
 
-        userImage.loadImageOriginal(video.userImageURL)
-        userName.text = video.user
         tvLikes.text = video.likes.toString()
         tvViews.text = video.views.toString()
         tvType.text = video.type
         tvTags.text = video.tags
+        toolbar.setTitle(video.user)
+        toolbar.setUserImage(video.userImageURL)
 
         btnDownload.setOnClickListener {
             startDownloadingFile()
@@ -106,22 +106,24 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
             .build()
 
         workManager.enqueue(oneTimeWorkRequest)
-
         workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
             .observe(viewLifecycleOwner) { info ->
                 info?.let {
                     when (it.state) {
                         WorkInfo.State.SUCCEEDED -> {
+                            binding.root.customSnackbar(R.string.video_uploaded_successfully)
                             Timber.d("${it.outputData.getString(KEY_FILE_URI)}")
                         }
                         WorkInfo.State.FAILED -> {
-                            Timber.d("Downloading failed!")
+                            binding.root.customSnackbar(R.string.downloading_failed)
+                            Timber.d(getString(R.string.downloading_failed))
                         }
                         WorkInfo.State.RUNNING -> {
-                            Timber.d("RUNNING")
+                            binding.root.customSnackbar(R.string.download_started)
+                            Timber.d(getString(R.string.download_started))
                         }
                         else -> {
-                            Timber.d("Something went wrong")
+                            Timber.d(getString(R.string.something_went_wrong))
                         }
                     }
                 }

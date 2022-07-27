@@ -28,7 +28,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?selectableItemBackground">
+        android:background="?selectableItemBackground"
+        android:paddingHorizontal="10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/image_card_view"

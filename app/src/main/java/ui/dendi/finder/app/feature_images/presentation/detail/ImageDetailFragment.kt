@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.core.base.BaseFragment
+import ui.dendi.finder.app.core.extension.customSnackbar
 import ui.dendi.finder.app.core.extension.loadImageOriginal
 import ui.dendi.finder.app.core.managers.DownloadFileWorkManager
 import ui.dendi.finder.app.core.util.Constants.JPG
@@ -17,7 +18,6 @@ import ui.dendi.finder.app.core.util.Constants.KEY_FILE_TYPE
 import ui.dendi.finder.app.core.util.Constants.KEY_FILE_URI
 import ui.dendi.finder.app.core.util.Constants.KEY_FILE_URL
 import ui.dendi.finder.app.databinding.FragmentImageDetailsBinding
-
 
 @AndroidEntryPoint
 class ImageDetailFragment : BaseFragment<ImageDetailViewModel>(R.layout.fragment_image_details) {
@@ -33,13 +33,13 @@ class ImageDetailFragment : BaseFragment<ImageDetailViewModel>(R.layout.fragment
 
     private fun onBind() = with(binding) {
         args.image.apply {
-            userImage.loadImageOriginal(userImageURL)
             imageView.loadImageOriginal(largeImageURL)
-            userName.text = user
             tvLikes.text = likes.toString()
             tvViews.text = views.toString()
             tvType.text = type
             tvTags.text = tags
+            toolbar.setTitle(user)
+            toolbar.setUserImage(userImageURL)
         }
 
         btnDownload.setOnClickListener {
@@ -71,39 +71,18 @@ class ImageDetailFragment : BaseFragment<ImageDetailViewModel>(R.layout.fragment
                 info?.let {
                     when (it.state) {
                         WorkInfo.State.SUCCEEDED -> {
-                            //TODO
-//                            val file = File(
-//                                it.outputData.getString(KEY_FILE_URI)?.removePrefix("file:///")
-//                                    ?: return@let
-//                            )
-//                            Timber.d(file.path.replaceBeforeLast("/", "").removePrefix("/"))
-//                            val newFile = File(
-//                                "storage/emulated/0/Download/" + file.path.replaceBeforeLast(
-//                                    "/",
-//                                    ""
-//                                ).removePrefix("/")
-//                            )
-//                            file.copyTo(newFile)
-//                            lifecycleScope.launch {
-//                                delay(500)
-//                                val intent = Intent(Intent.ACTION_VIEW)
-//                                val dir = Uri.parse(file.path)
-//                                Timber.d(file.path)
-//                                Timber.d(newFile.path)
-//                                intent.setDataAndType(dir, "application/*")
-//                                startActivity(intent)
-//                            }
-
+                            binding.root.customSnackbar(R.string.image_uploaded_successfully)
                             Timber.d("${it.outputData.getString(KEY_FILE_URI)}")
                         }
                         WorkInfo.State.FAILED -> {
-                            Timber.d("Downloading failed!")
+                            binding.root.customSnackbar(R.string.downloading_failed)
+                            Timber.d(getString(R.string.downloading_failed))
                         }
                         WorkInfo.State.RUNNING -> {
-                            Timber.d("RUNNING")
+                            Timber.d(getString(R.string.download_started))
                         }
                         else -> {
-                            Timber.d("Something went wrong")
+                            Timber.d(getString(R.string.something_went_wrong))
                         }
                     }
                 }

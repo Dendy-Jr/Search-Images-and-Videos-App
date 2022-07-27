@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kohii.v1.core.MemoryMode
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.core.base.BaseFragment
+import ui.dendi.finder.app.core.extension.hideKeyboard
 import ui.dendi.finder.app.core.extension.showSnackbar
 import ui.dendi.finder.app.core.util.KohiiProvider
 import ui.dendi.finder.app.databinding.FragmentVideosBinding
@@ -64,6 +66,12 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         }
 
         recyclerViewVideo.adapter = videoAdapter
+
+        recyclerViewVideo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) recyclerView.hideKeyboard()
+            }
+        })
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.videosFlow.collectLatest {

@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="screenBackground">@color/white</item>
         <item name="imageViewBackgroundColor">#DCDCDC</item>
@@ -22,11 +22,12 @@
         <item name="iconsColorReversed">@color/black</item>
         <item name="glideLoadErrorIconColor">@color/black</item>
         <item name="icSearchColor">@color/black</item>
+        <item name="fontFamily">@font/autour_one</item>
         <item name="strokeColorForColorFilter">@color/black</item>
     </style>
 
-    <style name="SplashActivity" parent="Theme.MaterialComponents.Light.NoActionBar">
-<!--        <item name="android:windowBackground">@drawable/bg_splash</item>-->
+    <style name="EntryPointActivity" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
@@ -42,15 +43,4 @@
     <attr name="icSearchColor" format="color|reference" />
     <attr name="strokeColorForColorFilter" format="color|reference" />
     <attr name="iconsColorReversed" format="color|reference" />
-
-<!--    <style name="SearchStyle">-->
-<!--        <item name="android:background">@drawable/bg_search</item>-->
-<!--        <item name="android:maxLines">1</item>-->
-<!--        <item name="android:paddingStart">32dp</item>-->
-<!--        <item name="android:paddingEnd">48sp</item>-->
-<!--        <item name="android:textColorHint">#94000000</item>-->
-<!--        <item name="android:hint">@string/hint_search_query</item>-->
-<!--        <item name="android:textSize">14sp</item>-->
-<!--        <item name="android:textColor">@android:color/black</item>-->
-<!--    </style>-->
 </resources>

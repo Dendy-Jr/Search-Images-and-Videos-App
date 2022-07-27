@@ -7,51 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".feature_videos.presentation.detail.VideoDetailsFragment">
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/btn_download"
-        android:layout_width="wrap_content"
+    <ui.dendi.finder.app.core.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?selectableItemBackground"
-        android:src="@drawable/ic_download"
-        android:tint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/user_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            tools:background="@color/yellow_300" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/card_view"
-        app:layout_constraintStart_toEndOf="@id/card_view"
-        app:layout_constraintTop_toTopOf="@id/card_view"
-        tools:text="Adege" />
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/playerView"
@@ -60,7 +20,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_view" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.google.android.exoplayer2.ui.PlayerControlView
         android:id="@+id/controlView"
@@ -92,16 +52,16 @@
         android:id="@+id/tv_views"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:drawablePadding="4dp"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@color/deep_orange_900"
         android:textSize="16sp"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_views"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/controlView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_likes"
         tools:text="126422" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -114,7 +74,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_likes" />
+        app:layout_constraintTop_toBottomOf="@id/tv_views" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_type"
@@ -152,5 +112,16 @@
         app:layout_constraintTop_toTopOf="@id/tv_tags_tools"
         tools:text="flowers, yellow, blossom" />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?selectableItemBackground"
+        android:src="@drawable/ic_download_file"
+        android:tint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/controlView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

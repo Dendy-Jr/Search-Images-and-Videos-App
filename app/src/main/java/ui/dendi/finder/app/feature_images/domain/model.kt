@@ -1,9 +1,9 @@
 package ui.dendi.finder.app.feature_images.domain
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import ui.dendi.finder.app.feature_favorites.data.FavoriteImage
-import ui.dendi.finder.app.feature_images.data.local.ImageCache
+import ui.dendi.finder.app.feature_images.data.local.ImageEntity
 import java.time.OffsetDateTime
 import java.util.*
 
@@ -35,7 +35,7 @@ data class Image(
     val off: OffsetDateTime? = OffsetDateTime.now(),
 ) : Parcelable {
 
-    fun toCache() = ImageCache(
+    fun toCache() = ImageEntity(
         collections = collections,
         comments = comments,
         downloads = downloads,
@@ -63,7 +63,7 @@ data class Image(
 
     fun toFavorite() = FavoriteImage(
         id = id,
-        image = ImageCache(
+        image = ImageEntity(
             collections = collections,
             comments = comments,
             downloads = downloads,

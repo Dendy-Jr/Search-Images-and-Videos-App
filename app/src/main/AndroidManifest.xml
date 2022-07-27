@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ui.dendi.finder.app" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ui.dendi.finder.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,18 +19,28 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SearchImagesandVideosApp" >
+        android:theme="@style/Theme.SearchImagesandVideosApp">
         <activity
-            android:name="ui.dendi.finder.app.activity.SplashActivity"
+            android:name="ui.dendi.finder.app.activity.EntryPointActivity"
             android:exported="true"
-            android:theme="@style/SplashActivity" >
+            android:screenOrientation="portrait"
+            android:theme="@style/EntryPointActivity"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ui.dendi.finder.app.activity.MainActivity" />
+        <activity
+            android:name="ui.dendi.finder.app.activity.MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 </manifest>

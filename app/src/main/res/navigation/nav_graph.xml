@@ -8,6 +8,7 @@
     <include app:graph="@navigation/main_graph" />
     <include app:graph="@navigation/image_details_graph" />
     <include app:graph="@navigation/video_details_graph" />
+    <include app:graph="@navigation/images_graph" />
 
     <action
         android:id="@+id/navigateToMainScreen"
@@ -20,6 +21,10 @@
     <action
         android:id="@+id/navigateToVideoDetailsScreen"
         app:destination="@+id/video_details_graph" />
+
+    <action
+        android:id="@+id/navigateToImageScreen"
+        app:destination="@+id/images_graph" />
 
     <fragment
         android:id="@+id/mainFragment"

@@ -1,6 +1,5 @@
 package ui.dendi.finder.app.fragment
 
-import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -29,7 +28,6 @@ class SplashFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_splash) {
     }
 
     private fun onBind() {
-        playAnimation()
         lifecycleScope.launch(Dispatchers.Main) {
             delay(2000)
             launchMainScreen()
@@ -40,10 +38,5 @@ class SplashFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_splash) {
         val intent = Intent(requireContext(), MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
-    }
-
-    private fun playAnimation() = with(binding) {
-        lottie.repeatMode = ValueAnimator.INFINITE
-        lottie.playAnimation()
     }
 }

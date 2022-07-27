@@ -7,27 +7,27 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ImageDao {
 
-    @Query("SELECT * FROM ${ImageCache.TABLE_IMAGES} ORDER BY date")
-    fun getImages(): Flow<List<ImageCache>>
+    @Query("SELECT * FROM ${ImageEntity.TABLE_IMAGES} ORDER BY date")
+    fun getImages(): Flow<List<ImageEntity>>
 
-    @Query("SELECT * FROM ${ImageCache.TABLE_IMAGES} ORDER BY date")
-    fun getImagesPagingSource(): PagingSource<Int,ImageCache>
+    @Query("SELECT * FROM ${ImageEntity.TABLE_IMAGES} ORDER BY date")
+    fun getImagesPagingSource(): PagingSource<Int,ImageEntity>
 
     @Transaction
-    suspend fun refresh(images: List<ImageCache>) {
+    suspend fun refresh(images: List<ImageEntity>) {
         clearAll()
         insertAll(images)
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(images: List<ImageCache>)
+    suspend fun insertAll(images: List<ImageEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertImage(image: ImageCache)
+    suspend fun insertImage(image: ImageEntity)
 
     @Delete
-    suspend fun deleteImage(image: ImageCache)
+    suspend fun deleteImage(image: ImageEntity)
 
-    @Query("DELETE FROM ${ImageCache.TABLE_IMAGES}")
+    @Query("DELETE FROM ${ImageEntity.TABLE_IMAGES}")
     suspend fun clearAll()
 }

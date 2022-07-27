@@ -7,8 +7,10 @@ interface ImagesApi {
 
     @GET("?safesearch=true")
     suspend fun searchImages(
-        @Query("q") query: String = "cat",
-        @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 500,
+        @Query("q") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+        @Query("image_type") type: String,
+        @Query("category") category: String,
     ): ImagesResponse
 }

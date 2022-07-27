@@ -6,11 +6,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import ui.dendi.finder.app.core.db.PixabayDb
 import ui.dendi.finder.app.feature_images.data.local.ImageDao
 import ui.dendi.finder.app.feature_images.data.local.ImagesLocalDataSource
-import ui.dendi.finder.app.feature_images.data.local.ImagesRemoteMediator
+import ui.dendi.finder.app.feature_images.data.remote.ImagesPagingSource
 import ui.dendi.finder.app.feature_images.data.remote.ImagesRemoteDataSource
 import ui.dendi.finder.app.feature_images.domain.Image
 import ui.dendi.finder.app.feature_images.domain.repository.ImagesRepository
@@ -22,24 +21,35 @@ class ImagesRepositoryImpl @Inject constructor(
     private val localDataSource: ImagesLocalDataSource,
     private val remoteDataSource: ImagesRemoteDataSource,
     private val imageDao: ImageDao,
-    private val database: PixabayDb
+    private val database: PixabayDb,
 ) : ImagesRepository {
 
-    override fun getPagedItems(query: String): Flow<PagingData<Image>> {
+    override fun getPagedItems(
+        query: String,
+        type: String?,
+        category: String?
+    ): Flow<PagingData<Image>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
             ),
-            remoteMediator = ImagesRemoteMediator(remoteDataSource, query, database),
+//            remoteMediator = ImagesRemoteMediator(remoteDataSource, query, imageDao),
             pagingSourceFactory = {
-                imageDao.getImagesPagingSource()
+//                imageDao.getImagesPagingSource()
+                ImagesPagingSource(
+                    remoteDataSource,
+                    localDataSource,
+                    query,
+                    type ?: "",
+                    category ?: ""
+                )
             },
         ).flow
-            .map { pagingData ->
-                pagingData.map {
-                    it.toDomain()
-                }
-            }
+//            .map { pagingData ->
+//                pagingData.map {
+//                    it.toDomain()
+//                }
+//            }
     }
 
 

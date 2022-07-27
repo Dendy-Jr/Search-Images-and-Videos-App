@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!--    android:background="@drawable/bg_bottom_sheet"-->
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Type:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvType">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="all" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="photo" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbVector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vector" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbIllustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="illustration" />
+
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Category:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
+    <RadioGroup
+        android:id="@+id/rgCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCategory">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_backgrounds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="backgrounds" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_fashion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fashion" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_nature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="nature" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_science"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="science" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_education"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="education" />
+
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +20,9 @@ import kotlinx.coroutines.launch
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.core.base.BaseFragment
 import ui.dendi.finder.app.core.base.DefaultLoadStateAdapter
-import ui.dendi.finder.app.core.extension.showToast
+import ui.dendi.finder.app.core.extension.collectWithLifecycle
+import ui.dendi.finder.app.core.extension.customSnackbar
+import ui.dendi.finder.app.core.extension.hideKeyboard
 import ui.dendi.finder.app.core.extension.simpleScan
 import ui.dendi.finder.app.databinding.FragmentImagesBinding
 
@@ -37,7 +40,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         },
         addToFavorite = {
             viewModel.addToFavorite(it)
-            requireContext().showToast(getString(R.string.added_to_favorites))
+            binding.root.customSnackbar(R.string.added_to_favorites)
         },
         shareImage = {
             shareItem(it.user, it.pageURL)
@@ -53,16 +56,16 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
         }
-//        imagesStorage.query?.let { searchEditText.setLastQuery(it) }
-
-//        collectWithLifecycle(viewModel.searchBy) {
-//            it?.let { searchEditText.setLastQuery(it) }
-//        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.searchBy.collectLatest {
                 it?.let { searchEditText.setQuery(it) }
             }
+        }
+
+        ivFilter.setOnClickListener {
+            val imageFilterBottomDialog = ImageFilterBottomDialog()
+            imageFilterBottomDialog.show(parentFragmentManager, imageFilterBottomDialog.tag)
         }
 
         setupList()
@@ -71,7 +74,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         collectImages()
         observeState()
 
-        handleListVisibility()
+//        handleListVisibility()
         handleScrollingToTop()
     }
 
@@ -81,18 +84,17 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             ?.supportsChangeAnimations = false
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
 
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) recyclerView.hideKeyboard()
+            }
+        })
+
         lifecycleScope.launch {
-            waiteForLoad()
             val footerAdapter = DefaultLoadStateAdapter { adapter.retry() }
             val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
             recyclerView.adapter = adapterWithLoadState
         }
-    }
-
-    private suspend fun waiteForLoad() {
-        adapter.onPagesUpdatedFlow
-            .map { adapter.itemCount }
-            .first { it > 0 }
     }
 
     private fun setupRefreshLayout() {
@@ -102,13 +104,18 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun collectImages() {
-//        collectWithLifecycle(viewModel.imagesFlow) {
-//            adapter.submitData(it)
-//        }
-
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.imagesFlow.collectLatest {
-                adapter.submitData(it)
+//            viewModel.imageType.collectLatest { type ->
+//                viewModel.imageCategory.collectLatest { category ->
+//                    viewModel.imagesFlow(type, category).collectLatest {
+//                        adapter.submitData(it)
+//                    }
+//                }
+//            }
+            viewModel.imageResult.collectLatest {
+                it.collectLatest {
+                    adapter.submitData(it)
+                }
             }
         }
     }
