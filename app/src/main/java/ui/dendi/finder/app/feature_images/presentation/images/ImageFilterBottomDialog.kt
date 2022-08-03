@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.databinding.BottomDialogImageFilterBinding
 
@@ -31,16 +29,14 @@ class ImageFilterBottomDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        binding.rgType.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
             viewModel.setType(radioButton.text.toString())
-            Timber.d("radioButton -> ${radioButton.text}")
         }
 
         binding.rgCategory.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
             viewModel.setCategory(radioButton.text.toString())
-            Timber.d("radioButton -> ${radioButton.text}")
         }
     }
 }

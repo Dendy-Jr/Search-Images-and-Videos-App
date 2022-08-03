@@ -1,107 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <!--    android:background="@drawable/bg_bottom_sheet"-->
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Type:"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvType">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbAll"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="all" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Type:"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbPhoto"
+        <RadioGroup
+            android:id="@+id/rgType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvType">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="all" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="photo" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="vector" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="illustration" />
+
+        </RadioGroup>
+
+        <!--        <View-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="2dp"-->
+        <!--            android:background="@color/black"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/rgType" />-->
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="photo" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbVector"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="vector" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Category:"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbIllustration"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/rgCategory"
+            android:layout_width="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
-            android:text="illustration" />
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/tvCategory">
 
-    </RadioGroup>
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="backgrounds" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Category:"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fashion" />
 
-    <RadioGroup
-        android:id="@+id/rgCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCategory">
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="nature" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rb_backgrounds"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="backgrounds" />
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="science" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rb_fashion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="fashion" />
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="education" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rb_nature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="nature" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rb_science"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="science" />
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="feelings" />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rb_education"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="education" />
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="health" />
 
-    </RadioGroup>
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="people" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="religion" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="places" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="animals" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="industry" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="computer" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="food" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sports" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="transportation" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="travel" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="buildings" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="business" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="music" />
+
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

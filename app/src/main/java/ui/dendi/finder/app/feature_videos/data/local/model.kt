@@ -4,8 +4,8 @@ import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import ui.dendi.finder.app.feature_videos.data.local.VideoCache.Companion.TABLE_VIDEOS
 import ui.dendi.finder.app.feature_videos.domain.*
 
