@@ -23,7 +23,13 @@ class VideosRepositoryImpl @Inject constructor(
     private val localDataSource: VideosLocalDataSource,
 ) : VideosRepository {
 
-    override fun getPagedItems(query: String, type: String?, category: String?): Flow<PagingData<Video>> =
+    override fun getPagedItems(
+        query: String,
+        type: String?,
+        category: String?,
+        orientation: String?,
+        colors: String?
+    ): Flow<PagingData<Video>> =
         Pager(config = PagingConfig(
             pageSize = 20,
             enablePlaceholders = false

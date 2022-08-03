@@ -12,5 +12,7 @@ interface ImagesApi {
         @Query("per_page") perPage: Int,
         @Query("image_type") type: String,
         @Query("category") category: String,
+        @Query("orientation") orientation: String,
+        @Query("colors") colors: String,
     ): ImagesResponse
 }

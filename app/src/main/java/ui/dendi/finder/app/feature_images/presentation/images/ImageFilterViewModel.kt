@@ -26,4 +26,18 @@ class ImageFilterViewModel @Inject constructor(
             storage.setCategory(type)
         }
     }
+
+    fun setOrientation(orientation: String) {
+        viewModelScope.launch {
+            Timber.d(orientation)
+            storage.setOrientation(orientation)
+        }
+    }
+
+    fun setColors(colors: String) {
+        viewModelScope.launch {
+            Timber.d(colors)
+            storage.setColors(colors)
+        }
+    }
 }

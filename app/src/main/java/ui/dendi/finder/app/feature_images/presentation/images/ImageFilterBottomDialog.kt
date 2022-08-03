@@ -38,5 +38,19 @@ class ImageFilterBottomDialog : BottomSheetDialogFragment() {
             val radioButton = group.findViewById<RadioButton>(checkedId)
             viewModel.setCategory(radioButton.text.toString())
         }
+
+        binding.rgOrientation.setOnCheckedChangeListener { group, checkedId ->
+            val radioButton = group.findViewById<RadioButton>(checkedId)
+            viewModel.setOrientation(radioButton.text.toString())
+        }
+
+        binding.rgColor.setOnCheckedChangeListener { group, checkedId ->
+            val radioButton = group.findViewById<RadioButton>(checkedId)
+            viewModel.setColors(radioButton.text.toString())
+        }
+
+        binding.btnClose.setOnClickListener {
+            this.dismiss()
+        }
     }
 }

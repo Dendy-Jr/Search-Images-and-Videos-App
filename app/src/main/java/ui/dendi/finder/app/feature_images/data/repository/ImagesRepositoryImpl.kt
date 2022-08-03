@@ -27,7 +27,9 @@ class ImagesRepositoryImpl @Inject constructor(
     override fun getPagedItems(
         query: String,
         type: String?,
-        category: String?
+        category: String?,
+        orientation: String?,
+        colors: String?,
     ): Flow<PagingData<Image>> {
         return Pager(
             config = PagingConfig(
@@ -41,7 +43,9 @@ class ImagesRepositoryImpl @Inject constructor(
                     localDataSource,
                     query,
                     type ?: "",
-                    category ?: ""
+                    category ?: "",
+                    orientation ?: "",
+                    colors ?: ""
                 )
             },
         ).flow

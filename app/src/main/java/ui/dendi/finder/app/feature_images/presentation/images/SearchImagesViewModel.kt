@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.app.navigation.AppNavDirections
 import ui.dendi.finder.app.core.base.BaseViewModel
+import ui.dendi.finder.app.core.extension.simpleScan
 import ui.dendi.finder.app.feature_images.data.local.ImagesFilterStorage
 import ui.dendi.finder.app.feature_images.data.local.ImagesStorage
 import ui.dendi.finder.app.feature_images.domain.Image
@@ -28,11 +29,18 @@ class SearchImagesViewModel @Inject constructor(
     private val _searchBy = MutableStateFlow(storage.query)
     val searchBy = _searchBy.asStateFlow()
 
-    val imageType = imagesFilterStorage.getType
-    val imageCategory = imagesFilterStorage.getCategory
+    private val imageType = imagesFilterStorage.getType
+    private val imageCategory = imagesFilterStorage.getCategory
+    private val imageOrientation = imagesFilterStorage.getOrientation
+    private val imageColors = imagesFilterStorage.getColors
 
-    val imageResult = imageType.zip(imageCategory) { a, b ->
-        imagesFlow(a, b)
+    val imageResult = combine(
+        imageType,
+        imageCategory,
+        imageOrientation,
+        imageColors,
+    ) { type, category, orientation, colors ->
+        imagesFlow(type, category, orientation, colors)
     }
 
 //    val imagesFlow = _searchBy
@@ -40,9 +48,20 @@ class SearchImagesViewModel @Inject constructor(
 //            searchImageUseCase(query ?: "", imageType.value)
 //        }.cachedIn(viewModelScope)
 
-    fun imagesFlow(type: String, category: String) = _searchBy
+    private fun imagesFlow(
+        type: String,
+        category: String,
+        orientation: String,
+        colors: String,
+    ) = _searchBy
         .flatMapLatest { query ->
-            searchImageUseCase(query ?: "", type, category)
+            searchImageUseCase(
+                query = query ?: "",
+                type = type,
+                category = category,
+                orientation = orientation,
+                colors = colors,
+            )
         }.cachedIn(viewModelScope)
 
     fun setSearchBy(query: String) {

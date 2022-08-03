@@ -8,8 +8,24 @@ import javax.inject.Singleton
 class ImagesRemoteDataSource @Inject constructor(
     private val imagesApi: ImagesApi,
 ) {
-    suspend fun getImages(query: String, page: Int, perPage: Int, type: String, category: String): List<Image> =
-        imagesApi.searchImages(query, page, perPage, type, category).hits.toDomain()
+    suspend fun getImages(
+        query: String,
+        page: Int,
+        perPage: Int,
+        type: String,
+        category: String,
+        orientation: String,
+        colors: String,
+    ): List<Image> =
+        imagesApi.searchImages(
+            query,
+            page,
+            perPage,
+            type,
+            category,
+            orientation,
+            colors,
+        ).hits.toDomain()
 
     private fun ImageResponseItem.toDomain() = Image(
         collections = collections,

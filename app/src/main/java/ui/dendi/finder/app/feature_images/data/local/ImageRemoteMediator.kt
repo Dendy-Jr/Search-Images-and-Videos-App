@@ -12,6 +12,7 @@ import ui.dendi.finder.app.core.db.PixabayDb
 import ui.dendi.finder.app.feature_images.data.remote.ImagesRemoteDataSource
 
 private const val IMAGE_STARTING_PAGE_INDEX = 1
+
 @ExperimentalPagingApi
 class ImagesRemoteMediator(
     private val remoteDataSource: ImagesRemoteDataSource,
@@ -20,6 +21,8 @@ class ImagesRemoteMediator(
     private val imageDao: ImageDao,
     private val type: String,
     private val category: String,
+    private val orientation: String,
+    private val colors: String,
 ) : RemoteMediator<Int, ImageEntity>() {
 
     private var pageIndex = 1
@@ -51,7 +54,7 @@ class ImagesRemoteMediator(
     }
 
     private suspend fun getImages(query: String, offset: Int, limit: Int): List<ImageEntity> {
-        return remoteDataSource.getImages(query, offset, limit, type,category)
+        return remoteDataSource.getImages(query, offset, limit, type, category, orientation, colors)
             .map { it.toCache() }
     }
 

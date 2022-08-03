@@ -9,6 +9,8 @@ interface BaseRepository<T : Any> {
         query: String,
         type: String? = null,
         category: String? = null,
+        orientation: String? = null,
+        colors: String? = null,
     ): Flow<PagingData<T>>
 
     fun getItems(): Flow<List<T>>
