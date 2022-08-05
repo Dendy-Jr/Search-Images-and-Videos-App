@@ -19,13 +19,15 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_filter.xml" value="0.1565" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_icon_download_file.xml" value="0.2055" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_views.xml" value="0.143" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_wifi_off.xml" value="0.177" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_wifi_on.xml" value="0.177" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/tab_indicator.xml" value="0.143" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/activity_entry_point.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/activity_splash.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/bottom_dialog_image_filter.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/custom_exo_controller_view.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/favorite_image_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/favorite_image_item.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/favorite_video_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_favorites.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_favorites_image.xml" value="0.25416666666666665" />
@@ -36,7 +38,7 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_splash.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_video_details.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_videos.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/image_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/image_item.xml" value="0.1" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/image_search_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/item_edit_text.xml" value="0.4" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/item_main_toolbar.xml" value="0.253125" />

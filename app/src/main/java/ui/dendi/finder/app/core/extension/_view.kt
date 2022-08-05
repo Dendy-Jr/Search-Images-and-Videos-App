@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -29,7 +30,10 @@ fun View.hideKeyboard() {
     imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
-fun View.customSnackbar(@StringRes resId: Int) {
+fun View.customSnackbar(
+    @StringRes resId: Int,
+    @DrawableRes drawableId: Int = R.drawable.bg_image,
+) {
     val snackbar = Snackbar.make(this, resId, Snackbar.LENGTH_SHORT)
     val params = snackbar.view.layoutParams as (FrameLayout.LayoutParams)
     params.setMargins(16, 0, 16, 200)
@@ -46,10 +50,10 @@ fun View.customSnackbar(@StringRes resId: Int) {
     )
     textView.compoundDrawablePadding = 20
     snackbar.apply {
-        setBackgroundTint(ContextCompat.getColor(this.context, R.color.white))
+        setBackgroundTint(ContextCompat.getColor(this.context, R.color.red_700))
         setTextColor(ContextCompat.getColor(this.context, R.color.amber_300))
         view.layoutParams = params
-        view.background = ContextCompat.getDrawable(this.context, R.drawable.bg_image)
+        view.background = ContextCompat.getDrawable(this.context, drawableId)
     }
     snackbar.show()
 }
