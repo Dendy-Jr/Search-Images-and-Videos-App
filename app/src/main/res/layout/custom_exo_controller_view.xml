@@ -64,9 +64,9 @@
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_weight="1"
-            app:scrubber_color="@color/grey_700"
             app:buffered_color="@color/grey_500"
             app:played_color="@color/colorPrimaryDark"
+            app:scrubber_color="@color/grey_700"
             app:unplayed_color="@color/black" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:tag="FavoritesFragment"
     android:orientation="vertical"
+    android:tag="FavoritesFragment"
     tools:context=".feature_favorites.presentation.fragment.FavoritesFragment">
 
     <com.google.android.material.tabs.TabLayout
@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/red_600"
         app:tabIndicator="@drawable/tab_indicator"
         app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorColor="@color/red_600"
         app:tabIndicatorGravity="stretch"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/white" />

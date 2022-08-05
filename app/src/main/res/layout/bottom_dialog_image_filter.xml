@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Type:"
+                android:text="@string/type_"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,22 +40,22 @@
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="all" />
+                    android:text="@string/all" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="photo" />
+                    android:text="@string/photo" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="vector" />
+                    android:text="@string/vector" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="illustration" />
+                    android:text="@string/illustration" />
 
             </RadioGroup>
 
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Category:"
+                android:text="@string/category"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/guideline"
@@ -98,103 +98,103 @@
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="backgrounds" />
+                    android:text="@string/backgrounds" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="fashion" />
+                    android:text="@string/fashion" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="nature" />
+                    android:text="@string/nature" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="science" />
+                    android:text="@string/science" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="education" />
+                    android:text="@string/education" />
 
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="feelings" />
+                    android:text="@string/feelings" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="health" />
+                    android:text="@string/health" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="people" />
+                    android:text="@string/people" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="religion" />
+                    android:text="@string/religion" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="places" />
+                    android:text="@string/places" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="animals" />
+                    android:text="@string/animals" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="industry" />
+                    android:text="@string/industry" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="computer" />
+                    android:text="@string/computer" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="food" />
+                    android:text="@string/food" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sports" />
+                    android:text="@string/sports" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="transportation" />
+                    android:text="@string/transportation" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="travel" />
+                    android:text="@string/travel" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="buildings" />
+                    android:text="@string/buildings" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="business" />
+                    android:text="@string/business" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="music" />
+                    android:text="@string/music" />
 
             </RadioGroup>
 
@@ -213,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Orientation:"
+                android:text="@string/orientation"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -230,17 +230,17 @@
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="all" />
+                    android:text="@string/all" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="horizontal" />
+                    android:text="@string/horizontal" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="vertical" />
+                    android:text="@string/vertical" />
 
             </RadioGroup>
 
@@ -259,7 +259,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Color:"
+                android:text="@string/color"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -276,72 +276,72 @@
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="grayscale" />
+                    android:text="@string/grayscale" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="transparent" />
+                    android:text="@string/transparent" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="red" />
+                    android:text="@string/red" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="orange" />
+                    android:text="@string/orange" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="yellow" />
+                    android:text="@string/yellow" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="green" />
+                    android:text="@string/green" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="turquoise" />
+                    android:text="@string/turquoise" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="blue" />
+                    android:text="@string/blue" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="lilac" />
+                    android:text="@string/lilac" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="pink" />
+                    android:text="@string/pink" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="white" />
+                    android:text="@string/white" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="gray" />
+                    android:text="@string/gray" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="black" />
+                    android:text="@string/black" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="grayscale" />
+                    android:text="@string/grayscale" />
 
             </RadioGroup>
 
