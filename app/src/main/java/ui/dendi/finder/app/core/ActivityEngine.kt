@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import timber.log.Timber
 import ui.dendi.finder.app.activity.MainActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class ActivityEngine @Inject constructor(
     application: Application,
-) {
+) : Logger by LoggerImpl() {
 
     var currentActivity: AppCompatActivity? = null
         private set
@@ -24,32 +23,32 @@ class ActivityEngine @Inject constructor(
                 if (activity is MainActivity) {
                     currentActivity = activity
                 }
-                Timber.d("onActivityCreated")
+                log("onActivityCreated")
             }
 
             override fun onActivityStarted(activity: Activity) {
-                Timber.d("onActivityStarted")
+                log("onActivityStarted")
             }
 
             override fun onActivityResumed(activity: Activity) {
-                Timber.d("onActivityResumed")
+                log("onActivityResumed")
             }
 
             override fun onActivityPaused(activity: Activity) {
-                Timber.d("onActivityPaused")
+                log("onActivityPaused")
             }
 
             override fun onActivityStopped(activity: Activity) {
-                Timber.d("onActivityStopped")
+                log("onActivityStopped")
             }
 
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-                Timber.d("onActivitySaveInstanceState")
+                log("onActivitySaveInstanceState")
             }
 
             override fun onActivityDestroyed(activity: Activity) {
                 if (activity === currentActivity) currentActivity = null
-                Timber.d("onActivityDestroyed")
+                log("onActivityDestroyed")
             }
         })
     }
