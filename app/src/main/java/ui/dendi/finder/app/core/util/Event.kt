@@ -11,5 +11,4 @@ class Event<T> @Inject constructor(
     private var _value: T? = value
 
     fun get(): T? = _value.also { _value = null }
-
 }

@@ -39,7 +39,7 @@ class FavoritesImageFragment :
 
         favoritesRecyclerView.adapter = imageAdapter
         btnDeleteAll.setOnClickListener {
-            viewModel.deleteAllImages()
+            viewModel.clearAllImages()
         }
     }
 }

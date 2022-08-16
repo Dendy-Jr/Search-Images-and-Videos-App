@@ -4,12 +4,10 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
-import okio.IOException
-import retrofit2.HttpException
 import timber.log.Timber
-import ui.dendi.finder.app.core.db.PixabayDb
 import ui.dendi.finder.app.feature_images.data.remote.ImagesRemoteDataSource
+
+//TODO Maybe use in future
 
 private const val IMAGE_STARTING_PAGE_INDEX = 1
 
@@ -17,7 +15,6 @@ private const val IMAGE_STARTING_PAGE_INDEX = 1
 class ImagesRemoteMediator(
     private val remoteDataSource: ImagesRemoteDataSource,
     private val query: String,
-//    private val database: PixabayDb,
     private val imageDao: ImageDao,
     private val type: String,
     private val category: String,

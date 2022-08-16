@@ -14,6 +14,7 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/bg_bottom_sheet.xml" value="0.1565" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/bg_edittext.xml" value="0.143" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/bg_tab_item.xml" value="0.143" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/bg_video.xml" value="0.1585" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_cancel.xml" value="0.2475" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_download.xml" value="0.2055" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/drawable/ic_filter.xml" value="0.1565" />
@@ -38,7 +39,7 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_splash.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_video_details.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/fragment_videos.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/image_item.xml" value="0.1" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/image_item.xml" value="0.16" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/image_search_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/item_edit_text.xml" value="0.4" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/app/src/main/res/layout/item_main_toolbar.xml" value="0.253125" />

@@ -41,7 +41,7 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true"
-        android:paddingHorizontal="10dp">
+        android:paddingHorizontal="8dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/image_card_view"

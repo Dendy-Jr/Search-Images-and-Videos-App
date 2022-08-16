@@ -5,7 +5,7 @@
     android:id="@+id/swipeRevealLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="5dp"
     app:dragEdge="right"
     app:mode="same_level">
 
@@ -38,7 +38,8 @@
         android:id="@+id/playerContainer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/bg_video"
+        android:background="@color/white"
+        android:paddingHorizontal="4dp"
         tools:background="@tools:sample/avatars" />
 
 </com.chauthai.swipereveallayout.SwipeRevealLayout>

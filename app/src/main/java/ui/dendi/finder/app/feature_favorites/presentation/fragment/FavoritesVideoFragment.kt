@@ -2,6 +2,7 @@ package ui.dendi.finder.app.feature_favorites.presentation.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,12 +47,17 @@ class FavoritesVideoFragment :
             showSnackbar("Video is deleted from your favorites")
         }
 
-        collectWithLifecycle(viewModel.favoritesVideo) {
-            videoAdapter.submitList(listOf())
+        collectWithLifecycle(viewModel.favoriteVideos) {
+            videoAdapter.submitList(it)
         }
+
+        collectWithLifecycle(viewModel.needShowDeleteButton) { needShowButton ->
+            btnDeleteAll.isVisible = needShowButton
+        }
+
         rvVideosFavorite.adapter = videoAdapter
         btnDeleteAll.setOnClickListener {
-            //TODO
+            viewModel.clearAllVideos()
         }
     }
 }

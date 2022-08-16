@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.app.navigation.AppNavDirections
 import ui.dendi.finder.app.core.base.BaseViewModel
-import ui.dendi.finder.app.core.extension.simpleScan
 import ui.dendi.finder.app.feature_images.data.local.ImagesFilterStorage
 import ui.dendi.finder.app.feature_images.data.local.ImagesStorage
 import ui.dendi.finder.app.feature_images.domain.Image
@@ -42,11 +41,6 @@ class SearchImagesViewModel @Inject constructor(
     ) { type, category, orientation, colors ->
         imagesFlow(type, category, orientation, colors)
     }
-
-//    val imagesFlow = _searchBy
-//        .flatMapLatest { query ->
-//            searchImageUseCase(query ?: "", imageType.value)
-//        }.cachedIn(viewModelScope)
 
     private fun imagesFlow(
         type: String,

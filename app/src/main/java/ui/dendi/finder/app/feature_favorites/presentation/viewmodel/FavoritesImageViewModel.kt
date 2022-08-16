@@ -19,7 +19,7 @@ class FavoritesImageViewModel @Inject constructor(
     private val dialogManager: DialogManager,
     private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
     private val deleteFavoriteImageUseCase: DeleteFavoriteImageUseCase,
-    private val clearFavoriteImagesUseCase: ClearFavoriteImagesUseCase,
+    private val clearAllFavoriteImagesUseCase: ClearFavoriteImagesUseCase,
 ) : BaseViewModel() {
 
     private val _favoriteImages = MutableStateFlow<List<Image>>(emptyList())
@@ -37,14 +37,14 @@ class FavoritesImageViewModel @Inject constructor(
             deleteFavoriteImageUseCase(image)
         }
     }
-
-    fun deleteAllImages() {
+    // TODO Don't hard code values
+    fun clearAllImages() {
         dialogManager.show(
             titleResId = "Delete all images",
             messageResId = "Are you sure you want to delete all saved images?",
             positiveAction = {
                 viewModelScope.launch {
-                    clearFavoriteImagesUseCase()
+                    clearAllFavoriteImagesUseCase()
                 }
             },
         )
@@ -55,7 +55,6 @@ class FavoritesImageViewModel @Inject constructor(
             getFavoriteImagesUseCase()
                 .collect { result ->
                     result.onSuccess {
-                        Timber.d(it.toString())
                         _favoriteImages.value = it
                         _needShowDeleteButton.value = it.isNotEmpty()
                     }.onFailure {
