@@ -1,3 +1,5 @@
+@file:OptIn(FlowPreview::class)
+
 package ui.dendi.finder.app.feature_images.presentation.images
 
 import android.os.Bundle
@@ -20,13 +22,11 @@ import kotlinx.coroutines.launch
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.core.base.BaseFragment
 import ui.dendi.finder.app.core.base.DefaultLoadStateAdapter
-import ui.dendi.finder.app.core.extension.collectWithLifecycle
 import ui.dendi.finder.app.core.extension.customSnackbar
 import ui.dendi.finder.app.core.extension.hideKeyboard
 import ui.dendi.finder.app.core.extension.simpleScan
 import ui.dendi.finder.app.databinding.FragmentImagesBinding
 
-@FlowPreview
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragment_images) {
@@ -68,14 +68,10 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             imageFilterBottomDialog.show(parentFragmentManager, imageFilterBottomDialog.tag)
         }
 
-        setupList()
-        setupRefreshLayout()
-
         collectImages()
+        setupList()
         observeState()
-
-//        handleListVisibility()
-        handleScrollingToTop()
+        setupRefreshLayout()
     }
 
     private fun setupList() = with(binding) {
@@ -105,16 +101,9 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
     private fun collectImages() {
         viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.imageType.collectLatest { type ->
-//                viewModel.imageCategory.collectLatest { category ->
-//                    viewModel.imagesFlow(type, category).collectLatest {
-//                        adapter.submitData(it)
-//                    }
-//                }
-//            }
             viewModel.imageResult.collectLatest {
-                it.collectLatest {
-                    adapter.submitData(it)
+                it.collectLatest { data ->
+                    adapter.submitData(data)
                 }
             }
         }

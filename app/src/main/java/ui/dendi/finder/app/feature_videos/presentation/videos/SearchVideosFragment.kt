@@ -1,21 +1,30 @@
+@file:OptIn(FlowPreview::class)
+
 package ui.dendi.finder.app.feature_videos.presentation.videos
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kohii.v1.core.MemoryMode
 import kohii.v1.core.Strategy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.core.base.BaseFragment
+import ui.dendi.finder.app.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.app.core.extension.hideKeyboard
 import ui.dendi.finder.app.core.extension.showSnackbar
+import ui.dendi.finder.app.core.extension.simpleScan
 import ui.dendi.finder.app.core.util.KohiiProvider
 import ui.dendi.finder.app.databinding.FragmentVideosBinding
 
@@ -41,14 +50,14 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
                 }
             )
 
-        val videoAdapter = VideosPagingAdapter(
+        val adapter = VideosPagingAdapter(
             kohii = kohii,
             toVideoDetails = {
                 viewModel.launchDetailsScreen(it)
             },
             addToFavorite = {
                 viewModel.addToFavorite(it)
-                showSnackbar("Video is added to your favorites")
+                showSnackbar(getString(R.string.video_added_to_favorites))
             },
             shareVideo = {
                 shareItem(it.user, it.pageURL)
@@ -65,7 +74,7 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             }
         }
 
-        recyclerViewVideo.adapter = videoAdapter
+        recyclerViewVideo.adapter = adapter
 
         recyclerViewVideo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -75,9 +84,71 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.videosFlow.collectLatest {
-                videoAdapter.submitData(it)
+                adapter.submitData(it)
             }
         }
+        setupList(adapter)
+        observeState(adapter)
+        setupRefreshLayout(adapter)
+        handleScrollingToTop(adapter)
+    }
+
+    private fun setupList(adapter: VideosPagingAdapter) = with(binding) {
+        recyclerViewVideo.adapter = adapter
+        (recyclerViewVideo.itemAnimator as? DefaultItemAnimator)
+            ?.supportsChangeAnimations = false
+        recyclerViewVideo.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+
+        recyclerViewVideo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) recyclerView.hideKeyboard()
+            }
+        })
+
+        lifecycleScope.launch {
+            val footerAdapter = DefaultLoadStateAdapter { adapter.retry() }
+            val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
+            recyclerViewVideo.adapter = adapterWithLoadState
+        }
+    }
+
+    private fun setupRefreshLayout(adapter: VideosPagingAdapter) {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
+    }
+
+    private fun observeState(adapter: VideosPagingAdapter) = with(binding) {
+        val loadStateHolder = DefaultLoadStateAdapter.Holder(
+            loadingState,
+            swipeRefreshLayout
+        ) { adapter.retry() }
+        adapter.loadStateFlow
+            .debounce(300)
+            .onEach {
+                loadStateHolder.bind(it.refresh)
+            }
+            .launchIn(lifecycleScope)
+    }
+
+    private fun handleScrollingToTop(adapter: VideosPagingAdapter) = lifecycleScope.launch {
+        getRefreshLoadState(adapter)
+            .simpleScan(count = 2)
+            .collect { (previousState, currentState) ->
+                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
+                    delay(200)
+                    binding.recyclerViewVideo.scrollToPosition(0)
+                }
+            }
+    }
+
+    private fun getRefreshLoadState(adapter: VideosPagingAdapter): Flow<LoadState> {
+        return adapter.loadStateFlow
+            .map { it.refresh }
     }
 }
-

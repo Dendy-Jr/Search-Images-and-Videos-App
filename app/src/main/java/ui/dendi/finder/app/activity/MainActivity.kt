@@ -7,23 +7,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.navigation.BackNavDirections
 import ui.dendi.finder.app.core.extension.showToast
-import ui.dendi.finder.app.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val viewModel: MainViewModel by viewModels()
-
-//    @Inject
-//    lateinit var connectionLiveDataManager: ConnectionLiveDataManager
-
-    private val binding: ActivityMainBinding by viewBinding()
 
     private val requestPermission = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),
@@ -51,25 +43,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 viewModel.navController?.navigate(navDirections)
             }
         }
-
-        //TODO Chang it in the future
-//        connectionLiveDataManager = ConnectionLiveDataManager(this)
-//        connectionLiveDataManager.observe(this) { isNetworkAvailable ->
-//            if (isNetworkAvailable) {
-//                binding.ivConnection.setImageResource(R.drawable.ic_wifi_on)
-////                binding.root.customSnackbar(
-////                    resId = R.string.internet_connection_established,
-////                    drawableId = R.drawable.ic_wifi_on
-////                )
-//            } else {
-//                binding.ivConnection.setImageResource(R.drawable.ic_wifi_off)
-//
-////                binding.root.customSnackbar(
-////                    resId = R.string.no_internet_connection,
-////                    drawableId = R.drawable.ic_wifi_off,
-////                )
-//            }
-//        }
     }
 
     override fun onStart() {
