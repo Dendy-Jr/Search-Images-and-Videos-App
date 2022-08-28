@@ -10,8 +10,8 @@
     <string name="download_file">Download file…</string>
     <string name="load_error">Oops, can\'t load data</string>
     <string name="error">Error</string>
-    <string name="tags">tags:</string>
-    <string name="type">type:</string>
+    <string name="tags">tags</string>
+    <string name="type">type</string>
     <string name="added_to_favorites">Added to favorites</string>
     <string name="finder">Finder</string>
     <string name="images_amp_videos"><![CDATA[Images & Videos]]></string>

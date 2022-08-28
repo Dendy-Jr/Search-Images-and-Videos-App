@@ -41,7 +41,7 @@
         android:drawablePadding="4dp"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@color/deep_orange_900"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_like"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
         android:drawablePadding="4dp"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@color/deep_orange_900"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_views"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +72,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/type"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_views" />
 
@@ -81,11 +81,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/deep_orange_900"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_type_tools"
-        app:layout_constraintStart_toEndOf="@id/tv_type_tools"
-        app:layout_constraintTop_toTopOf="@id/tv_type_tools"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_type_tools"
         tools:text="film" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -96,20 +96,20 @@
         android:layout_marginTop="8dp"
         android:text="@string/tags"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_type_tools" />
+        app:layout_constraintTop_toBottomOf="@id/tv_type" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/deep_orange_900"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_tags_tools"
-        app:layout_constraintStart_toEndOf="@id/tv_tags_tools"
-        app:layout_constraintTop_toTopOf="@id/tv_tags_tools"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tags_tools"
         tools:text="flowers, yellow, blossom" />
 
     <androidx.appcompat.widget.AppCompatImageButton
