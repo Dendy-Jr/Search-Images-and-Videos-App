@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_details_graph"
+    app:startDestination="@id/videoDetailsFragment">
+
+    <fragment
+        android:id="@+id/videoDetailsFragment"
+        android:name="ui.dendi.finder.videos_presentation.detail.VideoDetailsFragment"
+        android:label="fragment_video_details"
+        tools:layout="@layout/fragment_video_details">
+
+        <argument
+            android:name="video"
+            app:argType="ui.dendi.finder.core.core.models.Video" />
+
+    </fragment>
+
+</navigation>

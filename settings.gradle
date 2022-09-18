@@ -8,3 +8,13 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Finder"
 include ':app'
+include ':core'
+include ':images_data'
+include ':images_domain'
+include ':images_presentation'
+include ':videos_data'
+include ':videos_domain'
+include ':videos_presentation'
+include ':favorites_data'
+include ':favorites_domain'
+include ':favorites_presentation'

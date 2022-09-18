@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ui.dendi.finder.app.R
-import ui.dendi.finder.app.core.base.BaseViewModel
+import ui.dendi.finder.core.core.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel

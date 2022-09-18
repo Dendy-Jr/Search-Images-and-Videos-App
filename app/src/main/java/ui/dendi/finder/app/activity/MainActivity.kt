@@ -4,16 +4,16 @@ import android.Manifest
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ui.dendi.finder.app.R
-import ui.dendi.finder.app.navigation.BackNavDirections
-import ui.dendi.finder.app.core.extension.showToast
+import ui.dendi.finder.core.core.base.BaseActivity
+import ui.dendi.finder.core.core.navigation.BackNavDirections
+import ui.dendi.finder.core.core.extension.showToast
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private val viewModel: MainViewModel by viewModels()
 

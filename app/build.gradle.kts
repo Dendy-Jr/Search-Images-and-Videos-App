@@ -70,6 +70,17 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.core))
+    implementation(project(Modules.favorites_data))
+    implementation(project(Modules.favorites_domain))
+    implementation(project(Modules.favorites_presentation))
+    implementation(project(Modules.images_data))
+    implementation(project(Modules.images_domain))
+    implementation(project(Modules.images_presentation))
+    implementation(project(Modules.videos_data))
+    implementation(project(Modules.videos_domain))
+    implementation(project(Modules.videos_presentation))
+
     implementation(Dependencies.coroutines)
     implementation(Dependencies.serialization)
 

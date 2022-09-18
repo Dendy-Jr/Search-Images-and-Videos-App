@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/image_details_graph"
+    app:startDestination="@id/imageDetailFragment">
+
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="ui.dendi.finder.images_presentation.detail.ImageDetailFragment"
+        android:label="fragment_image_details"
+        tools:layout="@layout/fragment_image_details">
+
+        <argument
+            android:name="image"
+            app:argType="ui.dendi.finder.core.core.models.Image" />
+
+    </fragment>
+
+</navigation>

@@ -12,8 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ui.dendi.finder.app.R
 import ui.dendi.finder.app.activity.MainActivity
-import ui.dendi.finder.app.core.base.BaseFragment
-import ui.dendi.finder.app.core.base.EmptyViewModel
+import ui.dendi.finder.core.core.base.BaseFragment
+import ui.dendi.finder.core.core.base.EmptyViewModel
 import ui.dendi.finder.app.databinding.FragmentSplashBinding
 
 @AndroidEntryPoint
