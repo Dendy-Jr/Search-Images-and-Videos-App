@@ -82,7 +82,10 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) recyclerView.hideKeyboard()
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    recyclerView.hideKeyboard()
+                    searchEditText.clearFocus()
+                }
             }
         })
 
@@ -101,10 +104,13 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
     private fun collectImages() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.imageResult.collectLatest {
-                it.collectLatest { data ->
-                    adapter.submitData(data)
-                }
+//            viewModel.imageResult.collectLatest {
+//                it?.collectLatest { data ->
+//                    adapter.submitData(data)
+//                }
+//            }
+            viewModel.imagesFlow.collectLatest { data ->
+                adapter.submitData(data)
             }
         }
     }

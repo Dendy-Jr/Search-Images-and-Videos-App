@@ -1,6 +1,7 @@
 package ui.dendi.finder.images_presentation.images
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,16 +34,28 @@ class SearchImagesViewModel @Inject constructor(
     private val imageOrientation = imagesFilterStorage.getOrientation
     private val imageColors = imagesFilterStorage.getColors
 
-    val imageResult = combine(
+    var imagesFlow = MutableStateFlow<PagingData<Image>>(PagingData.empty())
+        private set
+
+    init {
+        viewModelScope.launch {
+            imagesResult()
+        }
+    }
+
+    private suspend fun imagesResult() = combine(
         imageType,
         imageCategory,
         imageOrientation,
         imageColors,
-    ) { type, category, orientation, colors ->
-        imagesFlow(type, category, orientation, colors)
+        ::imagesMerge
+    ).collectLatest {
+        it.collectLatest { pagingData ->
+            imagesFlow.value = pagingData
+        }
     }
 
-    private fun imagesFlow(
+    private fun imagesMerge(
         type: String,
         category: String,
         orientation: String,

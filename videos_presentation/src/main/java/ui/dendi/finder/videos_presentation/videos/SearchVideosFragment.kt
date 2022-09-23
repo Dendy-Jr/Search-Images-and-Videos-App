@@ -78,7 +78,10 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
 
         recyclerViewVideo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) recyclerView.hideKeyboard()
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    recyclerView.hideKeyboard()
+                    searchEditText.clearFocus()
+                }
             }
         })
 
