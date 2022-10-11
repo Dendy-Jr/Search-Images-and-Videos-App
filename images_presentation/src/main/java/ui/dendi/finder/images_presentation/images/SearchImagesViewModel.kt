@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.images_data.local.ImagesFilterStorage
 import ui.dendi.finder.images_data.local.ImagesStorage
-import ui.dendi.finder.images_domain.usecase.InsertImageUseCase
+import ui.dendi.finder.images_domain.usecase.SaveImageToFavoritesUseCase
 import ui.dendi.finder.images_domain.usecase.SearchImagesUseCase
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.models.Image
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SearchImagesViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
     private val searchImageUseCase: SearchImagesUseCase,
-    private val insertImageUseCase: InsertImageUseCase,
+    private val saveImageToFavoritesUseCase: SaveImageToFavoritesUseCase,
     private val imagesFilterStorage: ImagesFilterStorage,
     private val storage: ImagesStorage,
 ) : BaseViewModel() {
@@ -79,7 +79,7 @@ class SearchImagesViewModel @Inject constructor(
 
     fun addToFavorite(image: Image) {
         viewModelScope.launch {
-            insertImageUseCase(image)
+            saveImageToFavoritesUseCase(image)
         }
     }
 

@@ -48,7 +48,6 @@ class FavoritesVideoAdapter(
 
         fun bind(item: Video) = with(binding) {
             ibDelete.setOnClickListener {
-                item.isFavorite = false
                 deleteFromFavorite.invoke(item)
                 swipe.close(false)
             }

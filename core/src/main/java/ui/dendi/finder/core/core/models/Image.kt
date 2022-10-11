@@ -3,7 +3,6 @@ package ui.dendi.finder.core.core.models
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.time.OffsetDateTime
-import java.util.*
 
 @Parcelize
 data class Image(
@@ -31,60 +30,4 @@ data class Image(
     val webFormatWidth: Int,
     var isFavorite: Boolean = false,
     val off: OffsetDateTime? = OffsetDateTime.now(),
-) : Parcelable {
-
-//    fun toCache() = ImageEntity(
-//        collections = collections,
-//        comments = comments,
-//        downloads = downloads,
-//        id = id,
-//        localId = id,
-//        imageHeight = imageHeight,
-//        imageSize = imageSize,
-//        imageWidth = imageWidth,
-//        largeImageURL = largeImageURL,
-//        likes = likes,
-//        pageURL = pageURL,
-//        previewWidth = previewWidth,
-//        previewHeight = previewHeight,
-//        previewURL = previewURL,
-//        tags = tags,
-//        type = type,
-//        user = user,
-//        userImageURL = userImageURL,
-//        views = views,
-//        webFormatHeight = webFormatHeight,
-//        webFormatURL = webFormatURL,
-//        webFormatWidth = webFormatWidth,
-//        date = Calendar.getInstance().time,
-//    )
-//
-//    fun toFavorite() = FavoriteImage(
-//        id = id,
-//        image = ImageEntity(
-//            collections = collections,
-//            comments = comments,
-//            downloads = downloads,
-//            id = id,
-//            localId = id,
-//            imageHeight = imageHeight,
-//            imageSize = imageSize,
-//            imageWidth = imageWidth,
-//            largeImageURL = largeImageURL,
-//            likes = likes,
-//            pageURL = pageURL,
-//            previewWidth = previewWidth,
-//            previewHeight = previewHeight,
-//            previewURL = previewURL,
-//            tags = tags,
-//            type = type,
-//            user = user,
-//            userImageURL = userImageURL,
-//            views = views,
-//            webFormatHeight = webFormatHeight,
-//            webFormatURL = webFormatURL,
-//            webFormatWidth = webFormatWidth,
-//            date = Calendar.getInstance().time,
-//        )
-//    )
-}
+) : Parcelable

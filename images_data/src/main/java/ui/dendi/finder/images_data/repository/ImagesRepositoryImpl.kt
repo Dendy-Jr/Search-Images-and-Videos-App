@@ -22,7 +22,7 @@ class ImagesRepositoryImpl @Inject constructor(
 //    private val database: PixabayDb,
 ) : ImagesRepository {
 
-    override fun getPagedItems(
+     override fun getPagedItems(
         query: String,
         type: String?,
         category: String?,

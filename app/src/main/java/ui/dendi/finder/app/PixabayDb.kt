@@ -3,8 +3,8 @@ package ui.dendi.finder.app
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import ui.dendi.finder.favorites_data.FavoriteImage
-import ui.dendi.finder.app.feature_favorites.data.FavoriteImageDao
+import ui.dendi.finder.favorites_data.images.FavoriteImage
+import ui.dendi.finder.favorites_data.images.FavoritesImageDao
 import ui.dendi.finder.images_data.local.ImageEntity
 import ui.dendi.finder.images_data.local.ImageRemoteKeys
 import ui.dendi.finder.images_data.local.ImageRemoteKeysDao
@@ -40,5 +40,5 @@ abstract class PixabayDb : RoomDatabase() {
 
     abstract fun imageRemoteKeysDao(): ImageRemoteKeysDao
 
-    abstract fun favoriteImageDao(): FavoriteImageDao
+    abstract fun favoriteImageDao(): FavoritesImageDao
 }

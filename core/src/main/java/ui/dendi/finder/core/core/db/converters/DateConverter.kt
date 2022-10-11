@@ -11,5 +11,4 @@ class DateConverter : BaseConverter<Date, Long> {
 
     @TypeConverter
     override fun fromRaw(raw: Long?): Date? = raw?.let(::Date)
-
 }

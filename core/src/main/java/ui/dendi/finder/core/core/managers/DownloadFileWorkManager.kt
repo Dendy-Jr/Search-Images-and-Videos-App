@@ -30,6 +30,7 @@ import ui.dendi.finder.core.core.util.Constants.NOTIFICATION_ID
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
+import javax.inject.Inject
 
 @HiltWorker
 class DownloadFileWorkManager @AssistedInject constructor(
@@ -37,10 +38,18 @@ class DownloadFileWorkManager @AssistedInject constructor(
     @Assisted private val workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
 
+//    @Inject
+//    lateinit var notificationHelper: NotificationHelper
+
     private val notificationManager =
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     override suspend fun doWork(): Result {
+//        notificationHelper.show(
+//            channelId = CHANNEL_ID,
+//            channelName = CHANNEL_NAME,
+//            notificationManager = notificationManager
+//        )
         displayNotification()
 
         val mimeType = when (workerParameters.inputData.getString(KEY_FILE_TYPE)) {
@@ -80,9 +89,8 @@ class DownloadFileWorkManager @AssistedInject constructor(
 
         notificationBuilder
             .setContentTitle(CHANNEL_DESC)
-            .setSmallIcon(R.drawable.ic_download)
             .setProgress(100, 0, true)
-        //TODO change `small icon`
+            .setSmallIcon(R.drawable.ic_finder)
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 
@@ -109,20 +117,7 @@ class DownloadFileWorkManager @AssistedInject constructor(
             }
 
         } else {
-
-//            val target = filename?.let {
-//                File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), it)
-//            }
-//            URL(url).openStream().use { input ->
-//                FileOutputStream(target).use { output ->
-//                    input.copyTo(output)
-//                }
-//            }
-//
-//            return target?.toUri()
-
             val root = context.getExternalFilesDir(null)?.absolutePath
-
             val target = File(
                 context.getExternalFilesDir("$root/Download"),
                 filename!!

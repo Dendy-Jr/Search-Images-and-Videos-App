@@ -1,5 +1,6 @@
 package ui.dendi.finder.images_presentation.images
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter

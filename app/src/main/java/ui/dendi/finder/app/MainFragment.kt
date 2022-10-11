@@ -9,12 +9,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ui.dendi.finder.app.databinding.FragmentMainBinding
 import ui.dendi.finder.core.core.base.BaseFragment
-import ui.dendi.finder.core.core.base.MainViewModel
+import ui.dendi.finder.core.core.base.EmptyViewModel
 
 @AndroidEntryPoint
-class MainFragment : BaseFragment<MainViewModel>(R.layout.fragment_main) {
+class MainFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_main) {
 
-    override val viewModel: MainViewModel by viewModels()
+    override val viewModel: EmptyViewModel by viewModels()
     private val binding: FragmentMainBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

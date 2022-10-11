@@ -42,7 +42,8 @@ open class BaseViewModel : ViewModel() {
     open suspend fun backDirection(): NavDirections = BackNavDirections
 
     @CallSuper
-    open fun onActive() {}
+    open fun onActive() {
+    }
 }
 
 @HiltViewModel

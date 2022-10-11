@@ -57,7 +57,6 @@ class VideosPagingAdapter(
             }
 
             btnAdd.setOnClickListener {
-                item.isFavorite = true
                 addToFavorite.invoke(item)
                 swipe.close(false)
             }

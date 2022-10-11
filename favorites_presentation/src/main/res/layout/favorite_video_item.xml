@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipeRevealLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="6dp"
     app:dragEdge="right"
     app:mode="same_level">
 
@@ -19,8 +20,9 @@
             android:id="@+id/ibDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_gravity="center_horizontal"
             android:background="?selectableItemBackground"
+            android:paddingHorizontal="10dp"
             android:src="@drawable/ic_remove" />
 
     </LinearLayout>
@@ -29,7 +31,8 @@
         android:id="@+id/playerContainer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@color/white"
-        android:paddingHorizontal="4dp" />
+        tools:background="@color/red_600" />
 
 </com.chauthai.swipereveallayout.SwipeRevealLayout>

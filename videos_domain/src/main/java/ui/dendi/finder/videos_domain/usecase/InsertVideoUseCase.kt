@@ -9,5 +9,5 @@ import javax.inject.Singleton
 class InsertVideoUseCase @Inject constructor(
     private val repository: VideosRepository,
 ) {
-    suspend operator fun invoke(video: Video) = repository.insertItem(video)
+    suspend operator fun invoke(video: Video) = repository.saveVideoToFavorites(video)
 }

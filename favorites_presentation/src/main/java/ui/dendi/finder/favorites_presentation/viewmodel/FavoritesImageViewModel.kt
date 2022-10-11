@@ -8,9 +8,9 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
-import ui.dendi.finder.favorites_domain.usecase.ClearFavoriteImagesUseCase
-import ui.dendi.finder.favorites_domain.usecase.DeleteFavoriteImageUseCase
-import ui.dendi.finder.favorites_domain.usecase.GetFavoriteImagesUseCase
+import ui.dendi.finder.favorites_domain.images.usecase.ClearFavoriteImagesUseCase
+import ui.dendi.finder.favorites_domain.images.usecase.DeleteFavoriteImageUseCase
+import ui.dendi.finder.favorites_domain.images.usecase.GetFavoriteImagesUseCase
 import ui.dendi.finder.core.core.models.Image
 import javax.inject.Inject
 

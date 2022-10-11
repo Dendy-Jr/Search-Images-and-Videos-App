@@ -17,6 +17,7 @@ fun Context.checkNetworkConnection(): Boolean {
     val connectivityManager = getSystemService(
         ConnectivityManager::class.java
     ) as ConnectivityManager
+
     val currentNetwork = connectivityManager.activeNetwork
     return currentNetwork != null
 }

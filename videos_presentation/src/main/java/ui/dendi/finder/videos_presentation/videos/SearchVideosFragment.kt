@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.hideKeyboard
-import ui.dendi.finder.core.core.extension.showSnackbar
+import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.extension.simpleScan
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.videos_presentation.R
@@ -57,7 +57,7 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             },
             addToFavorite = {
                 viewModel.addToFavorite(it)
-                showSnackbar(getString(R.string.video_added_to_favorites))
+                requireContext().showToast(getString(R.string.video_added_to_favorites))
             },
             shareVideo = {
                 shareItem(it.user, it.pageURL)

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.BottomDialogImageFilterBinding
 
@@ -29,28 +30,37 @@ class ImageFilterBottomDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rgType.setOnCheckedChangeListener { group, checkedId ->
+        onBind()
+    }
+
+    private fun onBind() = with(binding) {
+        rgType.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
             viewModel.setType(radioButton.text.toString())
         }
 
-        binding.rgCategory.setOnCheckedChangeListener { group, checkedId ->
+        rgCategory.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
             viewModel.setCategory(radioButton.text.toString())
         }
 
-        binding.rgOrientation.setOnCheckedChangeListener { group, checkedId ->
+        rgOrientation.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
             viewModel.setOrientation(radioButton.text.toString())
         }
 
-        binding.rgColor.setOnCheckedChangeListener { group, checkedId ->
+        rgColor.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
             viewModel.setColors(radioButton.text.toString())
         }
 
-        binding.btnClose.setOnClickListener {
-            this.dismiss()
+        btnClose.setOnClickListener {
+            this@ImageFilterBottomDialog.dismiss()
+        }
+
+        btnReset.setOnClickListener {
+            viewModel.clearImagesFilter()
+            requireContext().showToast(getString(R.string.filtering_has_been_reset))
         }
     }
 }

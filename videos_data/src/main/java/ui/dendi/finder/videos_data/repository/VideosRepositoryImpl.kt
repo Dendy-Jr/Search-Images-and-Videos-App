@@ -23,7 +23,7 @@ class VideosRepositoryImpl @Inject constructor(
     private val localDataSource: VideosLocalDataSource,
 ) : VideosRepository {
 
-    override fun getPagedItems(
+    override fun getPagedVideos(
         query: String,
         type: String?,
         category: String?,
@@ -39,25 +39,21 @@ class VideosRepositoryImpl @Inject constructor(
             }
         ).flow
 
-    override fun getItems(): Flow<List<Video>> {
-        return localDataSource.getVideos().map {
+    override fun getFavoritesVideo(): Flow<List<Video>> =
+        localDataSource.getVideos().map {
             it.toDomain()
         }
-    }
 
-    override suspend fun insertAllItems(items: List<Video>) {
-        localDataSource.insertAllVideos(items)
-    }
 
-    override suspend fun insertItem(item: Video) {
+    override suspend fun saveVideoToFavorites(item: Video) {
         localDataSource.insertImage(item)
     }
 
-    override suspend fun deleteItem(item: Video) {
+    override suspend fun deleteVideoFromFavorites(item: Video) {
         localDataSource.deleteImage(item)
     }
 
-    override suspend fun deleteAllItems() {
+    override suspend fun deleteAllVideos() {
         localDataSource.deleteAllVideos()
     }
 

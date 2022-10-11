@@ -5,8 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ui.dendi.finder.favorites_domain.usecase.ClearFavoriteVideosUseCase
-import ui.dendi.finder.favorites_domain.usecase.DeleteFavoriteVideoUseCase
+import ui.dendi.finder.favorites_domain.videos.usecase.ClearFavoriteVideosUseCase
+import ui.dendi.finder.favorites_domain.videos.usecase.DeleteFavoriteVideoUseCase
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
 import ui.dendi.finder.core.core.models.Video
@@ -16,9 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesVideoViewModel @Inject constructor(
     private val dialogManager: DialogManager,
-    private val getFavoriteVideosUseCase: GetFavoriteVideosUseCase,
-    private val deleteFavoriteVideoUseCase: DeleteFavoriteVideoUseCase,
     private val clearAllFavoriteVideosUseCase: ClearFavoriteVideosUseCase,
+    private val getFavoriteVideosUseCase: GetFavoriteVideosUseCase,
+    private val deleteFavoriteVideoUseCase: DeleteFavoriteVideoUseCase
 ) : BaseViewModel() {
 
     private val _favoriteVideos = MutableStateFlow<List<Video>>(emptyList())
@@ -36,6 +36,7 @@ class FavoritesVideoViewModel @Inject constructor(
             deleteFavoriteVideoUseCase(video)
         }
     }
+
     // TODO Don't hard code values
     fun clearAllVideos() {
         dialogManager.show(
@@ -55,6 +56,7 @@ class FavoritesVideoViewModel @Inject constructor(
                 .collect {
                     _favoriteVideos.value = it
                     _needShowDeleteButton.value = it.isNotEmpty()
+
                 }
         }
     }

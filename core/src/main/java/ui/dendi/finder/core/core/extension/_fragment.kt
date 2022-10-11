@@ -16,16 +16,3 @@ fun Fragment.showSnackbar(
 ) {
     Snackbar.make(view, message, duration).show()
 }
-
-//context(Fragment)
-//fun <T> Flow<T>.collectWithLifecycle(block: (T) -> Unit) {
-//    viewLifecycleOwnerLiveData.observe(this@Fragment) {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                launch {
-//                    collect { block(it) }
-//                }
-//            }
-//        }
-//    }
-//}

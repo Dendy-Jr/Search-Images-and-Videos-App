@@ -1,6 +1,7 @@
 package ui.dendi.finder.favorites_presentation.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -41,10 +42,9 @@ class FavoritesVideoFragment :
             )
 
         val videoAdapter = FavoritesVideoAdapter(
-            kohii,
+            kohii = kohii,
         ) {
             viewModel.deleteFromFavoritesVideo(it)
-            showSnackbar("Video is deleted from your favorites")
         }
 
         collectWithLifecycle(viewModel.favoriteVideos) {

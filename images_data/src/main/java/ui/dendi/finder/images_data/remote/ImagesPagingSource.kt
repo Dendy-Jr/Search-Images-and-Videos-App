@@ -23,22 +23,22 @@ class ImagesPagingSource @Inject constructor(
         return try {
             val pageNumber = params.key ?: PAGE_NUMBER
             val pageSize = params.loadSize
-            val items = remoteDataSource.getImages(
-                query,
-                pageNumber,
-                pageSize,
-                type,
-                category,
-                orientation,
-                colors
+            val images = remoteDataSource.getImages(
+                query = query,
+                page = pageNumber,
+                perPage = pageSize,
+                type = type,
+                category = category,
+                orientation = orientation,
+                colors = colors
             )
 
-            localDataSource.insertAllImages(items)
+            localDataSource.insertAllImages(images)
 
             LoadResult.Page(
-                data = items,
+                data = images,
                 prevKey = if (pageNumber > 1) pageNumber - 1 else null,
-                nextKey = if (items.isEmpty()) null else pageNumber + 1,
+                nextKey = if (images.isEmpty()) null else pageNumber + 1,
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

@@ -40,4 +40,11 @@ class ImageFilterViewModel @Inject constructor(
             storage.setColors(colors)
         }
     }
+
+    fun clearImagesFilter() {
+        setType("")
+        setCategory("")
+        setOrientation("")
+        setColors(" ")
+    }
 }

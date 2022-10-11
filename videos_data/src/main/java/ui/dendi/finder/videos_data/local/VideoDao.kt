@@ -8,9 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface VideoDao {
 
     @Query("SELECT * FROM ${VideoCache.TABLE_VIDEOS}")
-    fun getPagingVideo(): PagingSource<Int, VideoCache>
-
-    @Query("SELECT * FROM ${VideoCache.TABLE_VIDEOS}")
     fun getVideos(): Flow<List<VideoCache>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

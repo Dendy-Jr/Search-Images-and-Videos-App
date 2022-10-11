@@ -5,10 +5,6 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/imagesFragment">
 
-<!--    <include app:graph="@navigation/images_graph"/>-->
-<!--    <include app:graph="@navigation/videos_graph"/>-->
-<!--    <include app:graph="@navigation/favorites_graph"/>-->
-
     <fragment
         android:id="@+id/imagesFragment"
         android:name="ui.dendi.finder.images_presentation.images.SearchImagesFragment"

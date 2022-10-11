@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ui.dendi.finder.app.feature_favorites.data.FavoriteImageDao
+import ui.dendi.finder.favorites_data.images.FavoritesImageDao
 import ui.dendi.finder.images_data.local.ImageRemoteKeysDao
 import ui.dendi.finder.videos_data.local.VideoDao
 import ui.dendi.finder.app.PixabayDb
@@ -46,6 +46,6 @@ class DatabaseDaoModule {
         db.imageRemoteKeysDao()
 
     @Provides
-    fun favoriteImageDao(db: PixabayDb): FavoriteImageDao =
+    fun favoriteImageDao(db: PixabayDb): FavoritesImageDao =
         db.favoriteImageDao()
 }

@@ -22,6 +22,6 @@ class ErrorHandler @Inject constructor(
     interface ErrorCallback {
 
         fun action(action: () -> Unit)
-        //TODO
+        //TODO Maybe need to use it in the future
     }
 }
