@@ -8,8 +8,15 @@ import javax.inject.Singleton
 class VideosRemoteDataSource @Inject constructor(
     private val api: VideosApi,
 ) {
-    suspend fun getVideos(query: String = "cat", page: Int = 1, perPage: Int = 20): List<Video> =
-        api.searchVideo(query, page, perPage).hits.toDomain()
+    suspend fun getVideos(
+        query: String,
+        page: Int,
+        perPage: Int,
+        type: String?,
+        category: String?,
+        order: String?,
+    ): List<Video> =
+        api.searchVideo(query, page, perPage, type, category, order).hits.toDomain()
 
     private fun VideoCloud.toDomain() = Video(
         id = id,

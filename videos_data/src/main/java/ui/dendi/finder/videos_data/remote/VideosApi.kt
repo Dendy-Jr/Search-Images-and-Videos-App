@@ -10,5 +10,8 @@ interface VideosApi {
         @Query("q") query: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
+        @Query("video_type") type: String?,
+        @Query("category") category: String?,
+        @Query("order") order: String?,
     ): VideoResponse
 }

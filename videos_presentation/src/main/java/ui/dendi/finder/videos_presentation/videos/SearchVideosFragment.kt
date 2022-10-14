@@ -64,6 +64,11 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             },
         )
 
+        ivFilter.setOnClickListener {
+            val imageFilterBottomDialog = VideoFilterBottomDialog()
+            imageFilterBottomDialog.show(parentFragmentManager, imageFilterBottomDialog.tag)
+        }
+
         searchEditText.setSearchTextChangedClickListener {
             viewModel.searchVideo(it)
         }
@@ -86,10 +91,11 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         })
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.videosFlow.collectLatest {
-                adapter.submitData(it)
+            viewModel.videosFlow.collectLatest { data ->
+                adapter.submitData(data)
             }
         }
+
         setupList(adapter)
         observeState(adapter)
         setupRefreshLayout(adapter)

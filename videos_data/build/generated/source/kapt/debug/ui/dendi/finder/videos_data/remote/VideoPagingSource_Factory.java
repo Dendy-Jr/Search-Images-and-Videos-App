@@ -19,24 +19,36 @@ public final class VideoPagingSource_Factory implements Factory<VideoPagingSourc
 
   private final Provider<String> queryProvider;
 
+  private final Provider<String> typeProvider;
+
+  private final Provider<String> categoryProvider;
+
+  private final Provider<String> orderProvider;
+
   public VideoPagingSource_Factory(Provider<VideosRemoteDataSource> remoteDataSourceProvider,
-      Provider<String> queryProvider) {
+      Provider<String> queryProvider, Provider<String> typeProvider,
+      Provider<String> categoryProvider, Provider<String> orderProvider) {
     this.remoteDataSourceProvider = remoteDataSourceProvider;
     this.queryProvider = queryProvider;
+    this.typeProvider = typeProvider;
+    this.categoryProvider = categoryProvider;
+    this.orderProvider = orderProvider;
   }
 
   @Override
   public VideoPagingSource get() {
-    return newInstance(remoteDataSourceProvider.get(), queryProvider.get());
+    return newInstance(remoteDataSourceProvider.get(), queryProvider.get(), typeProvider.get(), categoryProvider.get(), orderProvider.get());
   }
 
   public static VideoPagingSource_Factory create(
-      Provider<VideosRemoteDataSource> remoteDataSourceProvider, Provider<String> queryProvider) {
-    return new VideoPagingSource_Factory(remoteDataSourceProvider, queryProvider);
+      Provider<VideosRemoteDataSource> remoteDataSourceProvider, Provider<String> queryProvider,
+      Provider<String> typeProvider, Provider<String> categoryProvider,
+      Provider<String> orderProvider) {
+    return new VideoPagingSource_Factory(remoteDataSourceProvider, queryProvider, typeProvider, categoryProvider, orderProvider);
   }
 
-  public static VideoPagingSource newInstance(VideosRemoteDataSource remoteDataSource,
-      String query) {
-    return new VideoPagingSource(remoteDataSource, query);
+  public static VideoPagingSource newInstance(VideosRemoteDataSource remoteDataSource, String query,
+      String type, String category, String order) {
+    return new VideoPagingSource(remoteDataSource, query, type, category, order);
   }
 }

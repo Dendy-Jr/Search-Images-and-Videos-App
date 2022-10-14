@@ -27,15 +27,20 @@ class VideosRepositoryImpl @Inject constructor(
         query: String,
         type: String?,
         category: String?,
-        orientation: String?,
-        colors: String?
+        order: String?,
     ): Flow<PagingData<Video>> =
         Pager(config = PagingConfig(
             pageSize = 20,
             enablePlaceholders = false
         ),
             pagingSourceFactory = {
-                VideoPagingSource(remoteDataSource, query)
+                VideoPagingSource(
+                    remoteDataSource = remoteDataSource,
+                    query = query,
+                    type = type,
+                    category = category,
+                    order = order
+                )
             }
         ).flow
 

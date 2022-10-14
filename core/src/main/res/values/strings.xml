@@ -67,4 +67,8 @@
     <string name="internet_connection_established">Internet connection established</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="video_added_to_favorites">Video is added to your favorites</string>
+    <string name="order">Order:</string>
+    <string name="popular">popular</string>
+    <string name="latest">latest</string>
+    <string name="filtering_has_been_reset">Filtering has been reset</string>
 </resources>

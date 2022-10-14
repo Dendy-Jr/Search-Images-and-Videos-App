@@ -10,8 +10,7 @@ interface VideosRepository {
         query: String,
         type: String? = null,
         category: String? = null,
-        orientation: String? = null,
-        colors: String? = null
+        order: String? = null,
     ): Flow<PagingData<Video>>
 
     fun getFavoritesVideo(): Flow<List<Video>>

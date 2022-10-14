@@ -8,6 +8,7 @@ import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
 import ui.dendi.finder.core.core.navigation.AppNavDirections;
 import ui.dendi.finder.videos_data.local.SearchVideosStorage;
+import ui.dendi.finder.videos_data.local.VideosFilterStorage;
 import ui.dendi.finder.videos_domain.usecase.InsertVideoUseCase;
 import ui.dendi.finder.videos_domain.usecase.SearchVideosUseCase;
 
@@ -25,34 +26,39 @@ public final class SearchVideosViewModel_Factory implements Factory<SearchVideos
 
   private final Provider<SearchVideosUseCase> searchVideosUseCaseProvider;
 
+  private final Provider<VideosFilterStorage> videosFilterStorageProvider;
+
   private final Provider<SearchVideosStorage> storageProvider;
 
   public SearchVideosViewModel_Factory(Provider<AppNavDirections> appNavDirectionsProvider,
       Provider<InsertVideoUseCase> insertVideoUseCaseProvider,
       Provider<SearchVideosUseCase> searchVideosUseCaseProvider,
+      Provider<VideosFilterStorage> videosFilterStorageProvider,
       Provider<SearchVideosStorage> storageProvider) {
     this.appNavDirectionsProvider = appNavDirectionsProvider;
     this.insertVideoUseCaseProvider = insertVideoUseCaseProvider;
     this.searchVideosUseCaseProvider = searchVideosUseCaseProvider;
+    this.videosFilterStorageProvider = videosFilterStorageProvider;
     this.storageProvider = storageProvider;
   }
 
   @Override
   public SearchVideosViewModel get() {
-    return newInstance(appNavDirectionsProvider.get(), insertVideoUseCaseProvider.get(), searchVideosUseCaseProvider.get(), storageProvider.get());
+    return newInstance(appNavDirectionsProvider.get(), insertVideoUseCaseProvider.get(), searchVideosUseCaseProvider.get(), videosFilterStorageProvider.get(), storageProvider.get());
   }
 
   public static SearchVideosViewModel_Factory create(
       Provider<AppNavDirections> appNavDirectionsProvider,
       Provider<InsertVideoUseCase> insertVideoUseCaseProvider,
       Provider<SearchVideosUseCase> searchVideosUseCaseProvider,
+      Provider<VideosFilterStorage> videosFilterStorageProvider,
       Provider<SearchVideosStorage> storageProvider) {
-    return new SearchVideosViewModel_Factory(appNavDirectionsProvider, insertVideoUseCaseProvider, searchVideosUseCaseProvider, storageProvider);
+    return new SearchVideosViewModel_Factory(appNavDirectionsProvider, insertVideoUseCaseProvider, searchVideosUseCaseProvider, videosFilterStorageProvider, storageProvider);
   }
 
   public static SearchVideosViewModel newInstance(AppNavDirections appNavDirections,
       InsertVideoUseCase insertVideoUseCase, SearchVideosUseCase searchVideosUseCase,
-      SearchVideosStorage storage) {
-    return new SearchVideosViewModel(appNavDirections, insertVideoUseCase, searchVideosUseCase, storage);
+      VideosFilterStorage videosFilterStorage, SearchVideosStorage storage) {
+    return new SearchVideosViewModel(appNavDirections, insertVideoUseCase, searchVideosUseCase, videosFilterStorage, storage);
   }
 }

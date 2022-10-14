@@ -18,11 +18,9 @@ import javax.inject.Singleton
 class ImagesRepositoryImpl @Inject constructor(
     private val localDataSource: ImagesLocalDataSource,
     private val remoteDataSource: ImagesRemoteDataSource,
-//    private val imageDao: ImageDao,
-//    private val database: PixabayDb,
 ) : ImagesRepository {
 
-     override fun getPagedItems(
+    override fun getPagedItems(
         query: String,
         type: String?,
         category: String?,
@@ -33,9 +31,7 @@ class ImagesRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
             ),
-//            remoteMediator = ImagesRemoteMediator(remoteDataSource, query, imageDao),
             pagingSourceFactory = {
-//                imageDao.getImagesPagingSource()
                 ImagesPagingSource(
                     remoteDataSource,
                     localDataSource,
@@ -47,11 +43,6 @@ class ImagesRepositoryImpl @Inject constructor(
                 )
             },
         ).flow
-//            .map { pagingData ->
-//                pagingData.map {
-//                    it.toDomain()
-//                }
-//            }
     }
 
 
