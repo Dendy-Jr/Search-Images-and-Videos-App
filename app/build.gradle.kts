@@ -114,6 +114,7 @@ dependencies {
     implementation(Dependencies.roomCore)
     kapt(Dependencies.roomPersistence)
     implementation(Dependencies.roomPaging)
+    implementation(Dependencies.splashScreen)
 
     // Dagger
     // https://github.com/google/dagger/releases

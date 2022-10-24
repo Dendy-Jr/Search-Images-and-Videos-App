@@ -31,6 +31,7 @@ object Versions {
     const val swipeRevealLayout = "1.4.1"
     const val viewBinding = "1.5.6"
     const val firebaseBom = "30.3.0"
+    const val splashScreen = "1.0.0-beta02"
 
     // plugin
     const val androidGradle = "7.2.0"

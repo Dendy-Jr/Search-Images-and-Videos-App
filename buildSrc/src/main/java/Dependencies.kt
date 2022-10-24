@@ -34,10 +34,13 @@ object Dependencies {
     val workmanagerRuntime by lazy { "androidx.work:work-runtime-ktx:${Versions.androidxWorkmanagerRuntime}" }
     val workmanagerHilt by lazy { "androidx.hilt:hilt-work:${Versions.androidxWorkmanagerHiltWork}" }
     val constraintLayout by lazy { "androidx.constraintlayout:constraintlayout:${Versions.androidxConstraintLayout}" }
+    val splashScreen by lazy { "androidx.core:core-splashscreen:${Versions.splashScreen}" }
+
     //platform
     val firebaseBom by lazy { "com.google.firebase:firebase-bom:${Versions.firebaseBom}" }
     val firebaseAnalytics by lazy { "com.google.firebase:firebase-analytics-ktx" }
     val roomRuntime by lazy { "androidx.room:room-runtime:${Versions.androidxRoom}" }
+
     // kapt
     val roomCompiler by lazy { "androidx.room:room-compiler:${Versions.androidxRoom}" }
     val roomCore by lazy { "androidx.room:room-ktx:${Versions.androidxRoom}" }

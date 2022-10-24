@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,7 +14,7 @@ import ui.dendi.finder.core.core.navigation.BackNavDirections
 import ui.dendi.finder.core.core.extension.showToast
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity(R.layout.activity_main) {
+class MainActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -24,6 +25,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
+        setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
         requestPermission.launch(
