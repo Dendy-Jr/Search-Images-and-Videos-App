@@ -34,7 +34,7 @@ object Versions {
     const val splashScreen = "1.0.0-beta02"
 
     // plugin
-    const val androidGradle = "7.2.0"
+    const val androidGradle = "7.3.1"
     const val kotlinGradle = "1.7.10"
     const val kotlinSerialization = "1.6.20"
     const val hiltGradle = "2.42"

@@ -21,4 +21,3 @@ interface VideosRepository {
 
     suspend fun deleteAllVideos()
 }
-//interface VideosRepository: BaseRepository<Video>

@@ -7,13 +7,16 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = ConfigData.compileSdkVersion
+    buildToolsVersion = ConfigData.buildToolsVersion
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 32
+        minSdk = ConfigData.minSdkVersion
+        targetSdk = ConfigData.targetSdkVersion
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -31,16 +34,21 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     viewBinding {
         android.buildFeatures.viewBinding = true
     }
+
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
-
     implementation(Dependencies.coroutines)
     implementation(Dependencies.serialization)
 
@@ -52,28 +60,16 @@ dependencies {
     implementation(Dependencies.appcompat)
     implementation(Dependencies.constraintLayout)
     implementation(Dependencies.recyclerview)
-    implementation(Dependencies.viewpager2)
+    implementation(Dependencies.material)
     implementation(Dependencies.paging)
     implementation(Dependencies.swiperefreshlayout)
     implementation(Dependencies.navigationCommon)
     implementation(Dependencies.navigationFragment)
-    implementation(Dependencies.navigationUi)
-    implementation(Dependencies.lifecycleCommon)
-    implementation(Dependencies.lifecycleRuntime)
     implementation(Dependencies.lifecycleViewModel)
-    implementation(Dependencies.lifecycleLivedata)
-    implementation(Dependencies.lifecycleSavedState)
-    implementation(Dependencies.lifecycleProcess)
     implementation(Dependencies.workmanagerRuntime)
     implementation(Dependencies.workmanagerHilt)
     implementation(Dependencies.datastore)
-    implementation(platform(Dependencies.firebaseBom))
-    implementation(Dependencies.firebaseAnalytics)
-    implementation(Dependencies.roomRuntime)
-    kapt(Dependencies.roomCompiler)
     implementation(Dependencies.roomCore)
-    kapt(Dependencies.roomPersistence)
-    implementation(Dependencies.roomPaging)
 
     // Dagger
     // https://github.com/google/dagger/releases
@@ -92,8 +88,6 @@ dependencies {
     // OkHttp
     // https://github.com/square/okhttp/releases
     implementation(Dependencies.okhttp)
-    implementation(Dependencies.okhttpLoggingInterceptor)
-    implementation(Dependencies.okhttpTls)
 
     // Timber
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
@@ -113,25 +107,7 @@ dependencies {
     implementation(Dependencies.kohiiCore)
     implementation(Dependencies.kohiiExoplayer)
 
-    // Lottie
-    // https://github.com/airbnb/lottie-android
-    // Apache License 2.0, https://github.com/airbnb/lottie-android/blob/master/LICENSE
-    implementation(Dependencies.lottie)
-
     // ViewBindingPropertyDelegate
     // https://github.com/androidbroadcast/ViewBindingPropertyDelegate
     implementation(Dependencies.viewBinding)
-
-    implementation(Dependencies.material)
-
-    // SwipeRevealLayout
-    // https://github.com/chthai64/SwipeRevealLayout
-    implementation(Dependencies.swipeRevealLayout)
-
-//    implementation("androidx.core:core-ktx:1.7.0")
-//    implementation("androidx.appcompat:appcompat:1.5.0")
-//    implementation("com.google.android.material:material:1.6.1")
-//    testImplementation("junit:junit:4.13.2")
-//    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-//    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
