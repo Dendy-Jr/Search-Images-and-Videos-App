@@ -18,7 +18,7 @@ class SearchImagesUseCase @Inject constructor(
         orientation: String,
         colors: String,
     ): Flow<PagingData<Image>> =
-        repository.getPagedItems(
+        repository.getPagedImages(
             query = query,
             type = type,
             category = category,

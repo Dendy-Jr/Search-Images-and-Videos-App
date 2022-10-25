@@ -8,9 +8,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import ui.dendi.finder.videos_data.local.VideoCache
-import ui.dendi.finder.videos_data.local.VideosLocalDataSource
 import ui.dendi.finder.videos_data.remote.VideoPagingSource
 import ui.dendi.finder.videos_data.remote.VideosRemoteDataSource
 import ui.dendi.finder.core.core.models.Video
@@ -20,7 +17,7 @@ import javax.inject.Singleton
 
 class VideosRepositoryImpl @Inject constructor(
     private val remoteDataSource: VideosRemoteDataSource,
-    private val localDataSource: VideosLocalDataSource,
+//    private val localDataSource: VideosLocalDataSource,
 ) : VideosRepository {
 
     override fun getPagedVideos(
@@ -43,27 +40,28 @@ class VideosRepositoryImpl @Inject constructor(
                 )
             }
         ).flow
+//TODO Delete it
 
-    override fun getFavoritesVideo(): Flow<List<Video>> =
-        localDataSource.getVideos().map {
-            it.toDomain()
-        }
-
-
-    override suspend fun saveVideoToFavorites(item: Video) {
-        localDataSource.insertImage(item)
-    }
-
-    override suspend fun deleteVideoFromFavorites(item: Video) {
-        localDataSource.deleteImage(item)
-    }
-
-    override suspend fun deleteAllVideos() {
-        localDataSource.deleteAllVideos()
-    }
-
-    private fun List<VideoCache>.toDomain(): List<Video> =
-        map { it.toDomain() }
+//    override fun getFavoritesVideo(): Flow<List<Video>> =
+//        localDataSource.getVideos().map {
+//            it.toDomain()
+//        }
+//
+//
+//    override suspend fun saveVideoToFavorites(item: Video) {
+//        localDataSource.insertImage(item)
+//    }
+//
+//    override suspend fun deleteVideoFromFavorites(item: Video) {
+//        localDataSource.deleteImage(item)
+//    }
+//
+//    override suspend fun deleteAllVideos() {
+//        localDataSource.deleteAllVideos()
+//    }
+//
+//    private fun List<VideoCache>.toDomain(): List<Video> =
+//        map { it.toDomain() }
 
 }
 

@@ -10,7 +10,7 @@ import ui.dendi.finder.images_data.local.ImageRemoteKeys
 import ui.dendi.finder.images_data.local.ImageRemoteKeysDao
 import ui.dendi.finder.core.core.db.converters.*
 import ui.dendi.finder.images_data.local.ImageDao
-import ui.dendi.finder.videos_data.local.VideoCache
+import ui.dendi.finder.videos_data.local.FavoriteVideo
 import ui.dendi.finder.videos_data.local.VideoDao
 import ui.dendi.finder.videos_data.local.converters.LargeConverter
 import ui.dendi.finder.videos_data.local.converters.MediumConverter
@@ -20,7 +20,7 @@ import ui.dendi.finder.videos_data.local.converters.TinyConverter
 @Database(
     entities = [
         ImageEntity::class,
-        VideoCache::class,
+        FavoriteVideo::class,
         ImageRemoteKeys::class,
         FavoriteImage::class,
     ], version = 1, exportSchema = false

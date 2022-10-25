@@ -20,6 +20,7 @@ class DialogManager @Inject constructor(
         positiveAction: (() -> Unit)? = null,
         negativeAction: (() -> Unit)? = null,
         setNegativeButtonText: String = "No",
+        //TODO Hardcoded string
     ) {
 
         val listener = DialogInterface.OnClickListener { _, which ->

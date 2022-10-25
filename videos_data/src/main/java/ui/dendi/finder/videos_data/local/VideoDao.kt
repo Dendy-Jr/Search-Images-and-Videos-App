@@ -6,18 +6,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface VideoDao {
 
-    @Query("SELECT * FROM ${VideoCache.TABLE_VIDEOS}")
-    fun getVideos(): Flow<List<VideoCache>>
+    @Query("SELECT * FROM ${FavoriteVideo.TABLE_VIDEOS}")
+    fun getVideos(): Flow<List<FavoriteVideo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(images: List<VideoCache>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertImage(image: VideoCache)
+    suspend fun insertImage(image: FavoriteVideo)
 
     @Delete
-    suspend fun deleteVideo(image: VideoCache)
+    suspend fun deleteVideo(image: FavoriteVideo)
 
-    @Query("DELETE FROM ${VideoCache.TABLE_VIDEOS}")
+    @Query("DELETE FROM ${FavoriteVideo.TABLE_VIDEOS}")
     suspend fun deleteAllVideos()
 }

@@ -6,7 +6,7 @@ import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
-import ui.dendi.finder.videos_domain.VideosRepository;
+import ui.dendi.finder.favorites_domain.videos.repository.FavoritesVideoRepository;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -16,9 +16,9 @@ import ui.dendi.finder.videos_domain.VideosRepository;
     "rawtypes"
 })
 public final class InsertVideoUseCase_Factory implements Factory<InsertVideoUseCase> {
-  private final Provider<VideosRepository> repositoryProvider;
+  private final Provider<FavoritesVideoRepository> repositoryProvider;
 
-  public InsertVideoUseCase_Factory(Provider<VideosRepository> repositoryProvider) {
+  public InsertVideoUseCase_Factory(Provider<FavoritesVideoRepository> repositoryProvider) {
     this.repositoryProvider = repositoryProvider;
   }
 
@@ -27,11 +27,12 @@ public final class InsertVideoUseCase_Factory implements Factory<InsertVideoUseC
     return newInstance(repositoryProvider.get());
   }
 
-  public static InsertVideoUseCase_Factory create(Provider<VideosRepository> repositoryProvider) {
+  public static InsertVideoUseCase_Factory create(
+      Provider<FavoritesVideoRepository> repositoryProvider) {
     return new InsertVideoUseCase_Factory(repositoryProvider);
   }
 
-  public static InsertVideoUseCase newInstance(VideosRepository repository) {
+  public static InsertVideoUseCase newInstance(FavoritesVideoRepository repository) {
     return new InsertVideoUseCase(repository);
   }
 }

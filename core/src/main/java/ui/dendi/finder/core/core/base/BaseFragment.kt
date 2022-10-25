@@ -47,6 +47,7 @@ abstract class BaseFragment<VM : BaseViewModel>(
             viewModel.navigation.collect { navDirections ->
                 if (navDirections is BackNavDirections) {
                     onBackPressedCallback.isEnabled = false
+                    //TODO Is deprecated.
                     requireActivity().onBackPressed()
                     return@collect
                 }

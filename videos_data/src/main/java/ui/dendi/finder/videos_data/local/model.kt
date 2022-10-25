@@ -6,12 +6,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
-import ui.dendi.finder.videos_data.local.VideoCache.Companion.TABLE_VIDEOS
+import ui.dendi.finder.videos_data.local.FavoriteVideo.Companion.TABLE_VIDEOS
 import ui.dendi.finder.core.core.models.*
 
 @Parcelize
 @Entity(tableName = TABLE_VIDEOS)
-data class VideoCache(
+data class FavoriteVideo(
     @PrimaryKey
     val id: Int,
     val comments: Int,

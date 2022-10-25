@@ -12,5 +12,4 @@ object Constants {
     const val NOTIFICATION_ID = 100
     const val JPG = "JPG"
     const val MP4 = "MP4"
-    const val PROGRESS = "progress"
 }

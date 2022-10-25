@@ -20,7 +20,7 @@ class ImagesRepositoryImpl @Inject constructor(
     private val remoteDataSource: ImagesRemoteDataSource,
 ) : ImagesRepository {
 
-    override fun getPagedItems(
+    override fun getPagedImages(
         query: String,
         type: String?,
         category: String?,
@@ -44,24 +44,6 @@ class ImagesRepositoryImpl @Inject constructor(
             },
         ).flow
     }
-
-
-    override fun getItems(): Flow<List<Image>> =
-        localDataSource.getImages()
-
-    override suspend fun insertAllItems(items: List<Image>) {
-        localDataSource.insertAllImages(items)
-    }
-
-    override suspend fun insertItem(item: Image) {
-        localDataSource.insertImage(item)
-    }
-
-    override suspend fun deleteItem(item: Image) {
-        localDataSource.insertImage(item)
-    }
-
-    override suspend fun deleteAllItems() = localDataSource.deleteAllImages()
 
     private companion object {
         const val PAGE_SIZE = 30

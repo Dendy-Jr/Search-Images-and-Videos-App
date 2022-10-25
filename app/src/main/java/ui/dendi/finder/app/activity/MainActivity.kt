@@ -39,6 +39,7 @@ class MainActivity : BaseActivity() {
         lifecycleScope.launchWhenCreated {
             viewModel.navigation.collect { navDirections ->
                 if (navDirections is BackNavDirections) {
+                    //TODO Is deprecated.
                     onBackPressed()
                     return@collect
                 }

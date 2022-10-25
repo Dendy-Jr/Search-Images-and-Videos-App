@@ -10,9 +10,6 @@ interface FavoritesImageDao {
     fun getFavoritesImage(): Flow<List<FavoriteImage>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(images: List<FavoriteImage>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertImage(image: FavoriteImage)
 
     @Delete

@@ -6,7 +6,7 @@ import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
-import ui.dendi.finder.videos_domain.VideosRepository;
+import ui.dendi.finder.favorites_domain.videos.repository.FavoritesVideoRepository;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -16,9 +16,9 @@ import ui.dendi.finder.videos_domain.VideosRepository;
     "rawtypes"
 })
 public final class DeleteFavoriteVideoUseCase_Factory implements Factory<DeleteFavoriteVideoUseCase> {
-  private final Provider<VideosRepository> repositoryProvider;
+  private final Provider<FavoritesVideoRepository> repositoryProvider;
 
-  public DeleteFavoriteVideoUseCase_Factory(Provider<VideosRepository> repositoryProvider) {
+  public DeleteFavoriteVideoUseCase_Factory(Provider<FavoritesVideoRepository> repositoryProvider) {
     this.repositoryProvider = repositoryProvider;
   }
 
@@ -28,11 +28,11 @@ public final class DeleteFavoriteVideoUseCase_Factory implements Factory<DeleteF
   }
 
   public static DeleteFavoriteVideoUseCase_Factory create(
-      Provider<VideosRepository> repositoryProvider) {
+      Provider<FavoritesVideoRepository> repositoryProvider) {
     return new DeleteFavoriteVideoUseCase_Factory(repositoryProvider);
   }
 
-  public static DeleteFavoriteVideoUseCase newInstance(VideosRepository repository) {
+  public static DeleteFavoriteVideoUseCase newInstance(FavoritesVideoRepository repository) {
     return new DeleteFavoriteVideoUseCase(repository);
   }
 }

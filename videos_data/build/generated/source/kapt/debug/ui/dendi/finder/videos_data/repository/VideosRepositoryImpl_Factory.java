@@ -6,7 +6,6 @@ import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
-import ui.dendi.finder.videos_data.local.VideosLocalDataSource;
 import ui.dendi.finder.videos_data.remote.VideosRemoteDataSource;
 
 @ScopeMetadata
@@ -19,27 +18,21 @@ import ui.dendi.finder.videos_data.remote.VideosRemoteDataSource;
 public final class VideosRepositoryImpl_Factory implements Factory<VideosRepositoryImpl> {
   private final Provider<VideosRemoteDataSource> remoteDataSourceProvider;
 
-  private final Provider<VideosLocalDataSource> localDataSourceProvider;
-
-  public VideosRepositoryImpl_Factory(Provider<VideosRemoteDataSource> remoteDataSourceProvider,
-      Provider<VideosLocalDataSource> localDataSourceProvider) {
+  public VideosRepositoryImpl_Factory(Provider<VideosRemoteDataSource> remoteDataSourceProvider) {
     this.remoteDataSourceProvider = remoteDataSourceProvider;
-    this.localDataSourceProvider = localDataSourceProvider;
   }
 
   @Override
   public VideosRepositoryImpl get() {
-    return newInstance(remoteDataSourceProvider.get(), localDataSourceProvider.get());
+    return newInstance(remoteDataSourceProvider.get());
   }
 
   public static VideosRepositoryImpl_Factory create(
-      Provider<VideosRemoteDataSource> remoteDataSourceProvider,
-      Provider<VideosLocalDataSource> localDataSourceProvider) {
-    return new VideosRepositoryImpl_Factory(remoteDataSourceProvider, localDataSourceProvider);
+      Provider<VideosRemoteDataSource> remoteDataSourceProvider) {
+    return new VideosRepositoryImpl_Factory(remoteDataSourceProvider);
   }
 
-  public static VideosRepositoryImpl newInstance(VideosRemoteDataSource remoteDataSource,
-      VideosLocalDataSource localDataSource) {
-    return new VideosRepositoryImpl(remoteDataSource, localDataSource);
+  public static VideosRepositoryImpl newInstance(VideosRemoteDataSource remoteDataSource) {
+    return new VideosRepositoryImpl(remoteDataSource);
   }
 }

@@ -30,7 +30,6 @@ import ui.dendi.finder.core.core.util.Constants.NOTIFICATION_ID
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
-import javax.inject.Inject
 
 @HiltWorker
 class DownloadFileWorkManager @AssistedInject constructor(
@@ -38,18 +37,10 @@ class DownloadFileWorkManager @AssistedInject constructor(
     @Assisted private val workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
 
-//    @Inject
-//    lateinit var notificationHelper: NotificationHelper
-
     private val notificationManager =
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     override suspend fun doWork(): Result {
-//        notificationHelper.show(
-//            channelId = CHANNEL_ID,
-//            channelName = CHANNEL_NAME,
-//            notificationManager = notificationManager
-//        )
         displayNotification()
 
         val mimeType = when (workerParameters.inputData.getString(KEY_FILE_TYPE)) {
