@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.images_data.local.ImageEntity.Companion.TABLE_IMAGES
-import ui.dendi.finder.images_data.local.ImageRemoteKeys.Companion.IMAGE_REMOTE_KEY_TABLE
 import java.util.*
 
 @Parcelize
@@ -43,7 +42,6 @@ data class ImageEntity(
         comments = comments,
         downloads = downloads,
         id = id,
-        localId = id,
         imageHeight = imageHeight,
         imageSize = imageSize,
         imageWidth = imageWidth,
@@ -65,17 +63,5 @@ data class ImageEntity(
 
     companion object {
         const val TABLE_IMAGES = "images"
-    }
-}
-
-@Entity(tableName = IMAGE_REMOTE_KEY_TABLE)
-data class ImageRemoteKeys(
-    @PrimaryKey
-    val repoId: Long,
-    val prevKey: Int?,
-    val nextKey: Int?,
-) {
-    companion object {
-        const val IMAGE_REMOTE_KEY_TABLE = "image_remote_key_table"
     }
 }

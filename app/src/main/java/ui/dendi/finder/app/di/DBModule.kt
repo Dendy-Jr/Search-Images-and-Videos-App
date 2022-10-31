@@ -7,10 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ui.dendi.finder.favorites_data.images.FavoritesImageDao
-import ui.dendi.finder.images_data.local.ImageRemoteKeysDao
-import ui.dendi.finder.videos_data.local.VideoDao
 import ui.dendi.finder.app.PixabayDb
-import ui.dendi.finder.images_data.local.ImageDao
+import ui.dendi.finder.favorites_data.videos.FavoritesVideoDao
 import javax.inject.Singleton
 
 @Module
@@ -34,16 +32,8 @@ class DatabaseModule {
 class DatabaseDaoModule {
 
     @Provides
-    fun imageDao(db: PixabayDb): ImageDao =
-        db.imageDao()
-
-    @Provides
-    fun videoDao(db: PixabayDb): VideoDao =
+    fun videoDao(db: PixabayDb): FavoritesVideoDao =
         db.videoDao()
-
-    @Provides
-    fun imageRemoteKeysDao(db: PixabayDb): ImageRemoteKeysDao =
-        db.imageRemoteKeysDao()
 
     @Provides
     fun favoriteImageDao(db: PixabayDb): FavoritesImageDao =

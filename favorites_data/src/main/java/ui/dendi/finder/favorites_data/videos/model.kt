@@ -1,4 +1,4 @@
-package ui.dendi.finder.videos_data.local
+package ui.dendi.finder.favorites_data.videos
 
 import android.os.Parcelable
 import androidx.room.Embedded
@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
-import ui.dendi.finder.videos_data.local.FavoriteVideo.Companion.TABLE_VIDEOS
 import ui.dendi.finder.core.core.models.*
+import ui.dendi.finder.favorites_data.videos.FavoriteVideo.Companion.TABLE_VIDEOS
 
 @Parcelize
 @Entity(tableName = TABLE_VIDEOS)

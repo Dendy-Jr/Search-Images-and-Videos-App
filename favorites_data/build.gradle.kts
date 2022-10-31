@@ -8,6 +8,10 @@ dependencies {
     "implementation"(project(Modules.videos_data))
     "implementation"(project(Modules.favorites_domain))
 
+    // Gson
+    // https://github.com/google/gson
+    "implementation"(Dependencies.gson)
+
     "implementation"(Dependencies.roomRuntime)
     "kapt"(Dependencies.roomCompiler)
     "implementation"(Dependencies.roomCore)

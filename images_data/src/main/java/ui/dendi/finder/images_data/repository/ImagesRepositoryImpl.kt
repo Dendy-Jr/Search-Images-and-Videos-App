@@ -6,7 +6,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
-import ui.dendi.finder.images_data.local.ImagesLocalDataSource
 import ui.dendi.finder.images_data.remote.ImagesPagingSource
 import ui.dendi.finder.images_data.remote.ImagesRemoteDataSource
 import ui.dendi.finder.core.core.models.Image
@@ -16,7 +15,6 @@ import javax.inject.Singleton
 
 @ExperimentalPagingApi
 class ImagesRepositoryImpl @Inject constructor(
-    private val localDataSource: ImagesLocalDataSource,
     private val remoteDataSource: ImagesRemoteDataSource,
 ) : ImagesRepository {
 
@@ -34,12 +32,11 @@ class ImagesRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 ImagesPagingSource(
                     remoteDataSource,
-                    localDataSource,
                     query,
                     type ?: "",
                     category ?: "",
                     orientation ?: "",
-                    colors ?: ""
+                    colors ?: "",
                 )
             },
         ).flow

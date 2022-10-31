@@ -17,7 +17,6 @@ import javax.inject.Singleton
 
 class VideosRepositoryImpl @Inject constructor(
     private val remoteDataSource: VideosRemoteDataSource,
-//    private val localDataSource: VideosLocalDataSource,
 ) : VideosRepository {
 
     override fun getPagedVideos(
@@ -40,29 +39,6 @@ class VideosRepositoryImpl @Inject constructor(
                 )
             }
         ).flow
-//TODO Delete it
-
-//    override fun getFavoritesVideo(): Flow<List<Video>> =
-//        localDataSource.getVideos().map {
-//            it.toDomain()
-//        }
-//
-//
-//    override suspend fun saveVideoToFavorites(item: Video) {
-//        localDataSource.insertImage(item)
-//    }
-//
-//    override suspend fun deleteVideoFromFavorites(item: Video) {
-//        localDataSource.deleteImage(item)
-//    }
-//
-//    override suspend fun deleteAllVideos() {
-//        localDataSource.deleteAllVideos()
-//    }
-//
-//    private fun List<VideoCache>.toDomain(): List<Video> =
-//        map { it.toDomain() }
-
 }
 
 @Module

@@ -32,7 +32,6 @@ class ImagesRemoteDataSource @Inject constructor(
         comments = comments,
         downloads = downloads,
         id = id,
-        localId = id,
         imageHeight = imageHeight,
         imageSize = imageSize,
         imageWidth = imageWidth,

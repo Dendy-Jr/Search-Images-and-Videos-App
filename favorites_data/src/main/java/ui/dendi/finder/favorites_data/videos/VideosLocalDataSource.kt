@@ -1,27 +1,29 @@
 package ui.dendi.finder.favorites_data.videos
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ui.dendi.finder.core.core.models.*
-import ui.dendi.finder.videos_data.local.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class VideosLocalDataSource @Inject constructor(
-    private val videoDao: VideoDao,
+    private val dao: FavoritesVideoDao,
 ) {
 
-    fun getVideos(): Flow<List<FavoriteVideo>> =
-        videoDao.getVideos()
+    fun getVideos(): Flow<List<Video>> =
+        dao.getVideos().map {
+            it.toDomain()
+        }
 
     suspend fun insertImage(image: Video) =
-        videoDao.insertImage(image.toCache())
+        dao.insertImage(image.toCache())
 
     suspend fun deleteImage(image: Video) =
-        videoDao.deleteVideo(image.toCache())
+        dao.deleteVideo(image.toCache())
 
     suspend fun deleteAllVideos() =
-        videoDao.deleteAllVideos()
+        dao.deleteAllVideos()
 
     private fun Video.toCache() = FavoriteVideo(
         id = id,
@@ -40,6 +42,9 @@ class VideosLocalDataSource @Inject constructor(
         views = views,
     )
 
+    private fun List<FavoriteVideo>.toDomain(): List<Video> =
+        map { it.toDomain() }
+
     private fun VideosStreams.toDomain() = VideosStreamsCache(
         large = large.toCache(),
         medium = medium.toCache(),
@@ -48,7 +53,9 @@ class VideosLocalDataSource @Inject constructor(
     )
 
     private fun Large.toCache() = LargeCache(height = height, size = size, url = url, width = width)
-    private fun Medium.toCache() = MediumCache(height = height, size = size, url = url, width = width)
+    private fun Medium.toCache() =
+        MediumCache(height = height, size = size, url = url, width = width)
+
     private fun Small.toCache() = SmallCache(height = height, size = size, url = url, width = width)
     private fun Tiny.toCache() = TinyCache(height = height, size = size, url = url, width = width)
 }

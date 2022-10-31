@@ -3,7 +3,6 @@ package ui.dendi.finder.images_data.remote
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
-import ui.dendi.finder.images_data.local.ImagesLocalDataSource
 import ui.dendi.finder.core.core.models.Image
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,7 +10,6 @@ import javax.inject.Singleton
 @Singleton
 class ImagesPagingSource @Inject constructor(
     private val remoteDataSource: ImagesRemoteDataSource,
-    private val localDataSource: ImagesLocalDataSource,
     private val query: String,
     private val type: String,
     private val category: String,
@@ -32,8 +30,6 @@ class ImagesPagingSource @Inject constructor(
                 orientation = orientation,
                 colors = colors
             )
-
-            localDataSource.insertAllImages(images)
 
             LoadResult.Page(
                 data = images,

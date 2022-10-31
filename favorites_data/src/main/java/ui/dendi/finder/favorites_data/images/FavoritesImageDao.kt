@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FavoritesImageDao {
 
-    @Query("SELECT * FROM ${FavoriteImage.FAVORITE_IMAGE_TABLE} ORDER BY Image_date DESC")
+    @Query("SELECT * FROM ${FavoriteImage.FAVORITE_IMAGE_TABLE} ORDER BY date DESC")
     fun getFavoritesImage(): Flow<List<FavoriteImage>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

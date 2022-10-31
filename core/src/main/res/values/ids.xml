@@ -2,4 +2,5 @@
 <resources>
     <item name="navContainer" type="id" />
     <item name="backNavDirection" type="id" />
+    <item name="mainTabLayoutTag" type="id" />
 </resources>

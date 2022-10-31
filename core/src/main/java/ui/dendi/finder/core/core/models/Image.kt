@@ -10,7 +10,6 @@ data class Image(
     val comments: Int,
     val downloads: Int,
     val id: Long,
-    val localId: Long,
     val imageHeight: Int,
     val imageSize: Int,
     val imageWidth: Int,

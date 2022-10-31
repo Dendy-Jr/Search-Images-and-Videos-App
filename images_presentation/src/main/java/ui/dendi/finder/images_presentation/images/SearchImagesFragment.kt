@@ -104,11 +104,6 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
     private fun collectImages() {
         viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.imageResult.collectLatest {
-//                it?.collectLatest { data ->
-//                    adapter.submitData(data)
-//                }
-//            }
             viewModel.imagesFlow.collectLatest { data ->
                 adapter.submitData(data)
             }

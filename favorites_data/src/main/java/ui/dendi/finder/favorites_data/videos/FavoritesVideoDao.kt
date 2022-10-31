@@ -1,10 +1,10 @@
-package ui.dendi.finder.videos_data.local
+package ui.dendi.finder.favorites_data.videos
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface VideoDao {
+interface FavoritesVideoDao {
 
     @Query("SELECT * FROM ${FavoriteVideo.TABLE_VIDEOS}")
     fun getVideos(): Flow<List<FavoriteVideo>>

@@ -15,23 +15,25 @@ import javax.inject.Provider;
     "rawtypes"
 })
 public final class FavoritesImageRepositoryImpl_Factory implements Factory<FavoritesImageRepositoryImpl> {
-  private final Provider<FavoritesImageDao> daoProvider;
+  private final Provider<ImagesLocalDataSource> imagesLocalDataSourceProvider;
 
-  public FavoritesImageRepositoryImpl_Factory(Provider<FavoritesImageDao> daoProvider) {
-    this.daoProvider = daoProvider;
+  public FavoritesImageRepositoryImpl_Factory(
+      Provider<ImagesLocalDataSource> imagesLocalDataSourceProvider) {
+    this.imagesLocalDataSourceProvider = imagesLocalDataSourceProvider;
   }
 
   @Override
   public FavoritesImageRepositoryImpl get() {
-    return newInstance(daoProvider.get());
+    return newInstance(imagesLocalDataSourceProvider.get());
   }
 
   public static FavoritesImageRepositoryImpl_Factory create(
-      Provider<FavoritesImageDao> daoProvider) {
-    return new FavoritesImageRepositoryImpl_Factory(daoProvider);
+      Provider<ImagesLocalDataSource> imagesLocalDataSourceProvider) {
+    return new FavoritesImageRepositoryImpl_Factory(imagesLocalDataSourceProvider);
   }
 
-  public static FavoritesImageRepositoryImpl newInstance(FavoritesImageDao dao) {
-    return new FavoritesImageRepositoryImpl(dao);
+  public static FavoritesImageRepositoryImpl newInstance(
+      ImagesLocalDataSource imagesLocalDataSource) {
+    return new FavoritesImageRepositoryImpl(imagesLocalDataSource);
   }
 }

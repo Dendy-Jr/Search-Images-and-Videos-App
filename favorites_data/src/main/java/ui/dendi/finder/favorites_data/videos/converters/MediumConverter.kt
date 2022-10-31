@@ -1,10 +1,10 @@
-package ui.dendi.finder.videos_data.local.converters
+package ui.dendi.finder.favorites_data.videos.converters
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ui.dendi.finder.core.core.base.BaseConverter
-import ui.dendi.finder.videos_data.local.MediumCache
+import ui.dendi.finder.favorites_data.videos.MediumCache
 
 class MediumConverter: BaseConverter<MediumCache, String> {
 

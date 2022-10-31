@@ -6,7 +6,6 @@ import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
-import ui.dendi.finder.images_data.local.ImagesLocalDataSource;
 import ui.dendi.finder.images_data.remote.ImagesRemoteDataSource;
 
 @ScopeMetadata
@@ -17,29 +16,23 @@ import ui.dendi.finder.images_data.remote.ImagesRemoteDataSource;
     "rawtypes"
 })
 public final class ImagesRepositoryImpl_Factory implements Factory<ImagesRepositoryImpl> {
-  private final Provider<ImagesLocalDataSource> localDataSourceProvider;
-
   private final Provider<ImagesRemoteDataSource> remoteDataSourceProvider;
 
-  public ImagesRepositoryImpl_Factory(Provider<ImagesLocalDataSource> localDataSourceProvider,
-      Provider<ImagesRemoteDataSource> remoteDataSourceProvider) {
-    this.localDataSourceProvider = localDataSourceProvider;
+  public ImagesRepositoryImpl_Factory(Provider<ImagesRemoteDataSource> remoteDataSourceProvider) {
     this.remoteDataSourceProvider = remoteDataSourceProvider;
   }
 
   @Override
   public ImagesRepositoryImpl get() {
-    return newInstance(localDataSourceProvider.get(), remoteDataSourceProvider.get());
+    return newInstance(remoteDataSourceProvider.get());
   }
 
   public static ImagesRepositoryImpl_Factory create(
-      Provider<ImagesLocalDataSource> localDataSourceProvider,
       Provider<ImagesRemoteDataSource> remoteDataSourceProvider) {
-    return new ImagesRepositoryImpl_Factory(localDataSourceProvider, remoteDataSourceProvider);
+    return new ImagesRepositoryImpl_Factory(remoteDataSourceProvider);
   }
 
-  public static ImagesRepositoryImpl newInstance(ImagesLocalDataSource localDataSource,
-      ImagesRemoteDataSource remoteDataSource) {
-    return new ImagesRepositoryImpl(localDataSource, remoteDataSource);
+  public static ImagesRepositoryImpl newInstance(ImagesRemoteDataSource remoteDataSource) {
+    return new ImagesRepositoryImpl(remoteDataSource);
   }
 }

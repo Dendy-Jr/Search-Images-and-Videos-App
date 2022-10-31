@@ -6,7 +6,6 @@ import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
-import ui.dendi.finder.videos_data.local.VideoDao;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -16,22 +15,22 @@ import ui.dendi.finder.videos_data.local.VideoDao;
     "rawtypes"
 })
 public final class VideosLocalDataSource_Factory implements Factory<VideosLocalDataSource> {
-  private final Provider<VideoDao> videoDaoProvider;
+  private final Provider<FavoritesVideoDao> daoProvider;
 
-  public VideosLocalDataSource_Factory(Provider<VideoDao> videoDaoProvider) {
-    this.videoDaoProvider = videoDaoProvider;
+  public VideosLocalDataSource_Factory(Provider<FavoritesVideoDao> daoProvider) {
+    this.daoProvider = daoProvider;
   }
 
   @Override
   public VideosLocalDataSource get() {
-    return newInstance(videoDaoProvider.get());
+    return newInstance(daoProvider.get());
   }
 
-  public static VideosLocalDataSource_Factory create(Provider<VideoDao> videoDaoProvider) {
-    return new VideosLocalDataSource_Factory(videoDaoProvider);
+  public static VideosLocalDataSource_Factory create(Provider<FavoritesVideoDao> daoProvider) {
+    return new VideosLocalDataSource_Factory(daoProvider);
   }
 
-  public static VideosLocalDataSource newInstance(VideoDao videoDao) {
-    return new VideosLocalDataSource(videoDao);
+  public static VideosLocalDataSource newInstance(FavoritesVideoDao dao) {
+    return new VideosLocalDataSource(dao);
   }
 }

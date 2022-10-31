@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="ui.dendi.finder.app.MainFragment"
+        android:name="ui.dendi.finder.app.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" />
 
