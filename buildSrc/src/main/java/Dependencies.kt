@@ -75,13 +75,6 @@ object Dependencies {
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
-    // Glide
-    // https://github.com/bumptech/glide
-    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-
-    // annotationProcessor
-    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
-
     // ExoPlayer
     // https://github.com/google/ExoPlayer
     const val exoplayer = "com.google.android.exoplayer:exoplayer:${Versions.exoplayer}"
@@ -106,4 +99,7 @@ object Dependencies {
     // https://github.com/chthai64/SwipeRevealLayout
     const val swipeRevealLayout = "com.chauthai.swipereveallayout:swipe-reveal-layout:${Versions.swipeRevealLayout}"
     const val datastore = "androidx.datastore:datastore-preferences:${Versions.androidxDataStore}"
+
+    //Coil
+    const val coil = ("io.coil-kt:coil:${Versions.coil}")
 }

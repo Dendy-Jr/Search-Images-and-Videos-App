@@ -8,7 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
-import ui.dendi.finder.core.core.extension.loadImageOriginal
+import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager
 import ui.dendi.finder.core.core.util.Constants.JPG
@@ -33,7 +33,7 @@ class ImageDetailFragment : BaseFragment<ImageDetailViewModel>(R.layout.fragment
 
     private fun onBind() = with(binding) {
         args.image.apply {
-            imageView.loadImageOriginal(largeImageURL)
+            imageView.loadImage(largeImageURL)
             tvLikes.text = likes.toString()
             tvViews.text = views.toString()
             tvType.text = type

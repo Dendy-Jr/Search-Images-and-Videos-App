@@ -8,7 +8,7 @@ import androidx.core.view.doOnNextLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ui.dendi.finder.core.core.base.ViewModelOwner
-import ui.dendi.finder.core.core.extension.loadImageOriginal
+import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.databinding.ItemToolbarBinding
 
 class Toolbar(
@@ -35,7 +35,7 @@ class Toolbar(
     }
 
     fun setUserImage(imageURL: String) {
-        binding.userImage.loadImageOriginal(imageURL)
+        binding.userImage.loadImage(imageURL)
     }
 
     private fun onBackClicked(listener: () -> Unit) {

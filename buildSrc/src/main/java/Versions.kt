@@ -24,7 +24,6 @@ object Versions {
     const val retrofit = "2.9.0"
     const val okhttp = "4.9.3"
     const val timber = "5.0.1"
-    const val glide = "4.13.2"
     const val exoplayer = "2.11.3"
     const val kohii = "1.1.0.2011003"
     const val lottie = "5.0.3"
@@ -32,6 +31,7 @@ object Versions {
     const val viewBinding = "1.5.6"
     const val firebaseBom = "30.3.0"
     const val splashScreen = "1.0.0-beta02"
+    const val coil = "2.2.2"
 
     // plugin
     const val androidGradle = "7.3.1"

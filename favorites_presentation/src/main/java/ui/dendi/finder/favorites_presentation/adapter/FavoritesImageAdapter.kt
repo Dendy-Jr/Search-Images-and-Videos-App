@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
-import ui.dendi.finder.core.core.extension.loadImageOriginal
+import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteImageItemBinding
 
@@ -36,7 +36,7 @@ class FavoritesImageAdapter(
         val swipe = binding.swipeRevealLayout
 
         fun bind(item: Image) = with(binding) {
-            imageView.loadImageOriginal(item.largeImageURL)
+            imageView.loadImage(item.largeImageURL)
 
             ibDelete.setOnClickListener {
                 item.isFavorite = false

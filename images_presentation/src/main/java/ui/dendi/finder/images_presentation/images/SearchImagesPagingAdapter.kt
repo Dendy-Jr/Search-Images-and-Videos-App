@@ -1,13 +1,12 @@
 package ui.dendi.finder.images_presentation.images
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
-import ui.dendi.finder.core.core.extension.loadImageOriginal
+import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.images_presentation.databinding.ImageItemBinding
 
@@ -42,7 +41,7 @@ class SearchImagesPagingAdapter(
         val swipe = binding.swipeRevealLayout
 
         fun bind(item: Image) = with(binding) {
-            imageView.loadImageOriginal(item.largeImageURL)
+            imageView.loadImage(item.largeImageURL)
 
             imageView.setOnClickListener {
                 toImage.invoke(item)

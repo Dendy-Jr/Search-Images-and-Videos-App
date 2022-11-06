@@ -10,8 +10,8 @@ import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ui.dendi.finder.app.R
 import ui.dendi.finder.core.core.base.BaseActivity
-import ui.dendi.finder.core.core.navigation.BackNavDirections
 import ui.dendi.finder.core.core.extension.showToast
+import ui.dendi.finder.core.core.navigation.BackNavDirections
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -39,7 +39,7 @@ class MainActivity : BaseActivity() {
         lifecycleScope.launchWhenCreated {
             viewModel.navigation.collect { navDirections ->
                 if (navDirections is BackNavDirections) {
-                    //TODO Is deprecated.
+                    //TODO Deprecated onBackPressed()
                     onBackPressed()
                     return@collect
                 }

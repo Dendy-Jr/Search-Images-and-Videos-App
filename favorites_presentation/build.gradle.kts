@@ -23,11 +23,6 @@ dependencies {
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     "implementation"(Dependencies.timber)
 
-    // Glide
-    // https://github.com/bumptech/glide
-    "implementation"(Dependencies.glide)
-    "annotationProcessor"(Dependencies.glideCompiler)
-
     // ExoPlayer
     // https://github.com/google/ExoPlayer
     "implementation"(Dependencies.exoplayer)

@@ -12,11 +12,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
+import coil.load
+import coil.request.CachePolicy
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import ui.dendi.finder.core.R
@@ -58,7 +55,7 @@ fun View.customSnackbar(
     snackbar.show()
 }
 
-fun ImageView.loadImageOriginal(imageUri: String) {
+fun ImageView.loadImage(url: String) {
     val circularProgressDrawable = CircularProgressDrawable(context)
     circularProgressDrawable.strokeWidth = 5f
     circularProgressDrawable.centerRadius = 30f
@@ -70,17 +67,9 @@ fun ImageView.loadImageOriginal(imageUri: String) {
     )
     circularProgressDrawable.start()
 
-    Glide.with(context)
-        .applyDefaultRequestOptions(
-            RequestOptions()
-                .dontTransform()
-                .dontAnimate()
-                .placeholder(circularProgressDrawable)
-                .error(R.drawable.ic_image_load_error)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .format(DecodeFormat.PREFER_ARGB_8888)
-                .override(SIZE_ORIGINAL)
-        )
-        .load(imageUri)
-        .into(this)
+    load(url) {
+        placeholder(circularProgressDrawable)
+        error(R.drawable.ic_image_load_error)
+        diskCachePolicy(CachePolicy.ENABLED)
+    }
 }

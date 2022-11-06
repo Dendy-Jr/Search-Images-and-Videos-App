@@ -28,11 +28,6 @@ dependencies {
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     "implementation"(Dependencies.timber)
 
-    // Glide
-    // https://github.com/bumptech/glide
-    "implementation"(Dependencies.glide)
-    "annotationProcessor"(Dependencies.glideCompiler)
-
     // ViewBindingPropertyDelegate
     // https://github.com/androidbroadcast/ViewBindingPropertyDelegate
     "implementation"(Dependencies.viewBinding)

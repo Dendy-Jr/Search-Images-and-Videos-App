@@ -6,14 +6,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import ui.dendi.finder.app.R
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.models.MainTab
-import ui.dendi.finder.core.core.navigation.AppNavDirections
 import ui.dendi.finder.core.core.widget.MainTabBarItem
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val appNavDirections: AppNavDirections
-) : BaseViewModel() {
+class MainViewModel @Inject constructor() : BaseViewModel() {
 
     private val _tabs = MutableStateFlow(emptyList<MainTabBarItem>())
     val tabs = _tabs.asStateFlow()
