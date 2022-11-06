@@ -5,13 +5,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import ui.dendi.finder.core.core.ErrorHandler
+import ui.dendi.finder.core.core.ResourceProvider
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
+import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.favorites_domain.images.usecase.ClearFavoriteImagesUseCase
 import ui.dendi.finder.favorites_domain.images.usecase.DeleteFavoriteImageUseCase
 import ui.dendi.finder.favorites_domain.images.usecase.GetFavoriteImagesUseCase
-import ui.dendi.finder.core.core.models.Image
+import ui.dendi.finder.favorites_presentation.R
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +22,8 @@ class FavoritesImageViewModel @Inject constructor(
     private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
     private val deleteFavoriteImageUseCase: DeleteFavoriteImageUseCase,
     private val clearAllFavoriteImagesUseCase: ClearFavoriteImagesUseCase,
+    private val resourceProvider: ResourceProvider,
+    private val errorHandler: ErrorHandler,
 ) : BaseViewModel() {
 
     private val _favoriteImages = MutableStateFlow<List<Image>>(emptyList())
@@ -37,11 +41,11 @@ class FavoritesImageViewModel @Inject constructor(
             deleteFavoriteImageUseCase(image)
         }
     }
-    // TODO Don't hard code values
+
     fun clearAllImages() {
         dialogManager.show(
-            titleResId = "Delete all images",
-            messageResId = "Are you sure you want to delete all saved images?",
+            titleResId = resourceProvider.getString(R.string.delete_all_images_title),
+            messageResId = resourceProvider.getString(R.string.delete_all_saved_images_question),
             positiveAction = {
                 viewModelScope.launch {
                     clearAllFavoriteImagesUseCase()
@@ -57,8 +61,8 @@ class FavoritesImageViewModel @Inject constructor(
                     result.onSuccess {
                         _favoriteImages.value = it
                         _needShowDeleteButton.value = it.isNotEmpty()
-                    }.onFailure {
-                        Timber.d("Failed")
+                    }.onFailure { throwable ->
+                        errorHandler.onError(throwable)
                     }
                 }
         }

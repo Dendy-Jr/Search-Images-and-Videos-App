@@ -12,13 +12,4 @@ interface VideosRepository {
         category: String? = null,
         order: String? = null,
     ): Flow<PagingData<Video>>
-
-    //TODO Delete it
-//    fun getFavoritesVideo(): Flow<List<Video>>
-//
-//    suspend fun saveVideoToFavorites(item: Video)
-//
-//    suspend fun deleteVideoFromFavorites(item: Video)
-//
-//    suspend fun deleteAllVideos()
 }

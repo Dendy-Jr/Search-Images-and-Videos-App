@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_all_images_title">Delete all images</string>
+    <string name="delete_all_saved_images_question">Are you sure you want to delete all saved images?</string>
+    <string name="delete_all_videos_title">Delete all videos</string>
+    <string name="delete_all_saved_videos_question">Are you sure you want to delete all saved videos?</string>
+</resources>

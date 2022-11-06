@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
+import ui.dendi.finder.core.core.base.EmptyViewModel
 import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager
@@ -20,8 +21,8 @@ import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImageDetailsBinding
 
 @AndroidEntryPoint
-class ImageDetailFragment : BaseFragment<ImageDetailViewModel>(R.layout.fragment_image_details) {
-    override val viewModel: ImageDetailViewModel by viewModels()
+class ImageDetailFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_image_details) {
+    override val viewModel: EmptyViewModel by viewModels()
     private val binding: FragmentImageDetailsBinding by viewBinding()
     private val args by lazy { ImageDetailFragmentArgs.fromBundle(requireArguments()) }
     private val workManager by lazy { WorkManager.getInstance(requireContext()) }

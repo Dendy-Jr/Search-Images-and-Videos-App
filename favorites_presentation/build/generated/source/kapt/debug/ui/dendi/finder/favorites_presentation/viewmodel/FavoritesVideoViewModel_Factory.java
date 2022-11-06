@@ -6,6 +6,7 @@ import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
+import ui.dendi.finder.core.core.ResourceProvider;
 import ui.dendi.finder.core.core.managers.DialogManager;
 import ui.dendi.finder.favorites_domain.videos.usecase.ClearFavoriteVideosUseCase;
 import ui.dendi.finder.favorites_domain.videos.usecase.DeleteFavoriteVideoUseCase;
@@ -19,41 +20,47 @@ import ui.dendi.finder.videos_domain.usecase.GetFavoriteVideosUseCase;
     "rawtypes"
 })
 public final class FavoritesVideoViewModel_Factory implements Factory<FavoritesVideoViewModel> {
-  private final Provider<DialogManager> dialogManagerProvider;
-
   private final Provider<ClearFavoriteVideosUseCase> clearAllFavoriteVideosUseCaseProvider;
-
-  private final Provider<GetFavoriteVideosUseCase> getFavoriteVideosUseCaseProvider;
 
   private final Provider<DeleteFavoriteVideoUseCase> deleteFavoriteVideoUseCaseProvider;
 
-  public FavoritesVideoViewModel_Factory(Provider<DialogManager> dialogManagerProvider,
+  private final Provider<DialogManager> dialogManagerProvider;
+
+  private final Provider<GetFavoriteVideosUseCase> getFavoriteVideosUseCaseProvider;
+
+  private final Provider<ResourceProvider> resourceProvider;
+
+  public FavoritesVideoViewModel_Factory(
       Provider<ClearFavoriteVideosUseCase> clearAllFavoriteVideosUseCaseProvider,
+      Provider<DeleteFavoriteVideoUseCase> deleteFavoriteVideoUseCaseProvider,
+      Provider<DialogManager> dialogManagerProvider,
       Provider<GetFavoriteVideosUseCase> getFavoriteVideosUseCaseProvider,
-      Provider<DeleteFavoriteVideoUseCase> deleteFavoriteVideoUseCaseProvider) {
-    this.dialogManagerProvider = dialogManagerProvider;
+      Provider<ResourceProvider> resourceProvider) {
     this.clearAllFavoriteVideosUseCaseProvider = clearAllFavoriteVideosUseCaseProvider;
-    this.getFavoriteVideosUseCaseProvider = getFavoriteVideosUseCaseProvider;
     this.deleteFavoriteVideoUseCaseProvider = deleteFavoriteVideoUseCaseProvider;
+    this.dialogManagerProvider = dialogManagerProvider;
+    this.getFavoriteVideosUseCaseProvider = getFavoriteVideosUseCaseProvider;
+    this.resourceProvider = resourceProvider;
   }
 
   @Override
   public FavoritesVideoViewModel get() {
-    return newInstance(dialogManagerProvider.get(), clearAllFavoriteVideosUseCaseProvider.get(), getFavoriteVideosUseCaseProvider.get(), deleteFavoriteVideoUseCaseProvider.get());
+    return newInstance(clearAllFavoriteVideosUseCaseProvider.get(), deleteFavoriteVideoUseCaseProvider.get(), dialogManagerProvider.get(), getFavoriteVideosUseCaseProvider.get(), resourceProvider.get());
   }
 
   public static FavoritesVideoViewModel_Factory create(
-      Provider<DialogManager> dialogManagerProvider,
       Provider<ClearFavoriteVideosUseCase> clearAllFavoriteVideosUseCaseProvider,
+      Provider<DeleteFavoriteVideoUseCase> deleteFavoriteVideoUseCaseProvider,
+      Provider<DialogManager> dialogManagerProvider,
       Provider<GetFavoriteVideosUseCase> getFavoriteVideosUseCaseProvider,
-      Provider<DeleteFavoriteVideoUseCase> deleteFavoriteVideoUseCaseProvider) {
-    return new FavoritesVideoViewModel_Factory(dialogManagerProvider, clearAllFavoriteVideosUseCaseProvider, getFavoriteVideosUseCaseProvider, deleteFavoriteVideoUseCaseProvider);
+      Provider<ResourceProvider> resourceProvider) {
+    return new FavoritesVideoViewModel_Factory(clearAllFavoriteVideosUseCaseProvider, deleteFavoriteVideoUseCaseProvider, dialogManagerProvider, getFavoriteVideosUseCaseProvider, resourceProvider);
   }
 
-  public static FavoritesVideoViewModel newInstance(DialogManager dialogManager,
+  public static FavoritesVideoViewModel newInstance(
       ClearFavoriteVideosUseCase clearAllFavoriteVideosUseCase,
-      GetFavoriteVideosUseCase getFavoriteVideosUseCase,
-      DeleteFavoriteVideoUseCase deleteFavoriteVideoUseCase) {
-    return new FavoritesVideoViewModel(dialogManager, clearAllFavoriteVideosUseCase, getFavoriteVideosUseCase, deleteFavoriteVideoUseCase);
+      DeleteFavoriteVideoUseCase deleteFavoriteVideoUseCase, DialogManager dialogManager,
+      GetFavoriteVideosUseCase getFavoriteVideosUseCase, ResourceProvider resourceProvider) {
+    return new FavoritesVideoViewModel(clearAllFavoriteVideosUseCase, deleteFavoriteVideoUseCase, dialogManager, getFavoriteVideosUseCase, resourceProvider);
   }
 }

@@ -15,7 +15,7 @@ class ErrorHandler @Inject constructor(
         dialogManager.show(
             titleResId = resourceProvider.getString(R.string.error),
             messageResId = throwable.message.toString(),
-            setNegativeButtonText = "Cancel",
+            setNegativeButtonText = resourceProvider.getString(R.string.cancel),
         )
     }
 
