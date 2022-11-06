@@ -15,40 +15,39 @@ import javax.inject.Provider;
     "rawtypes"
 })
 public final class VideoPagingSource_Factory implements Factory<VideoPagingSource> {
-  private final Provider<VideosRemoteDataSource> remoteDataSourceProvider;
-
-  private final Provider<String> queryProvider;
-
-  private final Provider<String> typeProvider;
-
   private final Provider<String> categoryProvider;
 
   private final Provider<String> orderProvider;
 
-  public VideoPagingSource_Factory(Provider<VideosRemoteDataSource> remoteDataSourceProvider,
-      Provider<String> queryProvider, Provider<String> typeProvider,
-      Provider<String> categoryProvider, Provider<String> orderProvider) {
-    this.remoteDataSourceProvider = remoteDataSourceProvider;
-    this.queryProvider = queryProvider;
-    this.typeProvider = typeProvider;
+  private final Provider<String> queryProvider;
+
+  private final Provider<VideosRemoteDataSource> remoteDataSourceProvider;
+
+  private final Provider<String> typeProvider;
+
+  public VideoPagingSource_Factory(Provider<String> categoryProvider,
+      Provider<String> orderProvider, Provider<String> queryProvider,
+      Provider<VideosRemoteDataSource> remoteDataSourceProvider, Provider<String> typeProvider) {
     this.categoryProvider = categoryProvider;
     this.orderProvider = orderProvider;
+    this.queryProvider = queryProvider;
+    this.remoteDataSourceProvider = remoteDataSourceProvider;
+    this.typeProvider = typeProvider;
   }
 
   @Override
   public VideoPagingSource get() {
-    return newInstance(remoteDataSourceProvider.get(), queryProvider.get(), typeProvider.get(), categoryProvider.get(), orderProvider.get());
+    return newInstance(categoryProvider.get(), orderProvider.get(), queryProvider.get(), remoteDataSourceProvider.get(), typeProvider.get());
   }
 
-  public static VideoPagingSource_Factory create(
-      Provider<VideosRemoteDataSource> remoteDataSourceProvider, Provider<String> queryProvider,
-      Provider<String> typeProvider, Provider<String> categoryProvider,
-      Provider<String> orderProvider) {
-    return new VideoPagingSource_Factory(remoteDataSourceProvider, queryProvider, typeProvider, categoryProvider, orderProvider);
+  public static VideoPagingSource_Factory create(Provider<String> categoryProvider,
+      Provider<String> orderProvider, Provider<String> queryProvider,
+      Provider<VideosRemoteDataSource> remoteDataSourceProvider, Provider<String> typeProvider) {
+    return new VideoPagingSource_Factory(categoryProvider, orderProvider, queryProvider, remoteDataSourceProvider, typeProvider);
   }
 
-  public static VideoPagingSource newInstance(VideosRemoteDataSource remoteDataSource, String query,
-      String type, String category, String order) {
-    return new VideoPagingSource(remoteDataSource, query, type, category, order);
+  public static VideoPagingSource newInstance(String category, String order, String query,
+      VideosRemoteDataSource remoteDataSource, String type) {
+    return new VideoPagingSource(category, order, query, remoteDataSource, type);
   }
 }

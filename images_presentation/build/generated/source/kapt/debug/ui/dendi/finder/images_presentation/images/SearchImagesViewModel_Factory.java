@@ -22,44 +22,44 @@ import ui.dendi.finder.images_domain.usecase.SearchImagesUseCase;
 public final class SearchImagesViewModel_Factory implements Factory<SearchImagesViewModel> {
   private final Provider<AppNavDirections> appNavDirectionsProvider;
 
-  private final Provider<SearchImagesUseCase> searchImageUseCaseProvider;
+  private final Provider<ImagesFilterStorage> imagesFilterStorageProvider;
 
   private final Provider<SaveImageToFavoritesUseCase> saveImageToFavoritesUseCaseProvider;
 
-  private final Provider<ImagesFilterStorage> imagesFilterStorageProvider;
+  private final Provider<SearchImagesUseCase> searchImageUseCaseProvider;
 
   private final Provider<ImagesStorage> storageProvider;
 
   public SearchImagesViewModel_Factory(Provider<AppNavDirections> appNavDirectionsProvider,
-      Provider<SearchImagesUseCase> searchImageUseCaseProvider,
-      Provider<SaveImageToFavoritesUseCase> saveImageToFavoritesUseCaseProvider,
       Provider<ImagesFilterStorage> imagesFilterStorageProvider,
+      Provider<SaveImageToFavoritesUseCase> saveImageToFavoritesUseCaseProvider,
+      Provider<SearchImagesUseCase> searchImageUseCaseProvider,
       Provider<ImagesStorage> storageProvider) {
     this.appNavDirectionsProvider = appNavDirectionsProvider;
-    this.searchImageUseCaseProvider = searchImageUseCaseProvider;
-    this.saveImageToFavoritesUseCaseProvider = saveImageToFavoritesUseCaseProvider;
     this.imagesFilterStorageProvider = imagesFilterStorageProvider;
+    this.saveImageToFavoritesUseCaseProvider = saveImageToFavoritesUseCaseProvider;
+    this.searchImageUseCaseProvider = searchImageUseCaseProvider;
     this.storageProvider = storageProvider;
   }
 
   @Override
   public SearchImagesViewModel get() {
-    return newInstance(appNavDirectionsProvider.get(), searchImageUseCaseProvider.get(), saveImageToFavoritesUseCaseProvider.get(), imagesFilterStorageProvider.get(), storageProvider.get());
+    return newInstance(appNavDirectionsProvider.get(), imagesFilterStorageProvider.get(), saveImageToFavoritesUseCaseProvider.get(), searchImageUseCaseProvider.get(), storageProvider.get());
   }
 
   public static SearchImagesViewModel_Factory create(
       Provider<AppNavDirections> appNavDirectionsProvider,
-      Provider<SearchImagesUseCase> searchImageUseCaseProvider,
-      Provider<SaveImageToFavoritesUseCase> saveImageToFavoritesUseCaseProvider,
       Provider<ImagesFilterStorage> imagesFilterStorageProvider,
+      Provider<SaveImageToFavoritesUseCase> saveImageToFavoritesUseCaseProvider,
+      Provider<SearchImagesUseCase> searchImageUseCaseProvider,
       Provider<ImagesStorage> storageProvider) {
-    return new SearchImagesViewModel_Factory(appNavDirectionsProvider, searchImageUseCaseProvider, saveImageToFavoritesUseCaseProvider, imagesFilterStorageProvider, storageProvider);
+    return new SearchImagesViewModel_Factory(appNavDirectionsProvider, imagesFilterStorageProvider, saveImageToFavoritesUseCaseProvider, searchImageUseCaseProvider, storageProvider);
   }
 
   public static SearchImagesViewModel newInstance(AppNavDirections appNavDirections,
-      SearchImagesUseCase searchImageUseCase,
+      ImagesFilterStorage imagesFilterStorage,
       SaveImageToFavoritesUseCase saveImageToFavoritesUseCase,
-      ImagesFilterStorage imagesFilterStorage, ImagesStorage storage) {
-    return new SearchImagesViewModel(appNavDirections, searchImageUseCase, saveImageToFavoritesUseCase, imagesFilterStorage, storage);
+      SearchImagesUseCase searchImageUseCase, ImagesStorage storage) {
+    return new SearchImagesViewModel(appNavDirections, imagesFilterStorage, saveImageToFavoritesUseCase, searchImageUseCase, storage);
   }
 }

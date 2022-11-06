@@ -3,13 +3,16 @@ package ui.dendi.finder.core.core.managers
 import android.app.AlertDialog
 import android.content.DialogInterface
 import androidx.annotation.DrawableRes
+import ui.dendi.finder.core.R
 import ui.dendi.finder.core.core.ActivityEngine
+import ui.dendi.finder.core.core.ResourceProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DialogManager @Inject constructor(
     private val activityEngine: ActivityEngine,
+    private val resourceProvider: ResourceProvider,
 ) {
 
     fun show(
@@ -19,8 +22,7 @@ class DialogManager @Inject constructor(
         cancelDialog: Boolean = false,
         positiveAction: (() -> Unit)? = null,
         negativeAction: (() -> Unit)? = null,
-        setNegativeButtonText: String = "No",
-        //TODO Hardcoded string
+        setNegativeButtonText: String = resourceProvider.getString(R.string.no),
     ) {
 
         val listener = DialogInterface.OnClickListener { _, which ->
@@ -39,7 +41,7 @@ class DialogManager @Inject constructor(
             }
             setTitle(titleResId)
             setMessage(messageResId)
-            setPositiveButton("Yes", listener)
+            setPositiveButton(context.getString(R.string.yes), listener)
             setNegativeButton(setNegativeButtonText, listener)
             setOnDismissListener { it.dismiss() }
         }

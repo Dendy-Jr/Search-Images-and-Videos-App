@@ -35,12 +35,12 @@ class ImageDetailFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_image
     private fun onBind() = with(binding) {
         args.image.apply {
             imageView.loadImage(largeImageURL)
-            tvLikes.text = likes.toString()
-            tvViews.text = views.toString()
-            tvType.text = type
-            tvTags.text = tags
             toolbar.setTitle(user)
             toolbar.setUserImage(userImageURL)
+            tvLikes.text = likes.toString()
+            tvTags.text = tags
+            tvType.text = type
+            tvViews.text = views.toString()
         }
 
         btnDownload.setOnClickListener {

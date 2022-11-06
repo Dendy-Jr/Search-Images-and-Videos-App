@@ -18,12 +18,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesImageViewModel @Inject constructor(
-    private val dialogManager: DialogManager,
-    private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
-    private val deleteFavoriteImageUseCase: DeleteFavoriteImageUseCase,
     private val clearAllFavoriteImagesUseCase: ClearFavoriteImagesUseCase,
-    private val resourceProvider: ResourceProvider,
+    private val deleteFavoriteImageUseCase: DeleteFavoriteImageUseCase,
+    private val dialogManager: DialogManager,
     private val errorHandler: ErrorHandler,
+    private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
+    private val resourceProvider: ResourceProvider,
 ) : BaseViewModel() {
 
     private val _favoriteImages = MutableStateFlow<List<Image>>(emptyList())

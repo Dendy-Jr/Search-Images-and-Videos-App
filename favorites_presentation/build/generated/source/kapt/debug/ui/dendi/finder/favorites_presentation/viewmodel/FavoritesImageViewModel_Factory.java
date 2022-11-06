@@ -21,50 +21,51 @@ import ui.dendi.finder.favorites_domain.images.usecase.GetFavoriteImagesUseCase;
     "rawtypes"
 })
 public final class FavoritesImageViewModel_Factory implements Factory<FavoritesImageViewModel> {
-  private final Provider<DialogManager> dialogManagerProvider;
-
-  private final Provider<GetFavoriteImagesUseCase> getFavoriteImagesUseCaseProvider;
+  private final Provider<ClearFavoriteImagesUseCase> clearAllFavoriteImagesUseCaseProvider;
 
   private final Provider<DeleteFavoriteImageUseCase> deleteFavoriteImageUseCaseProvider;
 
-  private final Provider<ClearFavoriteImagesUseCase> clearAllFavoriteImagesUseCaseProvider;
-
-  private final Provider<ResourceProvider> resourceProvider;
+  private final Provider<DialogManager> dialogManagerProvider;
 
   private final Provider<ErrorHandler> errorHandlerProvider;
 
-  public FavoritesImageViewModel_Factory(Provider<DialogManager> dialogManagerProvider,
-      Provider<GetFavoriteImagesUseCase> getFavoriteImagesUseCaseProvider,
-      Provider<DeleteFavoriteImageUseCase> deleteFavoriteImageUseCaseProvider,
+  private final Provider<GetFavoriteImagesUseCase> getFavoriteImagesUseCaseProvider;
+
+  private final Provider<ResourceProvider> resourceProvider;
+
+  public FavoritesImageViewModel_Factory(
       Provider<ClearFavoriteImagesUseCase> clearAllFavoriteImagesUseCaseProvider,
-      Provider<ResourceProvider> resourceProvider, Provider<ErrorHandler> errorHandlerProvider) {
-    this.dialogManagerProvider = dialogManagerProvider;
-    this.getFavoriteImagesUseCaseProvider = getFavoriteImagesUseCaseProvider;
-    this.deleteFavoriteImageUseCaseProvider = deleteFavoriteImageUseCaseProvider;
+      Provider<DeleteFavoriteImageUseCase> deleteFavoriteImageUseCaseProvider,
+      Provider<DialogManager> dialogManagerProvider, Provider<ErrorHandler> errorHandlerProvider,
+      Provider<GetFavoriteImagesUseCase> getFavoriteImagesUseCaseProvider,
+      Provider<ResourceProvider> resourceProvider) {
     this.clearAllFavoriteImagesUseCaseProvider = clearAllFavoriteImagesUseCaseProvider;
-    this.resourceProvider = resourceProvider;
+    this.deleteFavoriteImageUseCaseProvider = deleteFavoriteImageUseCaseProvider;
+    this.dialogManagerProvider = dialogManagerProvider;
     this.errorHandlerProvider = errorHandlerProvider;
+    this.getFavoriteImagesUseCaseProvider = getFavoriteImagesUseCaseProvider;
+    this.resourceProvider = resourceProvider;
   }
 
   @Override
   public FavoritesImageViewModel get() {
-    return newInstance(dialogManagerProvider.get(), getFavoriteImagesUseCaseProvider.get(), deleteFavoriteImageUseCaseProvider.get(), clearAllFavoriteImagesUseCaseProvider.get(), resourceProvider.get(), errorHandlerProvider.get());
+    return newInstance(clearAllFavoriteImagesUseCaseProvider.get(), deleteFavoriteImageUseCaseProvider.get(), dialogManagerProvider.get(), errorHandlerProvider.get(), getFavoriteImagesUseCaseProvider.get(), resourceProvider.get());
   }
 
   public static FavoritesImageViewModel_Factory create(
-      Provider<DialogManager> dialogManagerProvider,
-      Provider<GetFavoriteImagesUseCase> getFavoriteImagesUseCaseProvider,
-      Provider<DeleteFavoriteImageUseCase> deleteFavoriteImageUseCaseProvider,
       Provider<ClearFavoriteImagesUseCase> clearAllFavoriteImagesUseCaseProvider,
-      Provider<ResourceProvider> resourceProvider, Provider<ErrorHandler> errorHandlerProvider) {
-    return new FavoritesImageViewModel_Factory(dialogManagerProvider, getFavoriteImagesUseCaseProvider, deleteFavoriteImageUseCaseProvider, clearAllFavoriteImagesUseCaseProvider, resourceProvider, errorHandlerProvider);
+      Provider<DeleteFavoriteImageUseCase> deleteFavoriteImageUseCaseProvider,
+      Provider<DialogManager> dialogManagerProvider, Provider<ErrorHandler> errorHandlerProvider,
+      Provider<GetFavoriteImagesUseCase> getFavoriteImagesUseCaseProvider,
+      Provider<ResourceProvider> resourceProvider) {
+    return new FavoritesImageViewModel_Factory(clearAllFavoriteImagesUseCaseProvider, deleteFavoriteImageUseCaseProvider, dialogManagerProvider, errorHandlerProvider, getFavoriteImagesUseCaseProvider, resourceProvider);
   }
 
-  public static FavoritesImageViewModel newInstance(DialogManager dialogManager,
-      GetFavoriteImagesUseCase getFavoriteImagesUseCase,
-      DeleteFavoriteImageUseCase deleteFavoriteImageUseCase,
-      ClearFavoriteImagesUseCase clearAllFavoriteImagesUseCase, ResourceProvider resourceProvider,
-      ErrorHandler errorHandler) {
-    return new FavoritesImageViewModel(dialogManager, getFavoriteImagesUseCase, deleteFavoriteImageUseCase, clearAllFavoriteImagesUseCase, resourceProvider, errorHandler);
+  public static FavoritesImageViewModel newInstance(
+      ClearFavoriteImagesUseCase clearAllFavoriteImagesUseCase,
+      DeleteFavoriteImageUseCase deleteFavoriteImageUseCase, DialogManager dialogManager,
+      ErrorHandler errorHandler, GetFavoriteImagesUseCase getFavoriteImagesUseCase,
+      ResourceProvider resourceProvider) {
+    return new FavoritesImageViewModel(clearAllFavoriteImagesUseCase, deleteFavoriteImageUseCase, dialogManager, errorHandler, getFavoriteImagesUseCase, resourceProvider);
   }
 }

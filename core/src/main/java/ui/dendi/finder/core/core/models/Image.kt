@@ -15,6 +15,7 @@ data class Image(
     val imageWidth: Int,
     val largeImageURL: String,
     val likes: Int,
+    val off: OffsetDateTime? = OffsetDateTime.now(),
     val pageURL: String,
     val previewHeight: Int,
     val previewURL: String,
@@ -28,5 +29,4 @@ data class Image(
     val webFormatURL: String,
     val webFormatWidth: Int,
     var isFavorite: Boolean = false,
-    val off: OffsetDateTime? = OffsetDateTime.now(),
 ) : Parcelable

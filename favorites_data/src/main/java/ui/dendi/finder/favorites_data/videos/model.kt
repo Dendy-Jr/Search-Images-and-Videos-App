@@ -32,10 +32,10 @@ data class FavoriteVideo(
 ) : Parcelable {
 
     fun toDomain() = Video(
-        id = id,
         comments = comments,
         downloads = downloads,
         duration = duration,
+        id = id,
         likes = likes,
         pageURL = pageURL,
         pictureId = pictureId,

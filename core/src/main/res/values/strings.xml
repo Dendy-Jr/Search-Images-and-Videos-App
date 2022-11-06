@@ -72,4 +72,6 @@
     <string name="latest">latest</string>
     <string name="filtering_has_been_reset">Filtering has been reset</string>
     <string name="cancel">Cancel</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>

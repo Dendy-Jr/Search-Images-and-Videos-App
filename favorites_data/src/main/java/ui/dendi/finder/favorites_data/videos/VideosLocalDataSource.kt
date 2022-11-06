@@ -26,10 +26,10 @@ class VideosLocalDataSource @Inject constructor(
         dao.deleteAllVideos()
 
     private fun Video.toCache() = FavoriteVideo(
-        id = id,
         comments = comments,
         downloads = downloads,
         duration = duration,
+        id = id,
         likes = likes,
         pageURL = pageURL,
         pictureId = pictureId,

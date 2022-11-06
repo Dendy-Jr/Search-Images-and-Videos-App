@@ -9,13 +9,13 @@ class ImagesRemoteDataSource @Inject constructor(
     private val imagesApi: ImagesApi,
 ) {
     suspend fun getImages(
-        query: String,
+        category: String,
+        colors: String,
+        orientation: String,
         page: Int,
         perPage: Int,
+        query: String,
         type: String,
-        category: String,
-        orientation: String,
-        colors: String,
     ): List<Image> =
         imagesApi.searchImages(
             query,

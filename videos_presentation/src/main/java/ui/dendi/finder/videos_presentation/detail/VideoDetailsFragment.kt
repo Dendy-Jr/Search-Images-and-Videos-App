@@ -15,6 +15,7 @@ import kohii.v1.core.MemoryMode
 import kohii.v1.core.Playback
 import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
+import ui.dendi.finder.core.core.base.EmptyViewModel
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager
 import ui.dendi.finder.core.core.util.Constants.KEY_FILE_NAME
@@ -27,11 +28,11 @@ import ui.dendi.finder.videos_presentation.R
 import ui.dendi.finder.videos_presentation.databinding.FragmentVideoDetailsBinding
 
 @AndroidEntryPoint
-class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragment_video_details),
+class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_video_details),
     Manager.OnSelectionListener {
 
     private val binding: FragmentVideoDetailsBinding by viewBinding()
-    override val viewModel: VideoDetailsViewModel by viewModels()
+    override val viewModel: EmptyViewModel by viewModels()
     private val workManager by lazy { WorkManager.getInstance(requireContext()) }
     private val args by lazy { VideoDetailsFragmentArgs.fromBundle(requireArguments()) }
 
@@ -55,12 +56,12 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
             preload = true
         }.bind(playerView)
 
-        tvLikes.text = video.likes.toString()
-        tvViews.text = video.views.toString()
-        tvType.text = video.type
-        tvTags.text = video.tags
         toolbar.setTitle(video.user)
         toolbar.setUserImage(video.userImageURL)
+        tvLikes.text = video.likes.toString()
+        tvTags.text = video.tags
+        tvType.text = video.type
+        tvViews.text = video.views.toString()
 
         btnDownload.setOnClickListener {
             startDownloadingFile()

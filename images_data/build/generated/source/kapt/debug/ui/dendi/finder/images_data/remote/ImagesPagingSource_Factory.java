@@ -15,44 +15,44 @@ import javax.inject.Provider;
     "rawtypes"
 })
 public final class ImagesPagingSource_Factory implements Factory<ImagesPagingSource> {
-  private final Provider<ImagesRemoteDataSource> remoteDataSourceProvider;
-
-  private final Provider<String> queryProvider;
-
-  private final Provider<String> typeProvider;
-
   private final Provider<String> categoryProvider;
-
-  private final Provider<String> orientationProvider;
 
   private final Provider<String> colorsProvider;
 
-  public ImagesPagingSource_Factory(Provider<ImagesRemoteDataSource> remoteDataSourceProvider,
-      Provider<String> queryProvider, Provider<String> typeProvider,
-      Provider<String> categoryProvider, Provider<String> orientationProvider,
-      Provider<String> colorsProvider) {
-    this.remoteDataSourceProvider = remoteDataSourceProvider;
-    this.queryProvider = queryProvider;
-    this.typeProvider = typeProvider;
+  private final Provider<String> orientationProvider;
+
+  private final Provider<String> queryProvider;
+
+  private final Provider<ImagesRemoteDataSource> remoteDataSourceProvider;
+
+  private final Provider<String> typeProvider;
+
+  public ImagesPagingSource_Factory(Provider<String> categoryProvider,
+      Provider<String> colorsProvider, Provider<String> orientationProvider,
+      Provider<String> queryProvider, Provider<ImagesRemoteDataSource> remoteDataSourceProvider,
+      Provider<String> typeProvider) {
     this.categoryProvider = categoryProvider;
-    this.orientationProvider = orientationProvider;
     this.colorsProvider = colorsProvider;
+    this.orientationProvider = orientationProvider;
+    this.queryProvider = queryProvider;
+    this.remoteDataSourceProvider = remoteDataSourceProvider;
+    this.typeProvider = typeProvider;
   }
 
   @Override
   public ImagesPagingSource get() {
-    return newInstance(remoteDataSourceProvider.get(), queryProvider.get(), typeProvider.get(), categoryProvider.get(), orientationProvider.get(), colorsProvider.get());
+    return newInstance(categoryProvider.get(), colorsProvider.get(), orientationProvider.get(), queryProvider.get(), remoteDataSourceProvider.get(), typeProvider.get());
   }
 
-  public static ImagesPagingSource_Factory create(
-      Provider<ImagesRemoteDataSource> remoteDataSourceProvider, Provider<String> queryProvider,
-      Provider<String> typeProvider, Provider<String> categoryProvider,
-      Provider<String> orientationProvider, Provider<String> colorsProvider) {
-    return new ImagesPagingSource_Factory(remoteDataSourceProvider, queryProvider, typeProvider, categoryProvider, orientationProvider, colorsProvider);
+  public static ImagesPagingSource_Factory create(Provider<String> categoryProvider,
+      Provider<String> colorsProvider, Provider<String> orientationProvider,
+      Provider<String> queryProvider, Provider<ImagesRemoteDataSource> remoteDataSourceProvider,
+      Provider<String> typeProvider) {
+    return new ImagesPagingSource_Factory(categoryProvider, colorsProvider, orientationProvider, queryProvider, remoteDataSourceProvider, typeProvider);
   }
 
-  public static ImagesPagingSource newInstance(ImagesRemoteDataSource remoteDataSource,
-      String query, String type, String category, String orientation, String colors) {
-    return new ImagesPagingSource(remoteDataSource, query, type, category, orientation, colors);
+  public static ImagesPagingSource newInstance(String category, String colors, String orientation,
+      String query, ImagesRemoteDataSource remoteDataSource, String type) {
+    return new ImagesPagingSource(category, colors, orientation, query, remoteDataSource, type);
   }
 }

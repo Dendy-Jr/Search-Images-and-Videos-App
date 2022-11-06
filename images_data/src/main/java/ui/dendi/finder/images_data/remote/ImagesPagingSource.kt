@@ -9,12 +9,12 @@ import javax.inject.Singleton
 
 @Singleton
 class ImagesPagingSource @Inject constructor(
-    private val remoteDataSource: ImagesRemoteDataSource,
-    private val query: String,
-    private val type: String,
     private val category: String,
-    private val orientation: String,
     private val colors: String,
+    private val orientation: String,
+    private val query: String,
+    private val remoteDataSource: ImagesRemoteDataSource,
+    private val type: String,
 ) : PagingSource<Int, Image>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {

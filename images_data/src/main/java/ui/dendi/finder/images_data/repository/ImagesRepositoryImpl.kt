@@ -19,11 +19,11 @@ class ImagesRepositoryImpl @Inject constructor(
 ) : ImagesRepository {
 
     override fun getPagedImages(
+        category: String?,
+        colors: String?,
+        orientation: String?,
         query: String,
         type: String?,
-        category: String?,
-        orientation: String?,
-        colors: String?,
     ): Flow<PagingData<Image>> {
         return Pager(
             config = PagingConfig(
@@ -31,12 +31,12 @@ class ImagesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 ImagesPagingSource(
-                    remoteDataSource,
-                    query,
-                    type ?: "",
-                    category ?: "",
-                    orientation ?: "",
-                    colors ?: "",
+                    category = query,
+                    colors = category ?: "",
+                    orientation = category ?: "",
+                    query = orientation ?: "",
+                    remoteDataSource = remoteDataSource,
+                    type = colors ?: "",
                 )
             },
         ).flow

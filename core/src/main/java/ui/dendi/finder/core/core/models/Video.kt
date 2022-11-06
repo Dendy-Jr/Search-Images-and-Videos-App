@@ -6,10 +6,10 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class Video(
-    val id: Int,
     val comments: Int,
     val downloads: Int,
     val duration: Int,
+    val id: Int,
     val likes: Int,
     val pageURL: String,
     val pictureId: String,

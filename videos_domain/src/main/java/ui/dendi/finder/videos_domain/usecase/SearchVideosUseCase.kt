@@ -12,15 +12,15 @@ class SearchVideosUseCase @Inject constructor(
     private val repository: VideosRepository,
 ) {
     operator fun invoke(
-        query: String,
-        type: String?,
         category: String?,
         order: String?,
+        query: String,
+        type: String?,
     ): Flow<PagingData<Video>> =
         repository.getPagedVideos(
+            category = category,
+            order = order,
             query = query,
             type = type,
-            category = category,
-            order = order
         )
 }

@@ -9,10 +9,11 @@ import java.util.Date
 @Entity(tableName = FAVORITE_IMAGE_TABLE)
 data class FavoriteImage(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
     val collections: Int,
     val comments: Int,
+    val date: Date,
     val downloads: Int,
+    val id: Long,
     val imageHeight: Int,
     val imageSize: Int,
     val imageWidth: Int,
@@ -30,7 +31,6 @@ data class FavoriteImage(
     val webFormatHeight: Int,
     val webFormatURL: String,
     val webFormatWidth: Int,
-    val date: Date,
 ) {
 
     fun toDomain() = Image(

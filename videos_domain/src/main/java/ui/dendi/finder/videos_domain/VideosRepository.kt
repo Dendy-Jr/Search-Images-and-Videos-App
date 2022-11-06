@@ -7,9 +7,9 @@ import ui.dendi.finder.core.core.models.Video
 interface VideosRepository {
 
     fun getPagedVideos(
-        query: String,
-        type: String? = null,
         category: String? = null,
         order: String? = null,
+        query: String,
+        type: String? = null,
     ): Flow<PagingData<Video>>
 }

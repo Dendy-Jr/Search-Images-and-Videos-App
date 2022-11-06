@@ -8,9 +8,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
+import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.videos_data.remote.VideoPagingSource
 import ui.dendi.finder.videos_data.remote.VideosRemoteDataSource
-import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.videos_domain.VideosRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,10 +20,10 @@ class VideosRepositoryImpl @Inject constructor(
 ) : VideosRepository {
 
     override fun getPagedVideos(
-        query: String,
-        type: String?,
         category: String?,
         order: String?,
+        query: String,
+        type: String?,
     ): Flow<PagingData<Video>> =
         Pager(config = PagingConfig(
             pageSize = 20,
@@ -31,11 +31,11 @@ class VideosRepositoryImpl @Inject constructor(
         ),
             pagingSourceFactory = {
                 VideoPagingSource(
-                    remoteDataSource = remoteDataSource,
-                    query = query,
-                    type = type,
                     category = category,
-                    order = order
+                    order = order,
+                    query = query,
+                    remoteDataSource = remoteDataSource,
+                    type = type,
                 )
             }
         ).flow

@@ -9,11 +9,11 @@ import javax.inject.Singleton
 
 @Singleton
 class VideoPagingSource @Inject constructor(
-    private val remoteDataSource: VideosRemoteDataSource,
-    private val query: String,
-    private val type: String?,
     private val category: String?,
     private val order: String?,
+    private val query: String,
+    private val remoteDataSource: VideosRemoteDataSource,
+    private val type: String?,
 ) : PagingSource<Int, Video>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Video> {
@@ -21,7 +21,14 @@ class VideoPagingSource @Inject constructor(
             val pageNumber = params.key ?: PAGE_NUMBER
             val pageSize = params.loadSize
             val videos =
-                remoteDataSource.getVideos(query, pageNumber, pageSize, type, category, order)
+                remoteDataSource.getVideos(
+                    category = category,
+                    order = order,
+                    page = pageNumber,
+                    perPage = pageSize,
+                    query = query,
+                    type = type,
+                )
 
             LoadResult.Page(
                 data = videos,

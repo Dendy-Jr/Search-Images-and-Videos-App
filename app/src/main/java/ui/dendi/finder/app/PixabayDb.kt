@@ -15,16 +15,16 @@ import ui.dendi.finder.favorites_data.videos.converters.TinyConverter
 
 @Database(
     entities = [
-        FavoriteVideo::class,
         FavoriteImage::class,
+        FavoriteVideo::class,
     ], version = 1, exportSchema = false
 )
 @TypeConverters(
+    DateConverter::class,
     LargeConverter::class,
     MediumConverter::class,
     SmallConverter::class,
     TinyConverter::class,
-    DateConverter::class,
 )
 abstract class PixabayDb : RoomDatabase() {
 

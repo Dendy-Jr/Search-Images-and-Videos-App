@@ -20,19 +20,19 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchImagesViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
-    private val searchImageUseCase: SearchImagesUseCase,
-    private val saveImageToFavoritesUseCase: SaveImageToFavoritesUseCase,
     private val imagesFilterStorage: ImagesFilterStorage,
+    private val saveImageToFavoritesUseCase: SaveImageToFavoritesUseCase,
+    private val searchImageUseCase: SearchImagesUseCase,
     private val storage: ImagesStorage,
 ) : BaseViewModel() {
 
     private val _searchBy = MutableStateFlow(storage.query)
     val searchBy = _searchBy.asStateFlow()
 
-    private val imageType = imagesFilterStorage.getType
     private val imageCategory = imagesFilterStorage.getCategory
-    private val imageOrientation = imagesFilterStorage.getOrientation
     private val imageColors = imagesFilterStorage.getColors
+    private val imageOrientation = imagesFilterStorage.getOrientation
+    private val imageType = imagesFilterStorage.getType
 
     var imagesFlow = MutableStateFlow<PagingData<Image>>(PagingData.empty())
         private set

@@ -28,10 +28,11 @@ class ImagesLocalDataSource @Inject constructor(
     suspend fun deleteAllImage() = dao.clearAll()
 
     private fun Image.toFavorite() = FavoriteImage(
-        id = id,
         collections = collections,
         comments = comments,
+        date = Date.from(off?.toInstant()),
         downloads = downloads,
+        id = id,
         imageHeight = imageHeight,
         imageSize = imageSize,
         imageWidth = imageWidth,
@@ -49,6 +50,5 @@ class ImagesLocalDataSource @Inject constructor(
         webFormatHeight = webFormatHeight,
         webFormatURL = webFormatURL,
         webFormatWidth = webFormatWidth,
-        date = Date.from(off?.toInstant()),
     )
 }

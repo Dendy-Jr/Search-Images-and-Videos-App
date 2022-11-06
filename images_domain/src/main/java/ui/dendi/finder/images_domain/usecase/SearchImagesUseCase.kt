@@ -12,17 +12,17 @@ class SearchImagesUseCase @Inject constructor(
     private val repository: ImagesRepository,
 ) {
     operator fun invoke(
+        category: String,
+        colors: String,
+        orientation: String,
         query: String,
         type: String,
-        category: String,
-        orientation: String,
-        colors: String,
     ): Flow<PagingData<Image>> =
         repository.getPagedImages(
+            category = category,
+            colors = colors,
+            orientation = orientation,
             query = query,
             type = type,
-            category = category,
-            orientation = orientation,
-            colors = colors,
         )
 }

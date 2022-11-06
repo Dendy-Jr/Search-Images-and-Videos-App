@@ -22,10 +22,10 @@ class ImagesFilterStorage @Inject constructor(
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(IMAGES_KEY_STORAGE)
 
-    private val imagesType = stringPreferencesKey(IMAGES_TYPE)
     private val imagesCategory = stringPreferencesKey(IMAGES_CATEGORY)
-    private val imagesOrientation = stringPreferencesKey(IMAGES_ORIENTATION)
     private val imagesColors = stringPreferencesKey(IMAGES_COLORS)
+    private val imagesOrientation = stringPreferencesKey(IMAGES_ORIENTATION)
+    private val imagesType = stringPreferencesKey(IMAGES_TYPE)
 
     val getType: Flow<String> = context.dataStore.data
         .catch { exception ->
@@ -100,15 +100,15 @@ class ImagesFilterStorage @Inject constructor(
     }
 
     private companion object {
-        private const val IMAGES_KEY_STORAGE = "IMAGES_KEY_STORAGE"
-        private const val IMAGES_TYPE = "IMAGES_TYPE"
         private const val IMAGES_CATEGORY = "IMAGES_CATEGORY"
-        private const val IMAGES_ORIENTATION = "IMAGES_ORIENTATION"
         private const val IMAGES_COLORS = "IMAGES_COLORS"
+        private const val IMAGES_KEY_STORAGE = "IMAGES_KEY_STORAGE"
+        private const val IMAGES_ORIENTATION = "IMAGES_ORIENTATION"
+        private const val IMAGES_TYPE = "IMAGES_TYPE"
 
-        private const val DEFAULT_TYPE = "all"
         private const val DEFAULT_CATEGORY = "sports"
-        private const val DEFAULT_ORIENTATION = "all"
         private const val DEFAULT_COLORS = ""
+        private const val DEFAULT_ORIENTATION = "all"
+        private const val DEFAULT_TYPE = "all"
     }
 }
