@@ -31,12 +31,12 @@ class ImagesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 ImagesPagingSource(
-                    category = query,
-                    colors = category ?: "",
-                    orientation = category ?: "",
-                    query = orientation ?: "",
+                    category = category ?: "",
+                    colors = colors ?: "",
+                    orientation = orientation ?: "",
+                    query = query ?: "",
                     remoteDataSource = remoteDataSource,
-                    type = colors ?: "",
+                    type = type ?: "",
                 )
             },
         ).flow

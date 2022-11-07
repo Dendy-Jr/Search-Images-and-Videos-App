@@ -5,6 +5,7 @@
     android:id="@+id/swipeRevealLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
     android:layout_marginBottom="6dp"
     app:dragEdge="right"
     app:mode="same_level">

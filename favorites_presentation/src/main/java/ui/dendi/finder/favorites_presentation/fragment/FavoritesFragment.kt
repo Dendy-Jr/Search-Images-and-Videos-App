@@ -40,10 +40,10 @@ class FavoritesFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_favorit
 
         TabLayoutMediator(tabLayout, pager) { tab, position ->
             when (position) {
-                0 -> {
+                IMAGES_POSITION -> {
                     tab.text = IMAGES
                 }
-                1 -> {
+                VIDEOS_POSITION -> {
                     tab.text = VIDEOS
                 }
             }
@@ -53,5 +53,8 @@ class FavoritesFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_favorit
     private companion object {
         const val IMAGES = "Images"
         const val VIDEOS = "Videos"
+
+        const val IMAGES_POSITION = 0
+        const val VIDEOS_POSITION = 1
     }
 }
