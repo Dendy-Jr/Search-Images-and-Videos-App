@@ -34,6 +34,12 @@ android {
 
         buildConfigField("String", "PIXABAY_API_KEY", "\"22377618-bb4b614e69696a850b2455e19\"")
         buildConfigField("String", "BASE_URL", "\"https://pixabay.com/api/\"")
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$rootDir/schemas")
+            }
+        }
     }
 
     buildTypes {

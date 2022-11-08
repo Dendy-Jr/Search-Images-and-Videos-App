@@ -34,7 +34,7 @@ object Versions {
     const val coil = "2.2.2"
 
     // plugin
-    const val androidGradle = "7.3.1"
+    const val androidGradle = "7.2.2"
     const val kotlinGradle = "1.7.10"
     const val kotlinSerialization = "1.6.20"
     const val hiltGradle = "2.42"
