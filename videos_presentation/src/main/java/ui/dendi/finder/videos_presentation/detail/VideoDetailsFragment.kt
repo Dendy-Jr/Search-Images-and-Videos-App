@@ -13,7 +13,6 @@ import kohii.v1.core.Common
 import kohii.v1.core.Manager
 import kohii.v1.core.MemoryMode
 import kohii.v1.core.Playback
-import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.EmptyViewModel
 import ui.dendi.finder.core.core.extension.showToast
@@ -113,18 +112,18 @@ class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_vide
                     when (it.state) {
                         WorkInfo.State.SUCCEEDED -> {
                             requireContext().showToast(R.string.video_uploaded_successfully)
-                            Timber.d("${it.outputData.getString(KEY_FILE_URI)}")
+                            log("${it.outputData.getString(KEY_FILE_URI)}")
                         }
                         WorkInfo.State.FAILED -> {
                             requireContext().showToast(R.string.downloading_failed)
-                            Timber.d(getString(R.string.downloading_failed))
+                            log(getString(R.string.downloading_failed))
                         }
                         WorkInfo.State.RUNNING -> {
                             requireContext().showToast(R.string.download_started)
-                            Timber.d(getString(R.string.download_started))
+                            log(getString(R.string.download_started))
                         }
                         else -> {
-                            Timber.d(getString(R.string.something_went_wrong))
+                            log(getString(R.string.something_went_wrong))
                         }
                     }
                 }

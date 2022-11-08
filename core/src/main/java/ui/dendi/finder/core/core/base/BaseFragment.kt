@@ -11,11 +11,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.R
+import ui.dendi.finder.core.core.Logger
+import ui.dendi.finder.core.core.LoggerImpl
 import ui.dendi.finder.core.core.navigation.BackNavDirections
 
 abstract class BaseFragment<VM : BaseViewModel>(
     @LayoutRes contentLayoutId: Int,
-) : Fragment(contentLayoutId), ViewModelOwner<VM> {
+) : Fragment(contentLayoutId), ViewModelOwner<VM>, Logger by LoggerImpl() {
 
     abstract override val viewModel: VM
 

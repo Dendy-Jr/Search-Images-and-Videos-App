@@ -1,6 +1,5 @@
 package ui.dendi.finder.favorites_presentation.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,13 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
 import kohii.v1.core.Common
 import kohii.v1.exoplayer.Kohii
+import ui.dendi.finder.core.core.Logger
+import ui.dendi.finder.core.core.LoggerImpl
 import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteVideoItemBinding
 
 class FavoritesVideoAdapter(
     private val kohii: Kohii,
     private val deleteFromFavorite: (Video) -> Unit,
-) : ListAdapter<Video, FavoritesVideoAdapter.FavoritesVideoViewHolder>(ItemCallback) {
+) : ListAdapter<Video, FavoritesVideoAdapter.FavoritesVideoViewHolder>(ItemCallback),
+    Logger by LoggerImpl() {
 
     private val viewBinderHelper = ViewBinderHelper()
 
@@ -29,7 +31,7 @@ class FavoritesVideoAdapter(
         val videoItem = getItem(position) ?: return
         kohii.setUp(videoItem.videos.tiny.url) {
             tag = "${videoItem.videos.tiny.url}+${position}"
-            Log.d("kohii", "${videoItem.videos.large.url}+${position}")
+            log("${videoItem.videos.large.url}+${position}")
             repeatMode = Common.REPEAT_MODE_ONE
             preload = true
         }.bind(holder.playerContainer)
