@@ -20,8 +20,12 @@
         android:id="@+id/tv_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
-        android:text="@string/load_error"
+        android:text="@string/no_internet_connection"
+        android:textColor="@color/red_900"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:visibility="gone"
         tools:visibility="visible" />
 
@@ -29,6 +33,7 @@
         android:id="@+id/btn_retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/retry"
         android:visibility="gone"
         tools:visibility="visible" />

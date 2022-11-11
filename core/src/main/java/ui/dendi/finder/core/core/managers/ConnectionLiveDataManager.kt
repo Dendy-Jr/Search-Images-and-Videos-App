@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.IOException
 import ui.dendi.finder.core.core.Logger
+import ui.dendi.finder.core.core.LoggerImpl
 import java.net.InetSocketAddress
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,8 +23,7 @@ import javax.net.SocketFactory
 @Singleton
 class ConnectionLiveDataManager @Inject constructor(
     @ApplicationContext context: Context,
-    private val logger: Logger,
-) : LiveData<Boolean>() {
+) : LiveData<Boolean>(), Logger by LoggerImpl() {
 
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
     private val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -49,16 +49,16 @@ class ConnectionLiveDataManager @Inject constructor(
 
     private fun createNetworkCallback() = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            logger.log("onAvailable: $network")
+            log("onAvailable: $network")
             val networkCapabilities = cm.getNetworkCapabilities(network)
             val hasInternetCapability = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
-            logger.log("onAvailable: $network, $hasInternetCapability")
+            log("onAvailable: $network, $hasInternetCapability")
             if (hasInternetCapability == true) {
                 coroutineScope.launch {
                     val hasInternet = DoesNetworkHaveInternet.execute(network.socketFactory)
                     if (hasInternet) {
                         withContext(Dispatchers.Main) {
-                            logger.log("onAvailable: adding network. $network")
+                            log("onAvailable: adding network. $network")
                             validNetwork.add(network)
                             checkValidNetwork()
                         }
@@ -68,26 +68,24 @@ class ConnectionLiveDataManager @Inject constructor(
         }
 
         override fun onLost(network: Network) {
-            logger.log("onLost: $network")
+            log("onLost: $network")
             validNetwork.remove(network)
             checkValidNetwork()
         }
     }
 
-    object DoesNetworkHaveInternet {
-
-        private lateinit var logger: Logger
+    object DoesNetworkHaveInternet : Logger by LoggerImpl() {
 
         fun execute(socketFactory: SocketFactory): Boolean {
             return try {
-                logger.log("PINGING Google...")
+                log("PINGING Google...")
                 val socket = socketFactory.createSocket() ?: throw IOException("Socket is null.")
                 socket.connect(InetSocketAddress("8.8.8.8", 53), 1500)
                 socket.close()
-                logger.log("PING success.")
+                log("PING success.")
                 true
             } catch (e: IOException) {
-                logger.log("No Internet Connection. $e")
+                log("No Internet Connection. $e")
                 false
             }
         }

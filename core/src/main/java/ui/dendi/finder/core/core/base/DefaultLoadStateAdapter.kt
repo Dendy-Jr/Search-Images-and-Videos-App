@@ -1,6 +1,7 @@
 package ui.dendi.finder.core.core.base
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
@@ -35,19 +36,20 @@ class DefaultLoadStateAdapter(
         init {
             binding.btnRetry.setOnClickListener {
                 retry.invoke()
+                binding.progressBar.isVisible = true
             }
         }
 
         fun bind(loadState: LoadState) = with(binding) {
             btnRetry.isVisible = loadState is LoadState.Error
             tvError.isVisible = loadState is LoadState.Error
-            tvError.text = binding.root.context.getString(R.string.unknown_error_occurred)
+            tvError.text = root.context.getString(R.string.no_internet_connection)
 
             if (swipeRefreshLayout != null) {
                 swipeRefreshLayout.isRefreshing = loadState is LoadState.Loading
-                progressBar.isVisible = false
+                progressBar.visibility = View.INVISIBLE
             } else {
-                progressBar.isVisible = loadState is LoadState.Loading
+                if (loadState is LoadState.Loading) progressBar.visibility = View.VISIBLE
             }
         }
     }
