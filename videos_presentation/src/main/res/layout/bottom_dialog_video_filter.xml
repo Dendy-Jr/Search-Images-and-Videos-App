@@ -245,7 +245,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/ic_reset"
-        app:backgroundTint="@color/blue_500"
+        app:backgroundTint="@color/white"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/btn_close"
         app:layout_constraintEnd_toEndOf="parent"

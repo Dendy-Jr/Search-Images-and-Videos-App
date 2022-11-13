@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.hideKeyboard
+import ui.dendi.finder.core.core.extension.scrollToTop
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.extension.simpleScan
 import ui.dendi.finder.images_presentation.R
@@ -63,10 +64,12 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             }
         }
 
-        ivFilter.setOnClickListener {
+        btnFilter.setOnClickListener {
             val imageFilterBottomDialog = ImageFilterBottomDialog()
             imageFilterBottomDialog.show(parentFragmentManager, imageFilterBottomDialog.tag)
         }
+
+        recyclerView.scrollToTop(btnScrollToTop)
 
         collectImages()
         setupList()

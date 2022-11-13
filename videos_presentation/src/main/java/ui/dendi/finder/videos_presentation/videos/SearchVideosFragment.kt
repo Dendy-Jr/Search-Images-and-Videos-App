@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.hideKeyboard
+import ui.dendi.finder.core.core.extension.scrollToTop
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.extension.simpleScan
 import ui.dendi.finder.core.core.util.KohiiProvider
@@ -43,7 +44,7 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
     private fun onBind() = with(binding) {
         val kohii = KohiiProvider.get(requireContext())
         kohii.register(this@SearchVideosFragment, memoryMode = MemoryMode.BALANCED)
-            .addBucket(view = binding.recyclerViewVideo,
+            .addBucket(view = binding.recyclerView,
                 strategy = Strategy.MULTI_PLAYER,
                 selector = { candidates ->
                     candidates.take(2)
@@ -79,9 +80,9 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             }
         }
 
-        recyclerViewVideo.adapter = adapter
+        recyclerView.adapter = adapter
 
-        recyclerViewVideo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                     recyclerView.hideKeyboard()
@@ -96,6 +97,8 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             }
         }
 
+        recyclerView.scrollToTop(btnScrollToTop)
+
         setupList(adapter)
         observeState(adapter)
         setupRefreshLayout(adapter)
@@ -103,17 +106,17 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
     }
 
     private fun setupList(adapter: VideosPagingAdapter) = with(binding) {
-        recyclerViewVideo.adapter = adapter
-        (recyclerViewVideo.itemAnimator as? DefaultItemAnimator)
+        recyclerView.adapter = adapter
+        (recyclerView.itemAnimator as? DefaultItemAnimator)
             ?.supportsChangeAnimations = false
-        recyclerViewVideo.addItemDecoration(
+        recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL
             )
         )
 
-        recyclerViewVideo.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) recyclerView.hideKeyboard()
             }
@@ -122,7 +125,7 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         lifecycleScope.launch {
             val footerAdapter = DefaultLoadStateAdapter { adapter.retry() }
             val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
-            recyclerViewVideo.adapter = adapterWithLoadState
+            recyclerView.adapter = adapterWithLoadState
         }
     }
 
@@ -151,7 +154,7 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             .collect { (previousState, currentState) ->
                 if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
                     delay(200)
-                    binding.recyclerViewVideo.scrollToPosition(0)
+                    binding.recyclerView.scrollToPosition(0)
                 }
             }
     }
