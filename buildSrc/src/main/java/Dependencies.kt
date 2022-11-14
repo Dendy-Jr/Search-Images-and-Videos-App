@@ -102,4 +102,8 @@ object Dependencies {
 
     //Coil
     const val coil = ("io.coil-kt:coil:${Versions.coil}")
+
+    // OkHttpProfiler
+    // https://github.com/itkacher/OkHttpProfiler
+    const val okHttpProfiler = ("com.localebro:okhttpprofiler:${Versions.okHttpProfiler}")
 }

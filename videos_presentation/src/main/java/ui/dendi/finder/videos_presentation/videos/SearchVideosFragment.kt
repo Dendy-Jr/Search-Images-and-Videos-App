@@ -7,8 +7,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,34 +97,10 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
 
         recyclerView.scrollToTop(btnScrollToTop)
 
-        setupList(adapter)
+        recyclerView.setupList(adapter, searchEditText)
         observeState(adapter)
         setupRefreshLayout(adapter)
         handleScrollingToTop(adapter)
-    }
-
-    private fun setupList(adapter: VideosPagingAdapter) = with(binding) {
-        recyclerView.adapter = adapter
-        (recyclerView.itemAnimator as? DefaultItemAnimator)
-            ?.supportsChangeAnimations = false
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) recyclerView.hideKeyboard()
-            }
-        })
-
-        lifecycleScope.launch {
-            val footerAdapter = DefaultLoadStateAdapter { adapter.retry() }
-            val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
-            recyclerView.adapter = adapterWithLoadState
-        }
     }
 
     private fun setupRefreshLayout(adapter: VideosPagingAdapter) {

@@ -32,6 +32,7 @@ object Versions {
     const val firebaseBom = "30.3.0"
     const val splashScreen = "1.0.0-beta02"
     const val coil = "2.2.2"
+    const val okHttpProfiler = "1.0.8"
 
     // plugin
     const val androidGradle = "7.2.2"

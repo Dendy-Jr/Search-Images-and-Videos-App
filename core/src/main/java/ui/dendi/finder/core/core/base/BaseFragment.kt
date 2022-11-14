@@ -11,13 +11,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.R
 import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.LoggerImpl
+import ui.dendi.finder.core.core.extension.hideKeyboard
 import ui.dendi.finder.core.core.managers.ConnectionLiveDataManager
 import ui.dendi.finder.core.core.navigation.BackNavDirections
+import ui.dendi.finder.core.core.widget.SearchEditText
 import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel>(
@@ -92,7 +98,6 @@ abstract class BaseFragment<VM : BaseViewModel>(
                     onBackPressedCallback.isEnabled = false
                     //TODO Deprecated
                     requireActivity().onBackPressed()
-
                     return@collect
                 }
 
@@ -115,5 +120,29 @@ abstract class BaseFragment<VM : BaseViewModel>(
         }
         val sharedIntent = Intent.createChooser(sendIntent, userName)
         startActivity(sharedIntent)
+    }
+
+    protected fun RecyclerView.setupList(
+        adapter: RecyclerView.Adapter<*>,
+        editText: SearchEditText,
+    ) {
+        this.adapter = (adapter as? PagingDataAdapter<*, *>) ?: return
+        (itemAnimator as? DefaultItemAnimator)?.supportsChangeAnimations = false
+        addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+
+        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    recyclerView.hideKeyboard()
+                    editText.clearFocus()
+                }
+            }
+        })
+
+        lifecycleScope.launch {
+            val footerAdapter = DefaultLoadStateAdapter { adapter.retry() }
+            val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
+            this@setupList.adapter = adapterWithLoadState
+        }
     }
 }

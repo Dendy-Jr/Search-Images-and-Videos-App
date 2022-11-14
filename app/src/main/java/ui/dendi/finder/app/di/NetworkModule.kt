@@ -1,6 +1,7 @@
 package ui.dendi.finder.app.di
 
 import com.google.gson.GsonBuilder
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,7 @@ class NetworkModule {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            .addInterceptor(OkHttpProfilerInterceptor())
         val gson = GsonBuilder()
             .setLenient()
             .create()

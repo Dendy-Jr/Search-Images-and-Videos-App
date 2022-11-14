@@ -128,6 +128,10 @@ dependencies {
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     implementation(Dependencies.timber)
     implementation(Dependencies.viewBinding)
+
+    // OkHttpProfiler
+    // https://github.com/itkacher/OkHttpProfiler
+    implementation(Dependencies.okHttpProfiler)
 }
 
 kapt {

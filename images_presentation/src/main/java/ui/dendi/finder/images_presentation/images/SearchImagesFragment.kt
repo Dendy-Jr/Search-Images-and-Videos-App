@@ -8,10 +8,6 @@ import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +17,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
-import ui.dendi.finder.core.core.extension.hideKeyboard
 import ui.dendi.finder.core.core.extension.scrollToTop
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.extension.simpleScan
@@ -71,32 +66,10 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
         recyclerView.scrollToTop(btnScrollToTop)
 
+        recyclerView.setupList(adapter, searchEditText)
         collectImages()
-        setupList()
         observeState()
         setupRefreshLayout()
-    }
-
-    private fun setupList() = with(binding) {
-        recyclerView.adapter = adapter
-        (recyclerView.itemAnimator as? DefaultItemAnimator)
-            ?.supportsChangeAnimations = false
-        recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    recyclerView.hideKeyboard()
-                    searchEditText.clearFocus()
-                }
-            }
-        })
-
-        lifecycleScope.launch {
-            val footerAdapter = DefaultLoadStateAdapter { adapter.retry() }
-            val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
-            recyclerView.adapter = adapterWithLoadState
-        }
     }
 
     private fun setupRefreshLayout() {
