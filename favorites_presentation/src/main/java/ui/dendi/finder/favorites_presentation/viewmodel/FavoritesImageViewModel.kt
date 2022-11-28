@@ -2,43 +2,61 @@ package ui.dendi.finder.favorites_presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ui.dendi.finder.core.core.ErrorHandler
 import ui.dendi.finder.core.core.ResourceProvider
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
 import ui.dendi.finder.core.core.models.Image
-import ui.dendi.finder.favorites_domain.images.usecase.ClearFavoriteImagesUseCase
+import ui.dendi.finder.core.core.multichoice.MultiChoiceHandler
+import ui.dendi.finder.core.core.multichoice.MultiChoiceState
 import ui.dendi.finder.favorites_domain.images.usecase.DeleteFavoriteImageUseCase
 import ui.dendi.finder.favorites_domain.images.usecase.GetFavoriteImagesUseCase
 import ui.dendi.finder.favorites_presentation.R
+import ui.dendi.finder.favorites_presentation.multichoice.ImageListItem
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesImageViewModel @Inject constructor(
-    private val clearAllFavoriteImagesUseCase: ClearFavoriteImagesUseCase,
     private val deleteFavoriteImageUseCase: DeleteFavoriteImageUseCase,
     private val dialogManager: DialogManager,
-    private val errorHandler: ErrorHandler,
     private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
     private val resourceProvider: ResourceProvider,
+    private val multiChoiceHandler: MultiChoiceHandler<Image>,
 ) : BaseViewModel() {
 
-    private val _favoriteImages = MutableStateFlow<List<Image>>(emptyList())
-    val favoriteImages = _favoriteImages.asStateFlow()
+    //TODO no more needed ClearFavoriteImagesUseCase, because I delete images when they are checked
+
+    private val _favoriteImagesState = MutableStateFlow<ImagesState?>(null)
+    val favoriteImagesState = _favoriteImagesState.asStateFlow().filterNotNull()
 
     private val _needShowDeleteButton = MutableStateFlow(false)
     val needShowDeleteButton = _needShowDeleteButton.asStateFlow()
 
     init {
-        getFavoriteImages()
+        viewModelScope.launch {
+            multiChoiceHandler.setItemsFlow(viewModelScope, getFavoriteImagesUseCase())
+            val combineFlow = combine(
+                getFavoriteImagesUseCase.invoke(),
+                multiChoiceHandler.listen(),
+                ::merge
+            )
+            combineFlow.collectLatest {
+                _favoriteImagesState.value = it
+                _needShowDeleteButton.value = it.totalCheckedCount != 0
+            }
+        }
     }
 
-    fun deleteFromFavoritesImage(image: Image) {
+    fun deleteFromFavoritesImage(image: ImageListItem) {
         viewModelScope.launch {
-            deleteFavoriteImageUseCase(image)
+            deleteFavoriteImageUseCase(image.image)
+        }
+    }
+
+    fun onImageToggle(image: ImageListItem) {
+        viewModelScope.launch {
+            multiChoiceHandler.toggle(image.image)
         }
     }
 
@@ -48,23 +66,52 @@ class FavoritesImageViewModel @Inject constructor(
             messageResId = resourceProvider.getString(R.string.delete_all_saved_images_question),
             positiveAction = {
                 viewModelScope.launch {
-                    clearAllFavoriteImagesUseCase()
+                    deleteSelectedImages()
                 }
             },
         )
     }
 
-    private fun getFavoriteImages() {
+    private fun deleteSelectedImages() {
         viewModelScope.launch {
-            getFavoriteImagesUseCase()
-                .collect { result ->
-                    result.onSuccess {
-                        _favoriteImages.value = it
-                        _needShowDeleteButton.value = it.isNotEmpty()
-                    }.onFailure { throwable ->
-                        errorHandler.onError(throwable)
-                    }
+            multiChoiceHandler.checkedItems().collect { images ->
+                images.forEach { image ->
+                    deleteFavoriteImageUseCase(image)
                 }
+            }
         }
     }
+
+    private fun merge(images: List<Image>, multiChoiceState: MultiChoiceState<Image>): ImagesState {
+        return ImagesState(
+            images = images.map { image ->
+                ImageListItem(image, multiChoiceState.isChecked(image))
+            },
+            totalCount = images.size,
+            totalCheckedCount = multiChoiceState.totalCheckedCount,
+            selectAllOperation = if (multiChoiceState.totalCheckedCount < images.size) {
+                SelectAllOperation(R.string.select_all, multiChoiceHandler::selectAll)
+            } else {
+                SelectAllOperation(R.string.clear_all, multiChoiceHandler::clearAll)
+            }
+        )
+    }
+
+    fun selectOrClearAll() {
+        viewModelScope.launch {
+            _favoriteImagesState.value?.selectAllOperation?.operation?.invoke()
+        }
+    }
+
+    data class ImagesState(
+        val totalCount: Int,
+        val totalCheckedCount: Int,
+        val images: List<ImageListItem>,
+        val selectAllOperation: SelectAllOperation
+    )
+
+    data class SelectAllOperation(
+        val titleRes: Int,
+        val operation: suspend () -> Unit,
+    )
 }

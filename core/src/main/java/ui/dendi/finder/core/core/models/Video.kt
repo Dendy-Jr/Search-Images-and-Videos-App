@@ -9,7 +9,7 @@ data class Video(
     val comments: Int,
     val downloads: Int,
     val duration: Int,
-    val id: Int,
+    val id: Long,
     val likes: Int,
     val pageURL: String,
     val pictureId: String,

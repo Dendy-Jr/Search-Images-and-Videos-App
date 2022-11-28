@@ -3,7 +3,7 @@ package ui.dendi.finder.favorites_data.images
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ui.dendi.finder.core.core.models.Image
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,11 +12,11 @@ class ImagesLocalDataSource @Inject constructor(
     private val dao: FavoritesImageDao
 ) {
 
-    fun getFavoritesImage(): Flow<Result<List<Image>>> =
+    fun getFavoritesImage(): Flow<List<Image>> =
         dao.getFavoritesImage().map { images ->
-            Result.success(images.map {
+            images.map {
                 it.toDomain()
-            })
+            }
         }
 
     suspend fun insertImage(image: Image) =

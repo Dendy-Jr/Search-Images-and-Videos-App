@@ -13,7 +13,7 @@ import ui.dendi.finder.favorites_data.videos.FavoriteVideo.Companion.TABLE_VIDEO
 @Entity(tableName = TABLE_VIDEOS)
 data class FavoriteVideo(
     @PrimaryKey
-    val id: Int,
+    val id: Long,
     val comments: Int,
     val downloads: Int,
     val duration: Int,

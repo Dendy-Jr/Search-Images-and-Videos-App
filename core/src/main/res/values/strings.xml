@@ -78,4 +78,11 @@
     <string name="white">white</string>
     <string name="yellow">yellow</string>
     <string name="yes">Yes</string>
+    <string name="delete_all_images_title">Delete all images</string>
+    <string name="delete_all_saved_images_question">Are you sure you want to delete all saved images?</string>
+    <string name="delete_all_videos_title">Delete all videos</string>
+    <string name="delete_all_saved_videos_question">Are you sure you want to delete all saved videos?</string>
+    <string name="select_all">Select All</string>
+    <string name="clear_all">Clear All</string>
+    <string name="selection_state">Selected: %1$d out of %2$d</string>
 </resources>

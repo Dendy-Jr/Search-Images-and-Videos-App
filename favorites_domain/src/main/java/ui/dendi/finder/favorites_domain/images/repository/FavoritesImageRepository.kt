@@ -5,7 +5,7 @@ import ui.dendi.finder.core.core.models.Image
 
 interface FavoritesImageRepository {
 
-    fun getFavoritesImage(): Flow<Result<List<Image>>>
+    fun getFavoritesImage(): Flow<List<Image>>
 
     suspend fun insertImage(image: Image)
 

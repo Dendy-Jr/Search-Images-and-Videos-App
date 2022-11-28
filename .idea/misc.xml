@@ -66,15 +66,20 @@
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/drawable/ic_favorites.xml" value="0.213" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/drawable/ic_filter.xml" value="0.194" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/drawable/ic_images.xml" value="0.213" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/drawable/ic_remove.xml" value="0.2115" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/drawable/ic_videos.xml" value="0.213" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/font/lemon.xml" value="0.284375" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/layout-v26/view_main_tabbar_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/layout/fragment_main.xml" value="0.2542991141219385" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/layout/item_edit_text.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/layout/item_toolbar.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/layout/progress_circular_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/layout/view_main_tabbar_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/core/src/main/res/menu/bottom_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/favorites_presentation/src/main/res/layout/favorite_image_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/favorites_presentation/src/main/res/layout/favorite_video_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/favorites_presentation/src/main/res/layout/fragment_favorites.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/favorites_presentation/src/main/res/layout/fragment_favorites_image.xml" value="0.264" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/favorites_presentation/src/main/res/layout/fragment_favorites_video.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/images_presentation/src/main/res/drawable/bg_image.xml" value="0.181" />
         <entry key="..\:/Users/Oleh/AndroidStudioProjects/Finder/images_presentation/src/main/res/layout/bottom_dialog_image_filter.xml" value="0.25416666666666665" />

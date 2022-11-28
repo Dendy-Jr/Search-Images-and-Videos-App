@@ -1,7 +1,6 @@
 package ui.dendi.finder.favorites_presentation.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -11,11 +10,12 @@ import kohii.v1.core.MemoryMode
 import kohii.v1.core.Strategy
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.extension.collectWithLifecycle
-import ui.dendi.finder.core.core.extension.showSnackbar
 import ui.dendi.finder.core.core.util.KohiiProvider
-import ui.dendi.finder.favorites_presentation.adapter.FavoritesVideoAdapter
 import ui.dendi.finder.favorites_presentation.R
+import ui.dendi.finder.favorites_presentation.adapter.FavoritesVideoAdapter
+import ui.dendi.finder.favorites_presentation.adapter.VideoAdapterListener
 import ui.dendi.finder.favorites_presentation.databinding.FragmentFavoritesVideoBinding
+import ui.dendi.finder.favorites_presentation.multichoice.VideoListItem
 import ui.dendi.finder.favorites_presentation.viewmodel.FavoritesVideoViewModel
 
 @AndroidEntryPoint
@@ -43,16 +43,36 @@ class FavoritesVideoFragment :
 
         val videoAdapter = FavoritesVideoAdapter(
             kohii = kohii,
-        ) {
-            viewModel.deleteFromFavoritesVideo(it)
-        }
+            listener = object : VideoAdapterListener {
+                override fun onVideoDelete(video: VideoListItem) {
+                    viewModel.deleteFromFavoritesVideo(video)
+                }
 
-        collectWithLifecycle(viewModel.favoriteVideos) {
-            videoAdapter.submitList(it)
+                override fun onVideoChosen(video: VideoListItem) {
+                    // TODO navigate to details screen
+                }
+
+                override fun onVideoToggle(video: VideoListItem) {
+                    viewModel.onVideoToggle(video)
+                }
+            }
+        )
+
+        collectWithLifecycle(viewModel.favoriteVideos) { state ->
+            videoAdapter.submitList(state.videos)
+            selectOrClearAllTextView.setText(state.selectAllOperation.titleRes)
+            selectionStateTextView.text = getString(
+                R.string.selection_state,
+                state.totalCheckedCount, state.totalCount
+            )
         }
 
         collectWithLifecycle(viewModel.needShowDeleteButton) { needShowButton ->
             btnDeleteAll.isVisible = needShowButton
+        }
+
+        selectOrClearAllTextView.setOnClickListener {
+            viewModel.selectOrClearAll()
         }
 
         rvVideosFavorite.adapter = videoAdapter

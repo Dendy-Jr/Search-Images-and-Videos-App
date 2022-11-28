@@ -20,7 +20,7 @@ data class VideoCloud(
     @SerializedName("duration")
     val duration: Int,
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
     @SerializedName("likes")
     val likes: Int,
     @SerializedName("pageURL")

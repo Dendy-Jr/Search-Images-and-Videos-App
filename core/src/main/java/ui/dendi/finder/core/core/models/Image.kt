@@ -28,5 +28,4 @@ data class Image(
     val webFormatHeight: Int,
     val webFormatURL: String,
     val webFormatWidth: Int,
-    var isFavorite: Boolean = false,
 ) : Parcelable

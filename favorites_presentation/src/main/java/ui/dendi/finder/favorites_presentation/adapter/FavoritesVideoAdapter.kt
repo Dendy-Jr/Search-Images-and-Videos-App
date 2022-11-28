@@ -1,31 +1,53 @@
 package ui.dendi.finder.favorites_presentation.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.chauthai.swipereveallayout.ViewBinderHelper
 import kohii.v1.core.Common
 import kohii.v1.exoplayer.Kohii
 import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.LoggerImpl
-import ui.dendi.finder.core.core.models.Video
+import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteVideoItemBinding
+import ui.dendi.finder.favorites_presentation.multichoice.VideoListItem
 
 class FavoritesVideoAdapter(
     private val kohii: Kohii,
-    private val deleteFromFavorite: (Video) -> Unit,
-) : ListAdapter<Video, FavoritesVideoAdapter.FavoritesVideoViewHolder>(ItemCallback),
-    Logger by LoggerImpl() {
+    private val listener: VideoAdapterListener,
+) : ListAdapter<VideoListItem, FavoritesVideoAdapter.FavoritesVideoViewHolder>(ItemCallback),
+    Logger by LoggerImpl(), View.OnClickListener, View.OnLongClickListener {
 
-    private val viewBinderHelper = ViewBinderHelper()
+    override fun onClick(v: View) {
+        val video = v.tag as VideoListItem
+        when (v.id) {
+            R.id.deleteVideoView -> listener.onVideoDelete(video)
+            R.id.checkbox -> listener.onVideoToggle(video)
+            else -> listener.onVideoChosen(video)
+        }
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        FavoriteVideoItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent, false
-        ).let(::FavoritesVideoViewHolder)
+    override fun onLongClick(v: View): Boolean {
+        val video = v.tag as VideoListItem
+        listener.onVideoToggle(video)
+        return true
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesVideoViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = FavoriteVideoItemBinding.inflate(inflater, parent, false)
+
+        binding.apply {
+            root.setOnClickListener(this@FavoritesVideoAdapter)
+            playerContainer.setOnClickListener(this@FavoritesVideoAdapter)
+            deleteVideoView.setOnClickListener(this@FavoritesVideoAdapter)
+            checkbox.setOnClickListener(this@FavoritesVideoAdapter)
+        }
+
+        return FavoritesVideoViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: FavoritesVideoViewHolder, position: Int) {
         val videoItem = getItem(position) ?: return
@@ -36,32 +58,30 @@ class FavoritesVideoAdapter(
             preload = true
         }.bind(holder.playerContainer)
         holder.bind(getItem(position)!!)
-        viewBinderHelper.setOpenOnlyOne(true)
-        viewBinderHelper.bind(holder.swipe, videoItem.id.toString())
-        viewBinderHelper.closeLayout(videoItem.id.toString())
     }
 
     inner class FavoritesVideoViewHolder(
         private val binding: FavoriteVideoItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        val swipe = binding.swipeRevealLayout
-        val playerContainer = binding.playerContainer
+        val playerContainer = binding.exoPlayer
 
-        fun bind(item: Video) = with(binding) {
-            ibDelete.setOnClickListener {
-                deleteFromFavorite.invoke(item)
-                swipe.close(false)
-            }
+        fun bind(item: VideoListItem) = with(binding) {
+            checkbox.tag = item
+            deleteVideoView.tag = item
+            root.tag = item
+            playerContainer.tag = item
+
+            checkbox.isChecked = item.isChecked
         }
     }
 
-    companion object ItemCallback : DiffUtil.ItemCallback<Video>() {
-        override fun areItemsTheSame(oldItem: Video, newItem: Video) =
+    companion object ItemCallback : DiffUtil.ItemCallback<VideoListItem>() {
+        override fun areItemsTheSame(oldItem: VideoListItem, newItem: VideoListItem): Boolean =
             oldItem.id == newItem.id
 
 
-        override fun areContentsTheSame(oldItem: Video, newItem: Video) =
+        override fun areContentsTheSame(oldItem: VideoListItem, newItem: VideoListItem): Boolean =
             oldItem == newItem
     }
 }

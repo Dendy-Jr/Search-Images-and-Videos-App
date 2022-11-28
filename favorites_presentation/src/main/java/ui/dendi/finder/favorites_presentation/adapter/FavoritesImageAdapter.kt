@@ -1,56 +1,75 @@
 package ui.dendi.finder.favorites_presentation.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.chauthai.swipereveallayout.ViewBinderHelper
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ui.dendi.finder.core.core.extension.loadImage
-import ui.dendi.finder.core.core.models.Image
+import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteImageItemBinding
+import ui.dendi.finder.favorites_presentation.multichoice.ImageListItem
 
 class FavoritesImageAdapter(
-    private val deleteFromFavorite: (Image) -> Unit,
-) : ListAdapter<Image, FavoritesImageAdapter.FavoritesImageViewHolder>(ItemCallback) {
+    private val listener: ImageAdapterListener,
+) : ListAdapter<ImageListItem, FavoritesImageAdapter.FavoritesImageViewHolder>(ItemCallback),
+    View.OnClickListener, View.OnLongClickListener {
 
-    private val viewBinderHelper = ViewBinderHelper()
+    override fun onClick(v: View) {
+        val image = v.tag as ImageListItem
+        when (v.id) {
+            R.id.deleteImageView -> listener.onImageDelete(image)
+            R.id.checkbox -> listener.onImageToggle(image)
+            else -> listener.onImageChosen(image)
+        }
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        FavoriteImageItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent, false,
-        ).let(::FavoritesImageViewHolder)
+    override fun onLongClick(v: View): Boolean {
+        val image = v.tag as ImageListItem
+        listener.onImageToggle(image)
+        return true
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesImageViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = FavoriteImageItemBinding.inflate(inflater, parent, false)
+
+        binding.apply {
+            root.setOnClickListener(this@FavoritesImageAdapter)
+            rootContainer.setOnLongClickListener(this@FavoritesImageAdapter)
+            deleteImageView.setOnClickListener(this@FavoritesImageAdapter)
+            checkbox.setOnClickListener(this@FavoritesImageAdapter)
+        }
+
+        return FavoritesImageViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: FavoritesImageViewHolder, position: Int) {
         holder.bind(getItem(position))
-        viewBinderHelper.setOpenOnlyOne(true)
-        viewBinderHelper.bind(holder.swipe, getItem(position).id.toString())
-        viewBinderHelper.closeLayout(getItem(position).id.toString())
     }
 
     inner class FavoritesImageViewHolder(
         private val binding: FavoriteImageItemBinding,
-    ) : RecyclerView.ViewHolder(binding.root) {
+    ) : ViewHolder(binding.root) {
 
-        val swipe = binding.swipeRevealLayout
-
-        fun bind(item: Image) = with(binding) {
+        fun bind(item: ImageListItem) = with(binding) {
             imageView.loadImage(item.largeImageURL)
 
-            ibDelete.setOnClickListener {
-                item.isFavorite = false
-                deleteFromFavorite.invoke(item)
-                swipe.close(false)
-            }
+            checkbox.tag = item
+            deleteImageView.tag = item
+            root.tag = item
+            rootContainer.tag = item
+
+            checkbox.isChecked = item.isChecked
         }
     }
 
-    companion object ItemCallback : DiffUtil.ItemCallback<Image>() {
-        override fun areItemsTheSame(oldItem: Image, newItem: Image) =
+    companion object ItemCallback : DiffUtil.ItemCallback<ImageListItem>() {
+        override fun areItemsTheSame(oldItem: ImageListItem, newItem: ImageListItem): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Image, newItem: Image) =
+        override fun areContentsTheSame(oldItem: ImageListItem, newItem: ImageListItem): Boolean =
             oldItem == newItem
     }
 }
