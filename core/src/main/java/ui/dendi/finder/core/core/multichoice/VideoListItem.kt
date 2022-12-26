@@ -1,4 +1,4 @@
-package ui.dendi.finder.favorites_presentation.multichoice
+package ui.dendi.finder.core.core.multichoice
 
 import ui.dendi.finder.core.core.models.Video
 

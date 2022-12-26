@@ -1,6 +1,6 @@
 package ui.dendi.finder.favorites_presentation.adapter
 
-import ui.dendi.finder.favorites_presentation.multichoice.VideoListItem
+import ui.dendi.finder.core.core.multichoice.VideoListItem
 
 interface VideoAdapterListener {
     fun onVideoDelete(video: VideoListItem)

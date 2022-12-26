@@ -1,5 +1,5 @@
 <resources>
-    <string name="added_to_favorites">Added to favorites</string>
+    <string name="added_to_favorite">Added to favorite</string>
     <string name="all">all</string>
     <string name="animals">animals</string>
     <string name="app_name">Finder:\nImages &amp; Videos</string>
@@ -85,4 +85,6 @@
     <string name="select_all">Select All</string>
     <string name="clear_all">Clear All</string>
     <string name="selection_state">Selected: %1$d out of %2$d</string>
+    <string name="animation">animation</string>
+    <string name="film">film</string>
 </resources>

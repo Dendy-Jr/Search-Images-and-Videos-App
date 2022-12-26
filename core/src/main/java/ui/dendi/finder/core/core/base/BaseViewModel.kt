@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.navigation.BackNavDirections
 import javax.inject.Inject
 
@@ -17,7 +18,7 @@ interface ViewModelOwner<VM : BaseViewModel> {
     val viewModel: VM
 }
 
-open class BaseViewModel : ViewModel() {
+open class BaseViewModel(private val logger: Logger) : ViewModel(), Logger by logger {
 
     private val _navigation = MutableSharedFlow<NavDirections>(
         replay = 1,
@@ -47,4 +48,4 @@ open class BaseViewModel : ViewModel() {
 }
 
 @HiltViewModel
-class EmptyViewModel @Inject constructor() : BaseViewModel()
+class EmptyViewModel @Inject constructor(logger: Logger) : BaseViewModel(logger)

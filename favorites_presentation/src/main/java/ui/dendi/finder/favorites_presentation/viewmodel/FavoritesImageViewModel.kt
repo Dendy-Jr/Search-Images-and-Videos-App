@@ -4,16 +4,17 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.ResourceProvider
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
 import ui.dendi.finder.core.core.models.Image
+import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.core.core.multichoice.MultiChoiceHandler
 import ui.dendi.finder.core.core.multichoice.MultiChoiceState
 import ui.dendi.finder.favorites_domain.images.usecase.DeleteFavoriteImageUseCase
 import ui.dendi.finder.favorites_domain.images.usecase.GetFavoriteImagesUseCase
 import ui.dendi.finder.favorites_presentation.R
-import ui.dendi.finder.favorites_presentation.multichoice.ImageListItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +24,8 @@ class FavoritesImageViewModel @Inject constructor(
     private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
     private val resourceProvider: ResourceProvider,
     private val multiChoiceHandler: MultiChoiceHandler<Image>,
-) : BaseViewModel() {
+    logger: Logger,
+) : BaseViewModel(logger) {
 
     //TODO no more needed ClearFavoriteImagesUseCase, because I delete images when they are checked
 

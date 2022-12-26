@@ -3,6 +3,7 @@ package ui.dendi.finder.images_presentation.images
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.images_data.local.ImagesFilterStorage
 import javax.inject.Inject
@@ -10,7 +11,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ImageFilterViewModel @Inject constructor(
     private val storage: ImagesFilterStorage,
-) : BaseViewModel() {
+    logger: Logger,
+) : BaseViewModel(logger) {
 
     fun setType(type: String?) {
         viewModelScope.launch {

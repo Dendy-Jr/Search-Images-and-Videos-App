@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
 import ui.dendi.finder.core.core.models.Image
+import ui.dendi.finder.images_domain.repository.MultiChoiceImagesRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,6 +16,7 @@ class ImagesPagingSource @Inject constructor(
     private val query: String,
     private val remoteDataSource: ImagesRemoteDataSource,
     private val type: String,
+    private val multiChoiceImagesRepository: MultiChoiceImagesRepository,
 ) : PagingSource<Int, Image>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
@@ -30,7 +32,7 @@ class ImagesPagingSource @Inject constructor(
                 orientation = orientation,
                 colors = colors
             )
-
+            multiChoiceImagesRepository.insertImages(images)
             LoadResult.Page(
                 data = images,
                 prevKey = if (pageNumber > 1) pageNumber - 1 else null,

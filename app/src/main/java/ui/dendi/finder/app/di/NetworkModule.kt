@@ -6,14 +6,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ui.dendi.finder.app.BuildConfig
+import ui.dendi.finder.core.core.network.DownloadFileApi
 import ui.dendi.finder.images_data.remote.ImagesApi
 import ui.dendi.finder.videos_data.remote.VideosApi
-import ui.dendi.finder.core.core.network.DownloadFileApi
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,6 +43,14 @@ class NetworkModule {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpBuilder.build())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun json(): Json = Json {
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+        isLenient = true
     }
 
     @Provides

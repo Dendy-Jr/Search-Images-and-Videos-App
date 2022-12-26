@@ -1,12 +1,12 @@
-package ui.dendi.finder.favorites_data.images
+package ui.dendi.finder.images_data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ui.dendi.finder.core.core.models.Image
-import ui.dendi.finder.favorites_data.images.FavoriteImage.Companion.FAVORITE_IMAGE_TABLE
+import ui.dendi.finder.images_data.local.MultiChoiceImage.Companion.MULTI_CHOICE_IMAGE
 
-@Entity(tableName = FAVORITE_IMAGE_TABLE)
-data class FavoriteImage(
+@Entity(tableName = MULTI_CHOICE_IMAGE)
+data class MultiChoiceImage(
     val collections: Int,
     val comments: Int,
     val downloads: Int,
@@ -56,6 +56,6 @@ data class FavoriteImage(
     )
 
     companion object {
-        const val FAVORITE_IMAGE_TABLE = "favorite_image_table"
+        const val MULTI_CHOICE_IMAGE = "MULTI_CHOICE_IMAGE"
     }
 }

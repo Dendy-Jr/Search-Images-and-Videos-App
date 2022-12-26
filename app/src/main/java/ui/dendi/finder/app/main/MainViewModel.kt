@@ -4,13 +4,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ui.dendi.finder.app.R
+import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.models.MainTab
 import ui.dendi.finder.core.core.widget.MainTabBarItem
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : BaseViewModel() {
+class MainViewModel @Inject constructor(
+    logger: Logger,
+) : BaseViewModel(logger) {
 
     private val _tabs = MutableStateFlow(emptyList<MainTabBarItem>())
     val tabs = _tabs.asStateFlow()

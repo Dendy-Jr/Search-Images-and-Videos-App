@@ -12,7 +12,7 @@ import ui.dendi.finder.favorites_data.videos.FavoriteVideo.Companion.TABLE_VIDEO
 @Parcelize
 @Entity(tableName = TABLE_VIDEOS)
 data class FavoriteVideo(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
     val comments: Int,
     val downloads: Int,

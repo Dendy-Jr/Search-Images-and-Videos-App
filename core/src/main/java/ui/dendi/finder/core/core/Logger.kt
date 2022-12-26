@@ -16,6 +16,7 @@ interface Logger {
 @Singleton
 class LoggerImpl @Inject constructor() : Logger {
 
+    //TODO add parameter `place`. For example place: String (place = SearchImagesViewModel)
     override fun log(message: String) {
         Timber.d(message)
     }

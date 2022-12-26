@@ -10,12 +10,12 @@ import kohii.v1.core.MemoryMode
 import kohii.v1.core.Strategy
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.extension.collectWithLifecycle
+import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.adapter.FavoritesVideoAdapter
 import ui.dendi.finder.favorites_presentation.adapter.VideoAdapterListener
 import ui.dendi.finder.favorites_presentation.databinding.FragmentFavoritesVideoBinding
-import ui.dendi.finder.favorites_presentation.multichoice.VideoListItem
 import ui.dendi.finder.favorites_presentation.viewmodel.FavoritesVideoViewModel
 
 @AndroidEntryPoint

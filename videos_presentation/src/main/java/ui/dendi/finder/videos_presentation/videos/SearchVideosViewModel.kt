@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.videos_domain.usecase.InsertVideoUseCase
 import ui.dendi.finder.videos_domain.usecase.SearchVideosUseCase
 import ui.dendi.finder.core.core.base.BaseViewModel
@@ -25,7 +26,8 @@ class SearchVideosViewModel @Inject constructor(
     private val searchVideosUseCase: SearchVideosUseCase,
     private val videosFilterStorage: VideosFilterStorage,
     private val storage: SearchVideosStorage,
-) : BaseViewModel() {
+    logger: Logger,
+) : BaseViewModel(logger) {
 
     private val _searchBy = MutableStateFlow(storage.query)
     val searchBy = _searchBy.asStateFlow()

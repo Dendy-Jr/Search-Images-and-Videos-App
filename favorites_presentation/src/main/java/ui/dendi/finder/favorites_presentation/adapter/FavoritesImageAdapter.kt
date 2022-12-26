@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ui.dendi.finder.core.core.extension.loadImage
+import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteImageItemBinding
-import ui.dendi.finder.favorites_presentation.multichoice.ImageListItem
 
 class FavoritesImageAdapter(
     private val listener: ImageAdapterListener,
@@ -37,7 +37,7 @@ class FavoritesImageAdapter(
 
         binding.apply {
             root.setOnClickListener(this@FavoritesImageAdapter)
-            rootContainer.setOnLongClickListener(this@FavoritesImageAdapter)
+            root.setOnLongClickListener(this@FavoritesImageAdapter)
             deleteImageView.setOnClickListener(this@FavoritesImageAdapter)
             checkbox.setOnClickListener(this@FavoritesImageAdapter)
         }
@@ -59,7 +59,6 @@ class FavoritesImageAdapter(
             checkbox.tag = item
             deleteImageView.tag = item
             root.tag = item
-            rootContainer.tag = item
 
             checkbox.isChecked = item.isChecked
         }
@@ -71,5 +70,7 @@ class FavoritesImageAdapter(
 
         override fun areContentsTheSame(oldItem: ImageListItem, newItem: ImageListItem): Boolean =
             oldItem == newItem
+
+        override fun getChangePayload(oldItem: ImageListItem, newItem: ImageListItem): Any = ""
     }
 }

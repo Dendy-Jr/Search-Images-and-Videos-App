@@ -4,15 +4,16 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.ResourceProvider
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
 import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.core.core.multichoice.MultiChoiceHandler
 import ui.dendi.finder.core.core.multichoice.MultiChoiceState
+import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.favorites_domain.videos.usecase.DeleteFavoriteVideoUseCase
 import ui.dendi.finder.favorites_presentation.R
-import ui.dendi.finder.favorites_presentation.multichoice.VideoListItem
 import ui.dendi.finder.videos_domain.usecase.GetFavoriteVideosUseCase
 import javax.inject.Inject
 
@@ -23,7 +24,8 @@ class FavoritesVideoViewModel @Inject constructor(
     private val getFavoriteVideosUseCase: GetFavoriteVideosUseCase,
     private val resourceProvider: ResourceProvider,
     private val multiChoiceHandler: MultiChoiceHandler<Video>,
-) : BaseViewModel() {
+    logger: Logger,
+) : BaseViewModel(logger) {
 
     //TODO no more needed ClearFavoriteVideosUseCase, because I delete images when they are checked
 

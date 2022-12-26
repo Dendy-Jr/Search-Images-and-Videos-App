@@ -1,4 +1,4 @@
-package ui.dendi.finder.favorites_presentation.multichoice
+package ui.dendi.finder.core.core.multichoice
 
 import ui.dendi.finder.core.core.models.Image
 
@@ -15,7 +15,6 @@ data class ImageListItem(
     val imageWidth get() = image.imageWidth
     val largeImageURL get() = image.largeImageURL
     val likes get() = image.likes
-    val off get() = image.off
     val pageURL get() = image.pageURL
     val previewHeight get() = image.previewHeight
     val previewURL get() = image.previewURL

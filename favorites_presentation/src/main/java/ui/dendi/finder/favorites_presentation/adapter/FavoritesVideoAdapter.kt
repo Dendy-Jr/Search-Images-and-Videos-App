@@ -10,9 +10,9 @@ import kohii.v1.core.Common
 import kohii.v1.exoplayer.Kohii
 import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.LoggerImpl
+import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteVideoItemBinding
-import ui.dendi.finder.favorites_presentation.multichoice.VideoListItem
 
 class FavoritesVideoAdapter(
     private val kohii: Kohii,
@@ -83,5 +83,7 @@ class FavoritesVideoAdapter(
 
         override fun areContentsTheSame(oldItem: VideoListItem, newItem: VideoListItem): Boolean =
             oldItem == newItem
+
+        override fun getChangePayload(oldItem: VideoListItem, newItem: VideoListItem): Any = ""
     }
 }

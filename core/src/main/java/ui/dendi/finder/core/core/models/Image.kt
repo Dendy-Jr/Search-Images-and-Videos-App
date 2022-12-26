@@ -2,8 +2,9 @@ package ui.dendi.finder.core.core.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.time.OffsetDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Parcelize
 data class Image(
     val collections: Int,
@@ -15,7 +16,6 @@ data class Image(
     val imageWidth: Int,
     val largeImageURL: String,
     val likes: Int,
-    val off: OffsetDateTime? = OffsetDateTime.now(),
     val pageURL: String,
     val previewHeight: Int,
     val previewURL: String,

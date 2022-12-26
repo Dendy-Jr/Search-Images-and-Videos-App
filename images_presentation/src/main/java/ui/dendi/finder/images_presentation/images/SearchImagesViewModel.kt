@@ -1,30 +1,40 @@
 package ui.dendi.finder.images_presentation.images
 
-import androidx.lifecycle.*
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ui.dendi.finder.images_data.local.ImagesFilterStorage
-import ui.dendi.finder.images_data.local.ImagesStorage
-import ui.dendi.finder.images_domain.usecase.SaveImageToFavoritesUseCase
-import ui.dendi.finder.images_domain.usecase.SearchImagesUseCase
+import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.models.Image
+import ui.dendi.finder.core.core.multichoice.ImageListItem
+import ui.dendi.finder.core.core.multichoice.MultiChoiceHandler
+import ui.dendi.finder.core.core.multichoice.MultiChoiceState
 import ui.dendi.finder.core.core.navigation.AppNavDirections
+import ui.dendi.finder.images_data.local.ImagesFilterStorage
+import ui.dendi.finder.images_data.local.ImagesStorage
+import ui.dendi.finder.images_domain.repository.MultiChoiceImagesRepository
+import ui.dendi.finder.images_domain.usecase.SaveImageToFavoritesUseCase
+import ui.dendi.finder.images_domain.usecase.SearchImagesUseCase
+import ui.dendi.finder.images_presentation.R
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class SearchImagesViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
-    private val imagesFilterStorage: ImagesFilterStorage,
+    imagesFilterStorage: ImagesFilterStorage,
     private val saveImageToFavoritesUseCase: SaveImageToFavoritesUseCase,
     private val searchImageUseCase: SearchImagesUseCase,
     private val storage: ImagesStorage,
-) : BaseViewModel() {
+    private val multiChoiceHandler: MultiChoiceHandler<Image>,
+    logger: Logger,
+    private val multiChoiceImagesRepository: MultiChoiceImagesRepository
+) : BaseViewModel(logger) {
 
     private val _searchBy = MutableStateFlow(storage.query)
     val searchBy = _searchBy.asStateFlow()
@@ -34,12 +44,40 @@ class SearchImagesViewModel @Inject constructor(
     private val imageOrientation = imagesFilterStorage.getOrientation
     private val imageType = imagesFilterStorage.getType
 
-    var imagesFlow = MutableStateFlow<PagingData<Image>>(PagingData.empty())
-        private set
+    private val _imagesPagingData = MutableStateFlow<PagingData<Image>>(PagingData.empty())
+
+    private val _imagesState = MutableStateFlow<ImagesState?>(null)
+    val imagesState = _imagesState.asStateFlow().filterNotNull()
+
+    private val _multiChoiceImagesSize = MutableStateFlow(0)
+
+    private val _needShowAddToFavoriteButton = MutableStateFlow(false)
+    val needShowAddToFavoriteButton get() = _needShowAddToFavoriteButton
 
     init {
         viewModelScope.launch {
             imagesResult()
+        }
+
+        viewModelScope.launch {
+            multiChoiceHandler.setItemsFlow(
+                viewModelScope,
+                multiChoiceImagesRepository.getMultiChoiceImages(),
+            )
+            val combineFlow = combine(
+                _imagesPagingData,
+                multiChoiceHandler.listen(),
+                ::merge
+            )
+            combineFlow.collectLatest {
+                _imagesState.value = it
+            }
+        }
+
+        viewModelScope.launch {
+            multiChoiceImagesRepository.getMultiChoiceImages().collectLatest {
+                _multiChoiceImagesSize.value = it.size
+            }
         }
     }
 
@@ -51,7 +89,7 @@ class SearchImagesViewModel @Inject constructor(
         ::imagesMerge
     ).collectLatest {
         it.collectLatest { pagingData ->
-            imagesFlow.value = pagingData
+            _imagesPagingData.value = pagingData
         }
     }
 
@@ -60,30 +98,120 @@ class SearchImagesViewModel @Inject constructor(
         category: String,
         orientation: String,
         colors: String,
-    ) = _searchBy
-        .flatMapLatest { query ->
-            searchImageUseCase(
-                query = query ?: "",
-                type = type,
-                category = category,
-                orientation = orientation,
-                colors = colors,
-            )
-        }.cachedIn(viewModelScope)
+    ): Flow<PagingData<Image>> = _searchBy.flatMapLatest { query ->
+        searchImageUseCase(
+            query = query ?: "",
+            type = type,
+            category = category,
+            orientation = orientation,
+            colors = colors,
+        )
+    }.cachedIn(viewModelScope)
 
-    fun setSearchBy(query: String) {
-        if (_searchBy.value == query) return
-        storage.query = query
-        _searchBy.value = storage.query
+    private suspend fun merge(
+        images: PagingData<Image>,
+        multiChoiceState: MultiChoiceState<Image>,
+    ): ImagesState {
+        return ImagesState(
+            pagingData = images.map { image ->
+                ImageListItem(image, multiChoiceState.isChecked(image))
+            },
+            selectAllOperation = SelectAllOperation(
+                R.string.clear_all,
+                multiChoiceHandler::clearAll
+            ),
+        )
     }
 
-    fun addToFavorite(image: Image) {
+    fun setSearchBy(query: String) {
         viewModelScope.launch {
-            saveImageToFavoritesUseCase(image)
+            if (_searchBy.value == query) return@launch
+            storage.query = query
+            _searchBy.value = storage.query
+
+            //TODO delete in future
+            multiChoiceImagesRepository.deleteAllMultiChoiceImages()
         }
     }
 
-    fun launchDetailScreen(image: Image) {
-        navigateTo(appNavDirections.imageDetailsScreen(image))
+    fun addToFavorite(images: ImageListItem) {
+        viewModelScope.launch {
+            saveImageToFavoritesUseCase(images.image)
+        }
     }
+
+    fun launchDetailScreen(images: ImageListItem) {
+        navigateTo(appNavDirections.imageDetailsScreen(images.image))
+    }
+
+    fun onImageToggle(images: ImageListItem) {
+        viewModelScope.launch {
+            multiChoiceHandler.toggle(images.image)
+
+            showOrNotFavoriteButton()
+        }
+    }
+
+    fun hideToFavoriteButton() {
+        _needShowAddToFavoriteButton.value = false
+    }
+
+    fun clearAllMultiChoiceImages() {
+        viewModelScope.launch {
+            _imagesState.value?.selectAllOperation?.operation?.invoke()
+        }
+    }
+
+    fun addCheckedToFavorites() {
+        viewModelScope.launch {
+            multiChoiceHandler.checkedItems().collectLatest {
+                it.forEach {
+                    saveImageToFavoritesUseCase(it)
+                }
+            }
+        }
+    }
+
+    private suspend fun showOrNotFavoriteButton() {
+        multiChoiceHandler.checkedItems().collectLatest {
+            _needShowAddToFavoriteButton.value = it.isNotEmpty()
+        }
+    }
+
+    data class ImagesState(
+        val pagingData: PagingData<ImageListItem>,
+        val selectAllOperation: SelectAllOperation,
+    )
+
+    data class SelectAllOperation(
+        val titleRes: Int,
+        val operation: suspend () -> Unit,
+    )
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.launch {
+            multiChoiceImagesRepository.deleteAllMultiChoiceImages()
+        }
+    }
+}
+
+//TODO no more needed
+suspend fun <T : Any> PagingData<T>.toList(): List<T> {
+    val flow = PagingData::class.java.getDeclaredField("flow").apply {
+        isAccessible = true
+    }.get(this) as Flow<Any?>
+    val pageEventInsert = flow.single()
+    val pageEventInsertClass = Class.forName("androidx.paging.PageEvent\$Insert")
+    val pagesField = pageEventInsertClass.getDeclaredField("pages").apply {
+        isAccessible = true
+    }
+    val pages = pagesField.get(pageEventInsert) as List<Any?>
+    val transformablePageDataField =
+        Class.forName("androidx.paging.TransformablePage").getDeclaredField("data").apply {
+            isAccessible = true
+        }
+    val listItems =
+        pages.flatMap { transformablePageDataField.get(it) as List<*> }
+    return listItems as List<T>
 }

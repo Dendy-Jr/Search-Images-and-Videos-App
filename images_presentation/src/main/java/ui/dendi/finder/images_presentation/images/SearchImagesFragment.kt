@@ -5,9 +5,12 @@ package ui.dendi.finder.images_presentation.images
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,9 +20,11 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
+import ui.dendi.finder.core.core.extension.collectWithLifecycle
 import ui.dendi.finder.core.core.extension.scrollToTop
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.extension.simpleScan
+import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImagesBinding
 
@@ -31,15 +36,14 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     override val viewModel: SearchImagesViewModel by viewModels()
 
     private val adapter = SearchImagesPagingAdapter(
-        toImage = {
-            viewModel.launchDetailScreen(it)
-        },
-        addToFavorite = {
-            viewModel.addToFavorite(it)
-            requireContext().showToast(R.string.added_to_favorites)
-        },
-        shareImage = {
-            shareItem(it.user, it.pageURL)
+        object : SearchImagesPagingAdapter.ImageAdapterListener {
+            override fun onImageChosen(image: ImageListItem) {
+                viewModel.launchDetailScreen(image)
+            }
+
+            override fun onImageToggle(image: ImageListItem) {
+                viewModel.onImageToggle(image)
+            }
         }
     )
 
@@ -49,6 +53,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun onBind() = with(binding) {
+        viewModel.hideToFavoriteButton()
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
         }
@@ -66,10 +71,51 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
         recyclerView.scrollToTop(btnScrollToTop)
 
-        recyclerView.setupList(adapter, searchEditText)
+        clearAllMultiChoiceTextView.setOnClickListener {
+            viewModel.clearAllMultiChoiceImages()
+            btnAddToFavorite.isVisible = false
+            adapter.notifyDataSetChanged()
+        }
+
+        collectWithLifecycle(viewModel.needShowAddToFavoriteButton) {
+            btnAddToFavorite.isVisible = it
+        }
+
+        btnAddToFavorite.setOnClickListener {
+            viewModel.addCheckedToFavorites()
+        }
+
+        //TODO Add the same logic added/deleted to search video screen, from favorite images and videos screen
+        addToFavorite(recyclerView)
+
         collectImages()
         observeState()
         setupRefreshLayout()
+        recyclerView.setupList(adapter, searchEditText)
+    }
+
+    private fun addToFavorite(recyclerView: RecyclerView) {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.addToFavorite(
+                    adapter.getImageListItem(viewHolder.bindingAdapterPosition) ?: return
+                )
+                requireContext().showToast(getString(R.string.added_to_favorite))
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun setupRefreshLayout() {
@@ -78,11 +124,11 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         }
     }
 
-    private fun collectImages() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.imagesFlow.collectLatest { data ->
-                adapter.submitData(data)
-            }
+    private fun collectImages() = with(binding) {
+        collectWithLifecycle(viewModel.imagesState) { state ->
+            adapter.submitData(state.pagingData)
+
+            clearAllMultiChoiceTextView.setText(state.selectAllOperation.titleRes)
         }
     }
 
@@ -123,7 +169,6 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun getRefreshLoadState(adapter: SearchImagesPagingAdapter): Flow<LoadState> {
-        return adapter.loadStateFlow
-            .map { it.refresh }
+        return adapter.loadStateFlow.map { it.refresh }
     }
 }

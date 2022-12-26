@@ -1,21 +1,26 @@
 package ui.dendi.finder.images_data.repository
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
+import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.images_data.remote.ImagesPagingSource
 import ui.dendi.finder.images_data.remote.ImagesRemoteDataSource
-import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.images_domain.repository.ImagesRepository
+import ui.dendi.finder.images_domain.repository.MultiChoiceImagesRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @ExperimentalPagingApi
 class ImagesRepositoryImpl @Inject constructor(
     private val remoteDataSource: ImagesRemoteDataSource,
+    private val multiChoiceImagesRepository: MultiChoiceImagesRepository,
 ) : ImagesRepository {
 
     override fun getPagedImages(
@@ -37,6 +42,7 @@ class ImagesRepositoryImpl @Inject constructor(
                     query = query ?: "",
                     remoteDataSource = remoteDataSource,
                     type = type ?: "",
+                    multiChoiceImagesRepository = multiChoiceImagesRepository,
                 )
             },
         ).flow
