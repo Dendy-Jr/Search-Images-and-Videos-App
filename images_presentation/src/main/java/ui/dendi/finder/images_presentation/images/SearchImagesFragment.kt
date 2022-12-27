@@ -53,7 +53,6 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun onBind() = with(binding) {
-        viewModel.hideToFavoriteButton()
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
         }

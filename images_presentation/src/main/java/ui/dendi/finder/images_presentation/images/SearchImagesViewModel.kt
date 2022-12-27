@@ -147,18 +147,14 @@ class SearchImagesViewModel @Inject constructor(
     fun onImageToggle(images: ImageListItem) {
         viewModelScope.launch {
             multiChoiceHandler.toggle(images.image)
-
             showOrNotFavoriteButton()
         }
-    }
-
-    fun hideToFavoriteButton() {
-        _needShowAddToFavoriteButton.value = false
     }
 
     fun clearAllMultiChoiceImages() {
         viewModelScope.launch {
             _imagesState.value?.selectAllOperation?.operation?.invoke()
+            showOrNotFavoriteButton()
         }
     }
 

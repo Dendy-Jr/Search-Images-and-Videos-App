@@ -4,7 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.favorites_domain.images.repository.FavoritesImageRepository
 import javax.inject.Inject
@@ -15,7 +17,7 @@ class FavoritesImageRepositoryImpl @Inject constructor(
 ) : FavoritesImageRepository {
 
     override fun getFavoritesImage(): Flow<List<Image>> =
-        imagesLocalDataSource.getFavoritesImage()
+        imagesLocalDataSource.getFavoritesImage().flowOn(Dispatchers.IO)
 
     override suspend fun insertImage(image: Image) =
         imagesLocalDataSource.insertImage(image)

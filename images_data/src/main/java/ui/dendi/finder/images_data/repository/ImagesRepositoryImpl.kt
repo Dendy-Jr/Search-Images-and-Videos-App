@@ -8,7 +8,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.images_data.remote.ImagesPagingSource
 import ui.dendi.finder.images_data.remote.ImagesRemoteDataSource
@@ -45,7 +47,7 @@ class ImagesRepositoryImpl @Inject constructor(
                     multiChoiceImagesRepository = multiChoiceImagesRepository,
                 )
             },
-        ).flow
+        ).flow.flowOn(Dispatchers.IO)
     }
 
     private companion object {

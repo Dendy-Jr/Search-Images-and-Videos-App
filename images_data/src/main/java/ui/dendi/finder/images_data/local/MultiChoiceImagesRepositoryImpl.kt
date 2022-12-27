@@ -4,7 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ui.dendi.finder.core.core.models.Image
 import ui.dendi.finder.images_domain.repository.MultiChoiceImagesRepository
@@ -20,7 +22,7 @@ class MultiChoiceImagesRepositoryImpl @Inject constructor(
             it.map {
                 it.toDomain()
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun insertImages(list: List<Image>) {
         dao.insertMultiChoiceImages(list.toMultiChoiceImages())

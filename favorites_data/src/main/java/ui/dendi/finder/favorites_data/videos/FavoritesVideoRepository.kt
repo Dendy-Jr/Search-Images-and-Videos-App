@@ -4,7 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.favorites_domain.videos.repository.FavoritesVideoRepository
 import javax.inject.Inject
@@ -15,7 +17,7 @@ class FavoritesVideoRepositoryImpl @Inject constructor(
 ) : FavoritesVideoRepository {
 
     override fun getFavoritesVideo(): Flow<List<Video>> =
-        localDataSource.getVideos()
+        localDataSource.getVideos().flowOn(Dispatchers.IO)
 
     override suspend fun saveVideoToFavorites(item: Video) {
         localDataSource.insertImage(item)

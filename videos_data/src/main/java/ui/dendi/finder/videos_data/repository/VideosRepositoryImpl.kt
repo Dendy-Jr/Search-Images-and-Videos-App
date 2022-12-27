@@ -7,7 +7,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.videos_data.remote.VideoPagingSource
 import ui.dendi.finder.videos_data.remote.VideosRemoteDataSource
@@ -38,7 +40,7 @@ class VideosRepositoryImpl @Inject constructor(
                     type = type,
                 )
             }
-        ).flow
+        ).flow.flowOn(Dispatchers.IO)
 }
 
 @Module
