@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 data class Image(
     val collections: Int,
     val comments: Int,
+    val date: String,
     val downloads: Int,
     val id: Long,
     val imageHeight: Int,

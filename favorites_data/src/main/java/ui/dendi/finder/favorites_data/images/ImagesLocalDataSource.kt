@@ -30,6 +30,7 @@ class ImagesLocalDataSource @Inject constructor(
         collections = collections,
         comments = comments,
         downloads = downloads,
+        date = date,
         id = id,
         imageHeight = imageHeight,
         imageSize = imageSize,

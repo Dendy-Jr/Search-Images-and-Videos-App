@@ -20,6 +20,7 @@ class VideosRemoteDataSource @Inject constructor(
 
     private fun VideoCloud.toDomain() = Video(
         comments = comments,
+        date = "",
         downloads = downloads,
         duration = duration,
         id = id,

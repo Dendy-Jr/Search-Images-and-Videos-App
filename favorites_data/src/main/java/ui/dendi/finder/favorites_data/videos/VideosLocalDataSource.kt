@@ -27,6 +27,7 @@ class VideosLocalDataSource @Inject constructor(
 
     private fun Video.toCache() = FavoriteVideo(
         comments = comments,
+        date = date,
         downloads = downloads,
         duration = duration,
         id = id,

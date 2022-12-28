@@ -10,13 +10,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.Logger
-import ui.dendi.finder.videos_domain.usecase.InsertVideoUseCase
-import ui.dendi.finder.videos_domain.usecase.SearchVideosUseCase
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.core.core.navigation.AppNavDirections
 import ui.dendi.finder.videos_data.local.SearchVideosStorage
 import ui.dendi.finder.videos_data.local.VideosFilterStorage
+import ui.dendi.finder.videos_domain.usecase.InsertVideoUseCase
+import ui.dendi.finder.videos_domain.usecase.SearchVideosUseCase
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -77,7 +78,10 @@ class SearchVideosViewModel @Inject constructor(
 
     fun addToFavorite(video: Video) {
         viewModelScope.launch {
-            insertVideoUseCase(video)
+            val date = LocalDateTime.now()
+            insertVideoUseCase(
+                video.copy(date = date.toString())
+            )
         }
     }
 

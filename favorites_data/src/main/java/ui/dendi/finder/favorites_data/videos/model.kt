@@ -15,6 +15,7 @@ data class FavoriteVideo(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val comments: Int,
+    val date: String,
     val downloads: Int,
     val duration: Int,
     val likes: Int,
@@ -33,6 +34,7 @@ data class FavoriteVideo(
 
     fun toDomain() = Video(
         comments = comments,
+        date = date,
         downloads = downloads,
         duration = duration,
         id = id,

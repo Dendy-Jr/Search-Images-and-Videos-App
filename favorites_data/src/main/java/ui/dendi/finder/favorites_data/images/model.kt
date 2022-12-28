@@ -9,6 +9,7 @@ import ui.dendi.finder.favorites_data.images.FavoriteImage.Companion.FAVORITE_IM
 data class FavoriteImage(
     val collections: Int,
     val comments: Int,
+    val date: String,
     val downloads: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Long,
@@ -34,6 +35,7 @@ data class FavoriteImage(
     fun toDomain() = Image(
         collections = collections,
         comments = comments,
+        date = date,
         downloads = downloads,
         id = id,
         imageHeight = imageHeight,

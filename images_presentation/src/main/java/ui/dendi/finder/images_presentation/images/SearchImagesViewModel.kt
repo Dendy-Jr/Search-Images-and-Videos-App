@@ -21,6 +21,7 @@ import ui.dendi.finder.images_domain.repository.MultiChoiceImagesRepository
 import ui.dendi.finder.images_domain.usecase.SaveImageToFavoritesUseCase
 import ui.dendi.finder.images_domain.usecase.SearchImagesUseCase
 import ui.dendi.finder.images_presentation.R
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -136,7 +137,8 @@ class SearchImagesViewModel @Inject constructor(
 
     fun addToFavorite(images: ImageListItem) {
         viewModelScope.launch {
-            saveImageToFavoritesUseCase(images.image)
+            val date = LocalDateTime.now()
+            saveImageToFavoritesUseCase(images.image.copy(date = date.toString()))
         }
     }
 
@@ -162,7 +164,8 @@ class SearchImagesViewModel @Inject constructor(
         viewModelScope.launch {
             multiChoiceHandler.checkedItems().collectLatest {
                 it.forEach {
-                    saveImageToFavoritesUseCase(it)
+                    val date = LocalDateTime.now()
+                    saveImageToFavoritesUseCase(it.copy(date = date.toString()))
                 }
             }
         }

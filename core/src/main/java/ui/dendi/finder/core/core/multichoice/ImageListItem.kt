@@ -8,6 +8,7 @@ data class ImageListItem(
 ) {
     val collections get() = image.collections
     val comments get() = image.comments
+    val date get() = image.date
     val downloads get() = image.downloads
     val id get() = image.id
     val imageHeight get() = image.imageHeight

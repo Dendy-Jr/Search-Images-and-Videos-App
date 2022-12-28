@@ -7,6 +7,7 @@ data class VideoListItem(
     val isChecked: Boolean,
 ) {
     val comments get() = video.comments
+    val date get() = video.date
     val downloads get() = video.downloads
     val duration get() = video.duration
     val id get() = video.id

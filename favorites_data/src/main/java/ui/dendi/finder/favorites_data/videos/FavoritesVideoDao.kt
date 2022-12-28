@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FavoritesVideoDao {
 
-    @Query("SELECT * FROM ${FavoriteVideo.TABLE_VIDEOS}")
+    @Query("SELECT * FROM ${FavoriteVideo.TABLE_VIDEOS} ORDER BY date DESC")
     fun getVideos(): Flow<List<FavoriteVideo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
