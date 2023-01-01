@@ -13,16 +13,23 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     logger: Logger,
+    private val storage: MainStorage,
 ) : BaseViewModel(logger) {
 
     private val _tabs = MutableStateFlow(emptyList<MainTabBarItem>())
     val tabs = _tabs.asStateFlow()
 
+    private var mainTab: MainTab = MainTab.IMAGES
+        set(value) {
+            field = value
+            storage.tab = value
+        }
+
     lateinit var selectedTab: MainTabBarItem
         private set
 
     init {
-        setTab(MainTab.IMAGES)
+        setTab(storage.tab ?: MainTab.IMAGES)
     }
 
     private fun setTab(tab: MainTab) {
@@ -36,6 +43,7 @@ class MainViewModel @Inject constructor(
 
     fun onTabSelected(tab: MainTabBarItem) {
         selectedTab = tab
+        mainTab = tab.origin
     }
 
     private fun MainTab.toItem(): MainTabBarItem = when (this) {
