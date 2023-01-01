@@ -17,11 +17,11 @@ import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.EmptyViewModel
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_NAME
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_TYPE
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_URI
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_URL
-import ui.dendi.finder.core.core.util.Constants.MP4
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_NAME
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_TYPE
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_URI
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_URL
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.MP4
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.videos_presentation.R
 import ui.dendi.finder.videos_presentation.databinding.FragmentVideoDetailsBinding
@@ -39,6 +39,8 @@ class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_vide
         super.onViewCreated(view, savedInstanceState)
         onBind()
     }
+
+    // TODO Add ability to change quality
 
     private fun onBind() = with(binding) {
         val video = args.video
@@ -108,11 +110,11 @@ class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_vide
         workManager.enqueue(oneTimeWorkRequest)
         workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
             .observe(viewLifecycleOwner) { info ->
-                info?.let {
-                    when (it.state) {
+                info?.let { workInfo ->
+                    when (workInfo.state) {
                         WorkInfo.State.SUCCEEDED -> {
                             requireContext().showToast(R.string.video_uploaded_successfully)
-                            log("${it.outputData.getString(KEY_FILE_URI)}")
+                            log("${workInfo.outputData.getString(KEY_FILE_URI)}")
                         }
                         WorkInfo.State.FAILED -> {
                             requireContext().showToast(R.string.downloading_failed)

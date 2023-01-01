@@ -31,30 +31,34 @@ data class VideosStreams(
     val tiny: @RawValue Tiny,
 ) : Parcelable
 
+@Parcelize
 data class Large(
     val height: Int,
     val size: Int,
     val url: String,
     val width: Int,
-)
+) : Parcelable
 
+@Parcelize
 data class Medium(
     val height: Int,
     val size: Int,
     val url: String,
     val width: Int,
-)
+) : Parcelable
 
+@Parcelize
 data class Small(
     val height: Int,
     val size: Int,
     val url: String,
     val width: Int,
-)
+) : Parcelable
 
+@Parcelize
 data class Tiny(
     val height: Int,
     val size: Int,
     val url: String,
     val width: Int,
-)
+) : Parcelable

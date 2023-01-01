@@ -11,11 +11,11 @@ import ui.dendi.finder.core.core.base.EmptyViewModel
 import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager
-import ui.dendi.finder.core.core.util.Constants.JPG
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_NAME
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_TYPE
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_URI
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_URL
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.JPG
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_NAME
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_TYPE
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_URI
+import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_URL
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImageDetailsBinding
 
@@ -34,6 +34,7 @@ class ImageDetailFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_image
     private fun onBind() = with(binding) {
         args.image.apply {
             imageView.loadImage(largeImageURL)
+
             toolbar.setTitle(user)
             toolbar.setUserImage(userImageURL)
             tvLikes.text = likes.toString()

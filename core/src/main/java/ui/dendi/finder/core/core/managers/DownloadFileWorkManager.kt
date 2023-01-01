@@ -17,16 +17,6 @@ import androidx.work.workDataOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ui.dendi.finder.core.R
-import ui.dendi.finder.core.core.util.Constants.CHANNEL_DESC
-import ui.dendi.finder.core.core.util.Constants.CHANNEL_ID
-import ui.dendi.finder.core.core.util.Constants.CHANNEL_NAME
-import ui.dendi.finder.core.core.util.Constants.JPG
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_NAME
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_TYPE
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_URI
-import ui.dendi.finder.core.core.util.Constants.KEY_FILE_URL
-import ui.dendi.finder.core.core.util.Constants.MP4
-import ui.dendi.finder.core.core.util.Constants.NOTIFICATION_ID
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
@@ -60,7 +50,6 @@ class DownloadFileWorkManager @AssistedInject constructor(
                 e.printStackTrace()
                 Result.failure()
             }
-
         }
         return Result.failure()
     }
@@ -70,24 +59,23 @@ class DownloadFileWorkManager @AssistedInject constructor(
             CHANNEL_ID,
             CHANNEL_NAME,
             NotificationManager.IMPORTANCE_DEFAULT,
-        )
-        channel.enableVibration(true)
-        channel.enableLights(true)
+        ).apply {
+            enableVibration(true)
+            enableLights(true)
+        }
         notificationManager.createNotificationChannel(channel)
 
-        val notificationBuilder =
-            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-
-        notificationBuilder
+        val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(CHANNEL_DESC)
-            .setProgress(100, 0, true)
-            .setSmallIcon(R.drawable.ic_finder)
+            .setOngoing(true)
+            .setProgress(0, 0, true)
+
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     private fun downloadFileFromUri(url: String, mimeType: String, filename: String?): Uri? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-
             val contentValues = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
                 put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
@@ -106,11 +94,9 @@ class DownloadFileWorkManager @AssistedInject constructor(
             } else {
                 null
             }
-
         } else {
-            val root = context.getExternalFilesDir(null)?.absolutePath
             val target = File(
-                context.getExternalFilesDir("$root/Download"),
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                 filename!!
             )
             URL(url).openStream().use { input ->
@@ -118,8 +104,20 @@ class DownloadFileWorkManager @AssistedInject constructor(
                     input.copyTo(output)
                 }
             }
-
             return target.toUri()
         }
+    }
+
+    companion object {
+        const val CHANNEL_DESC = "Downloading"
+        const val CHANNEL_ID = "channel_100"
+        const val CHANNEL_NAME = "Download File"
+        const val JPG = "JPG"
+        const val KEY_FILE_NAME = "file_name"
+        const val KEY_FILE_TYPE = "file_type"
+        const val KEY_FILE_URI = "file_uri"
+        const val KEY_FILE_URL = "file_url"
+        const val MP4 = "MP4"
+        const val NOTIFICATION_ID = 100
     }
 }

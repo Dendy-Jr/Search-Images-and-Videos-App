@@ -43,8 +43,7 @@ open class BaseViewModel(private val logger: Logger) : ViewModel(), Logger by lo
     open suspend fun backDirection(): NavDirections = BackNavDirections
 
     @CallSuper
-    open fun onActive() {
-    }
+    open fun onActive() {}
 }
 
 @HiltViewModel
