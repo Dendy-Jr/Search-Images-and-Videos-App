@@ -36,6 +36,10 @@ class FavoritesVideoViewModel @Inject constructor(
     val needShowDeleteButton = _needShowDeleteButton.asStateFlow()
 
     init {
+        preload()
+    }
+
+    fun preload() {
         viewModelScope.launch {
             multiChoiceHandler.setItemsFlow(viewModelScope, getFavoriteVideosUseCase.invoke())
             val combineFlow = combine(

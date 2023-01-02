@@ -56,30 +56,7 @@ class SearchImagesViewModel @Inject constructor(
     val needShowAddToFavoriteButton get() = _needShowAddToFavoriteButton
 
     init {
-        viewModelScope.launch {
-            imagesResult()
-        }
-
-        viewModelScope.launch {
-            multiChoiceHandler.setItemsFlow(
-                viewModelScope,
-                multiChoiceImagesRepository.getMultiChoiceImages(),
-            )
-            val combineFlow = combine(
-                _imagesPagingData,
-                multiChoiceHandler.listen(),
-                ::merge
-            )
-            combineFlow.collectLatest {
-                _imagesState.value = it
-            }
-        }
-
-        viewModelScope.launch {
-            multiChoiceImagesRepository.getMultiChoiceImages().collectLatest {
-                _multiChoiceImagesSize.value = it.size
-            }
-        }
+        preload()
     }
 
     private suspend fun imagesResult() = combine(
@@ -122,6 +99,33 @@ class SearchImagesViewModel @Inject constructor(
                 multiChoiceHandler::clearAll
             ),
         )
+    }
+
+    fun preload() {
+        viewModelScope.launch {
+            imagesResult()
+        }
+
+        viewModelScope.launch {
+            multiChoiceHandler.setItemsFlow(
+                viewModelScope,
+                multiChoiceImagesRepository.getMultiChoiceImages(),
+            )
+            val combineFlow = combine(
+                _imagesPagingData,
+                multiChoiceHandler.listen(),
+                ::merge
+            )
+            combineFlow.collectLatest {
+                _imagesState.value = it
+            }
+        }
+
+        viewModelScope.launch {
+            multiChoiceImagesRepository.getMultiChoiceImages().collectLatest {
+                _multiChoiceImagesSize.value = it.size
+            }
+        }
     }
 
     fun setSearchBy(query: String) {

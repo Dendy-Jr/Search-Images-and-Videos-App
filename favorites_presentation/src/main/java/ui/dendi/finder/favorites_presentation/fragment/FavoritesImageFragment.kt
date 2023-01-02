@@ -3,11 +3,11 @@ package ui.dendi.finder.favorites_presentation.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.extension.collectWithLifecycle
+import ui.dendi.finder.core.core.extension.parentViewModel
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.adapter.FavoritesImageAdapter
@@ -20,7 +20,7 @@ class FavoritesImageFragment :
     BaseFragment<FavoritesImageViewModel>(R.layout.fragment_favorites_image) {
 
     private val binding: FragmentFavoritesImageBinding by viewBinding()
-    override val viewModel: FavoritesImageViewModel by viewModels()
+    override val viewModel: FavoritesImageViewModel by parentViewModel()
     private val imageAdapter = FavoritesImageAdapter(
         object : ImageAdapterListener {
             override fun onImageDelete(image: ImageListItem) {

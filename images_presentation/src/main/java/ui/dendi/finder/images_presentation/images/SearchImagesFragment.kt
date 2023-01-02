@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,10 +19,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
-import ui.dendi.finder.core.core.extension.collectWithLifecycle
-import ui.dendi.finder.core.core.extension.scrollToTop
-import ui.dendi.finder.core.core.extension.showToast
-import ui.dendi.finder.core.core.extension.simpleScan
+import ui.dendi.finder.core.core.extension.*
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImagesBinding
@@ -33,7 +29,7 @@ import ui.dendi.finder.images_presentation.databinding.FragmentImagesBinding
 class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragment_images) {
 
     private val binding: FragmentImagesBinding by viewBinding()
-    override val viewModel: SearchImagesViewModel by viewModels()
+    override val viewModel: SearchImagesViewModel by parentViewModel()
 
     private val adapter = SearchImagesPagingAdapter(
         object : SearchImagesPagingAdapter.ImageAdapterListener {

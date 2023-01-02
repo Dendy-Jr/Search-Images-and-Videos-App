@@ -40,9 +40,7 @@ class SearchVideosViewModel @Inject constructor(
     var videosFlow = MutableStateFlow<PagingData<Video>>(PagingData.empty())
 
     init {
-        viewModelScope.launch {
-            videosResult()
-        }
+        preload()
     }
 
     private suspend fun videosResult() = combine(
@@ -69,6 +67,12 @@ class SearchVideosViewModel @Inject constructor(
                 order = order,
             )
         }.cachedIn(viewModelScope)
+
+    fun preload() {
+        viewModelScope.launch {
+            videosResult()
+        }
+    }
 
     fun searchVideo(query: String) {
         if (_searchBy.value == query) return

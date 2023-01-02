@@ -4,7 +4,6 @@ package ui.dendi.finder.videos_presentation.videos
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +18,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
-import ui.dendi.finder.core.core.extension.hideKeyboard
-import ui.dendi.finder.core.core.extension.scrollToTop
-import ui.dendi.finder.core.core.extension.showToast
-import ui.dendi.finder.core.core.extension.simpleScan
+import ui.dendi.finder.core.core.extension.*
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.videos_presentation.R
 import ui.dendi.finder.videos_presentation.databinding.FragmentVideosBinding
@@ -32,7 +28,7 @@ import ui.dendi.finder.videos_presentation.databinding.FragmentVideosBinding
 class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragment_videos) {
 
     private val binding: FragmentVideosBinding by viewBinding()
-    override val viewModel: SearchVideosViewModel by viewModels()
+    override val viewModel: SearchVideosViewModel by parentViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
