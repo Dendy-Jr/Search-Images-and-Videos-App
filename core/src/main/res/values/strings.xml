@@ -87,4 +87,10 @@
     <string name="selection_state">Selected: %1$d out of %2$d</string>
     <string name="animation">animation</string>
     <string name="film">film</string>
+    <string name="large">large</string>
+    <string name="medium">medium</string>
+    <string name="small">small</string>
+    <string name="tiny">tiny</string>
+    <string name="warning">Warning</string>
+    <string name="close_the_app">Do you really wand the close the app?</string>
 </resources>

@@ -10,6 +10,4 @@ interface FavoritesImageRepository {
     suspend fun insertImage(image: Image)
 
     suspend fun deleteImage(image: Image)
-
-    suspend fun deleteAllImage()
 }

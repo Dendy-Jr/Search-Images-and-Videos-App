@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -32,8 +34,9 @@ abstract class BaseFragment<VM : BaseViewModel>(
 
     abstract override val viewModel: VM
 
-    open fun onBackPressed(): Boolean = viewModel.navigateBack()
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    open fun onBackPressed(): Boolean = viewModel.navigateBack()
 
     @Inject
     lateinit var connectionLiveDataManager: ConnectionLiveDataManager
@@ -52,11 +55,17 @@ abstract class BaseFragment<VM : BaseViewModel>(
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         monitoringInternetConnection()
         observeNavigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onActive()
     }
 
     private fun monitoringInternetConnection() {
@@ -92,12 +101,11 @@ abstract class BaseFragment<VM : BaseViewModel>(
     }
 
     private fun observeNavigation() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycle.coroutineScope.launch {
             viewModel.navigation.collect { navDirections ->
                 if (navDirections is BackNavDirections) {
                     onBackPressedCallback.isEnabled = false
-                    //TODO Deprecated
-                    requireActivity().onBackPressed()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
                     return@collect
                 }
 

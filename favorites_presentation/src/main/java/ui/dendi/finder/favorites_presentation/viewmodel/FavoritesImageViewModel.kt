@@ -27,8 +27,6 @@ class FavoritesImageViewModel @Inject constructor(
     logger: Logger,
 ) : BaseViewModel(logger) {
 
-    //TODO no more needed ClearFavoriteImagesUseCase, because I delete images when they are checked
-
     private val _favoriteImagesState = MutableStateFlow<ImagesState?>(null)
     val favoriteImagesState = _favoriteImagesState.asStateFlow().filterNotNull()
 

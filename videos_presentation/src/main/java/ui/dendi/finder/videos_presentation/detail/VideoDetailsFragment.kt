@@ -1,9 +1,13 @@
 package ui.dendi.finder.videos_presentation.detail
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
+import androidx.appcompat.widget.CustomPopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.work.*
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.exoplayer2.ControlDispatcher
@@ -13,8 +17,10 @@ import kohii.v1.core.Common
 import kohii.v1.core.Manager
 import kohii.v1.core.MemoryMode
 import kohii.v1.core.Playback
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
-import ui.dendi.finder.core.core.base.EmptyViewModel
+import ui.dendi.finder.core.core.extension.dateConverter
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_FILE_NAME
@@ -25,47 +31,58 @@ import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.MP4
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.videos_presentation.R
 import ui.dendi.finder.videos_presentation.databinding.FragmentVideoDetailsBinding
+import java.time.LocalDateTime
 
 @AndroidEntryPoint
-class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_video_details),
+class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragment_video_details),
     Manager.OnSelectionListener {
 
     private val binding: FragmentVideoDetailsBinding by viewBinding()
-    override val viewModel: EmptyViewModel by viewModels()
+    override val viewModel: VideoDetailsViewModel by viewModels()
+
     private val workManager by lazy { WorkManager.getInstance(requireContext()) }
-    private val args by lazy { VideoDetailsFragmentArgs.fromBundle(requireArguments()) }
+    private val args: VideoDetailsFragmentArgs by navArgs()
+    private var videoQuality = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBind()
     }
 
-    // TODO Add ability to change quality
-
     private fun onBind() = with(binding) {
-        val video = args.video
-        val kohii = KohiiProvider.get(requireContext())
-        view?.let {
-            kohii.register(
-                this@VideoDetailsFragment,
-                memoryMode = MemoryMode.BALANCED,
-                activeLifecycleState = Lifecycle.State.CREATED,
-            ).addBucket(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.qualityFLow.collectLatest { quality ->
+                val kohii = KohiiProvider.get(requireContext())
+                view?.let {
+                    kohii.register(
+                        this@VideoDetailsFragment,
+                        memoryMode = MemoryMode.BALANCED,
+                        activeLifecycleState = Lifecycle.State.RESUMED,
+                    ).addBucket(it)
+                }
+                kohii.setUp(quality) {
+                    tag = quality
+                    repeatMode = Common.REPEAT_MODE_ONE
+                    preload = true
+                }.bind(playerView)
+                videoQuality = quality
+            }
         }
-        kohii.setUp(video.videos.large.url) {
-            repeatMode = Common.REPEAT_MODE_ONE
-            preload = true
-        }.bind(playerView)
-
-        toolbar.setTitle(video.user)
-        toolbar.setUserImage(video.userImageURL)
-        tvLikes.text = video.likes.toString()
-        tvTags.text = video.tags
-        tvType.text = video.type
-        tvViews.text = video.views.toString()
+        args.apply {
+            toolbar.setTitle(video.user)
+            toolbar.setUserImage(video.userImageURL)
+            tvLikes.text = video.likes.toString()
+            tvTags.text = video.tags
+            tvType.text = video.type
+            tvViews.text = video.views.toString()
+        }
 
         btnDownload.setOnClickListener {
             startDownloadingFile()
+        }
+
+        btnQuality.setOnClickListener {
+            showPopup(it)
         }
     }
 
@@ -90,6 +107,35 @@ class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_vide
         }
     }
 
+    private fun showPopup(view: View) {
+        val popupMenu = CustomPopupMenu(view.context, view)
+
+        popupMenu.menu.add(0, 0, Menu.NONE, getString(R.string.large)).apply {
+            //TODO
+            setIcon(R.drawable.ic_video_quality_4k)
+        }
+        popupMenu.menu.add(0, 1, Menu.NONE, getString(R.string.medium)).apply {
+            setIcon(R.drawable.ic_video_quality_hd)
+        }
+        popupMenu.menu.add(0, 2, Menu.NONE, getString(R.string.small)).apply {
+            setIcon(R.drawable.ic_video_quality_hq)
+        }
+        popupMenu.menu.add(0, 3, Menu.NONE, getString(R.string.tiny)).apply {
+            setIcon(R.drawable.ic_video_quality_sd)
+        }
+
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                0 -> viewModel.setVideoQuality(VideoQuality.LARGE)
+                1 -> viewModel.setVideoQuality(VideoQuality.MEDIUM)
+                2 -> viewModel.setVideoQuality(VideoQuality.SMALL)
+                3 -> viewModel.setVideoQuality(VideoQuality.TINY)
+            }
+            return@setOnMenuItemClickListener true
+        }
+        popupMenu.show()
+    }
+
     private fun startDownloadingFile() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -97,11 +143,10 @@ class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_vide
             .setRequiresBatteryNotLow(true)
             .build()
         val data = Data.Builder().apply {
-            putString(KEY_FILE_NAME, args.video.tags.replace(", ", "-") + ".mp4")
-            putString(KEY_FILE_URL, args.video.videos.large.url)
+            putString(KEY_FILE_NAME, setVideoName())
+            putString(KEY_FILE_URL, videoQuality)
             putString(KEY_FILE_TYPE, MP4)
         }
-
         val oneTimeWorkRequest = OneTimeWorkRequest.Builder(DownloadFileWorkManager::class.java)
             .setConstraints(constraints)
             .setInputData(data.build())
@@ -130,5 +175,14 @@ class VideoDetailsFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_vide
                     }
                 }
             }
+    }
+
+    private fun setVideoName(): String {
+        val firstTag = args.video.tags.replaceAfter(",", "").removeSuffix(",")
+        val currentDate = LocalDateTime.now().toString().dateConverter()
+        val editedUrl = videoQuality.replaceBefore("width", "")
+            .replaceAfter("&", "-").replace("&", "")
+        val suffix = ".mp4"
+        return "$firstTag-$editedUrl$currentDate$suffix"
     }
 }

@@ -48,7 +48,7 @@ class SearchImagesViewModel @Inject constructor(
     private val _imagesPagingData = MutableStateFlow<PagingData<Image>>(PagingData.empty())
 
     private val _imagesState = MutableStateFlow<ImagesState?>(null)
-    val imagesState = _imagesState.asStateFlow().filterNotNull()
+    val imagesState = _imagesState.asStateFlow()
 
     private val _multiChoiceImagesSize = MutableStateFlow(0)
 
@@ -197,24 +197,4 @@ class SearchImagesViewModel @Inject constructor(
             multiChoiceImagesRepository.deleteAllMultiChoiceImages()
         }
     }
-}
-
-//TODO no more needed
-suspend fun <T : Any> PagingData<T>.toList(): List<T> {
-    val flow = PagingData::class.java.getDeclaredField("flow").apply {
-        isAccessible = true
-    }.get(this) as Flow<Any?>
-    val pageEventInsert = flow.single()
-    val pageEventInsertClass = Class.forName("androidx.paging.PageEvent\$Insert")
-    val pagesField = pageEventInsertClass.getDeclaredField("pages").apply {
-        isAccessible = true
-    }
-    val pages = pagesField.get(pageEventInsert) as List<Any?>
-    val transformablePageDataField =
-        Class.forName("androidx.paging.TransformablePage").getDeclaredField("data").apply {
-            isAccessible = true
-        }
-    val listItems =
-        pages.flatMap { transformablePageDataField.get(it) as List<*> }
-    return listItems as List<T>
 }

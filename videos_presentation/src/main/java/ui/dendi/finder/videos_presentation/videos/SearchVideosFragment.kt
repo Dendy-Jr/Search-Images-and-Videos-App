@@ -68,10 +68,8 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             viewModel.searchVideo(it)
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.searchBy.collectLatest {
-                it?.let { searchEditText.setQuery(it) }
-            }
+        collectWithLifecycle(viewModel.searchBy) {
+            it?.let { searchEditText.setQuery(it) }
         }
 
         recyclerView.adapter = adapter
@@ -85,23 +83,23 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             }
         })
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.videosFlow.collectLatest { data ->
-                adapter.submitData(data)
-            }
-        }
-
         recyclerView.scrollToTop(btnScrollToTop)
 
-        recyclerView.setupList(adapter, searchEditText)
+        observeVideos(adapter)
         observeState(adapter)
         setupRefreshLayout(adapter)
-        handleScrollingToTop(adapter)
+        recyclerView.setupList(adapter, searchEditText)
     }
 
     private fun setupRefreshLayout(adapter: VideosPagingAdapter) {
         binding.swipeRefreshLayout.setOnRefreshListener {
             adapter.refresh()
+        }
+    }
+
+    private fun observeVideos(adapter: VideosPagingAdapter) {
+        collectWithLifecycle(viewModel.videosFlow) { data ->
+            adapter.submitData(data)
         }
     }
 

@@ -24,8 +24,6 @@ class FavoritesImageRepositoryImpl @Inject constructor(
 
     override suspend fun deleteImage(image: Image) =
         imagesLocalDataSource.deleteImage(image)
-
-    override suspend fun deleteAllImage() = imagesLocalDataSource.deleteAllImage()
 }
 
 @Module

@@ -9,6 +9,7 @@
     <include app:graph="@navigation/image_details_graph" />
     <include app:graph="@navigation/video_details_graph" />
     <include app:graph="@navigation/images_graph" />
+    <include app:graph="@navigation/videos_graph" />
 
     <action
         android:id="@+id/navigateToMainScreen"

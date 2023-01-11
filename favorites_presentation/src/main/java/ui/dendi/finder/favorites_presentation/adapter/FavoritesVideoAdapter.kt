@@ -10,11 +10,10 @@ import kohii.v1.core.Common
 import kohii.v1.exoplayer.Kohii
 import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.LoggerImpl
+import ui.dendi.finder.core.core.extension.dateConverter
 import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteVideoItemBinding
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class FavoritesVideoAdapter(
     private val kohii: Kohii,
@@ -73,17 +72,9 @@ class FavoritesVideoAdapter(
             deleteVideoView.tag = item
             root.tag = item
             playerContainer.tag = item
-            tvDate.text = dateConverter(item.date)
+            tvDate.text = item.date.dateConverter()
 
             checkbox.isChecked = item.isChecked
-        }
-
-        // TODO create extension, it is duplicate... The same function created in FavoritesImageAdapter.kt
-        private fun dateConverter(date: String): String {
-            val dateParser = LocalDateTime.parse(date)
-            val pattern = "dd MM yyyy HH:mm:ss"
-            return DateTimeFormatter.ofPattern(pattern)
-                .format(dateParser)
         }
     }
 

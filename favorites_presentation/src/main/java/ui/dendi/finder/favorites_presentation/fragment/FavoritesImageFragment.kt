@@ -45,6 +45,10 @@ class FavoritesImageFragment :
     private fun onBind() = with(binding) {
         collectWithLifecycle(viewModel.favoriteImagesState) { state ->
             imageAdapter.submitList(state.images)
+
+            selectOrClearAllTextView.isVisible = state.images.isNotEmpty()
+            selectionStateTextView.isVisible = state.images.isNotEmpty()
+
             selectOrClearAllTextView.setText(state.selectAllOperation.titleRes)
             selectionStateTextView.text = getString(
                 R.string.selection_state,

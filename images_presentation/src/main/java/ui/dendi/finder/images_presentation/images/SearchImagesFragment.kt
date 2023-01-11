@@ -120,10 +120,12 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun collectImages() = with(binding) {
-        collectWithLifecycle(viewModel.imagesState) { state ->
-            adapter.submitData(state.pagingData)
+        lifecycleScope.launch {
+            viewModel.imagesState.filterNotNull().collectLatest { state ->
+                adapter.submitData(state.pagingData)
 
-            clearAllMultiChoiceTextView.setText(state.selectAllOperation.titleRes)
+                clearAllMultiChoiceTextView.setText(state.selectAllOperation.titleRes)
+            }
         }
     }
 

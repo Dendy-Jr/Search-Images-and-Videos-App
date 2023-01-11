@@ -9,8 +9,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.EmptyViewModel
-import ui.dendi.finder.favorites_presentation.adapter.FavoritesAdapter
 import ui.dendi.finder.favorites_presentation.R
+import ui.dendi.finder.favorites_presentation.adapter.FavoritesAdapter
 import ui.dendi.finder.favorites_presentation.databinding.FragmentFavoritesBinding
 
 @AndroidEntryPoint
@@ -32,13 +32,13 @@ class FavoritesFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_favorit
 
         val adapter = FavoritesAdapter(
             fragmentList,
-            childFragmentManager,
+            parentFragmentManager,
             lifecycle,
         )
         pager.adapter = adapter
         pager.isUserInputEnabled = false
 
-        TabLayoutMediator(tabLayout, pager) { tab, position ->
+        TabLayoutMediator(tabLayout, pager, true, false) { tab, position ->
             when (position) {
                 IMAGES_POSITION -> {
                     tab.text = IMAGES

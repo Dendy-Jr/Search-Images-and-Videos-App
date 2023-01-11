@@ -3,6 +3,7 @@ package ui.dendi.finder.images_presentation.detail
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.work.*
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ import ui.dendi.finder.images_presentation.databinding.FragmentImageDetailsBindi
 class ImageDetailFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_image_details) {
     override val viewModel: EmptyViewModel by viewModels()
     private val binding: FragmentImageDetailsBinding by viewBinding()
-    private val args by lazy { ImageDetailFragmentArgs.fromBundle(requireArguments()) }
+    private val args: ImageDetailFragmentArgs by navArgs()
     private val workManager by lazy { WorkManager.getInstance(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import ui.dendi.finder.core.core.extension.dateConverter
 import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteImageItemBinding
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class FavoritesImageAdapter(
     private val listener: ImageAdapterListener,
@@ -61,17 +60,9 @@ class FavoritesImageAdapter(
             checkbox.tag = item
             deleteImageView.tag = item
             root.tag = item
-            tvDate.text = dateConverter(item.date)
+            tvDate.text = item.date.dateConverter()
 
             checkbox.isChecked = item.isChecked
-        }
-
-        // TODO create extension, it is duplicate... The same function created in FavoritesVideoAdapter.kt
-        private fun dateConverter(date: String): String {
-            val dateParser = LocalDateTime.parse(date)
-            val pattern = "dd MM yyyy HH:mm:ss"
-            return DateTimeFormatter.ofPattern(pattern)
-                .format(dateParser)
         }
     }
 

@@ -26,11 +26,11 @@ class SearchVideosViewModel @Inject constructor(
     private val insertVideoUseCase: InsertVideoUseCase,
     private val searchVideosUseCase: SearchVideosUseCase,
     private val videosFilterStorage: VideosFilterStorage,
-    private val storage: SearchVideosStorage,
+    private val searchVideosStorage: SearchVideosStorage,
     logger: Logger,
 ) : BaseViewModel(logger) {
 
-    private val _searchBy = MutableStateFlow(storage.query)
+    private val _searchBy = MutableStateFlow(searchVideosStorage.query)
     val searchBy = _searchBy.asStateFlow()
 
     private val videosType = videosFilterStorage.getType
@@ -76,8 +76,8 @@ class SearchVideosViewModel @Inject constructor(
 
     fun searchVideo(query: String) {
         if (_searchBy.value == query) return
-        storage.query = query
-        _searchBy.value = storage.query
+        searchVideosStorage.query = query
+        _searchBy.value = searchVideosStorage.query
     }
 
     fun addToFavorite(video: Video) {

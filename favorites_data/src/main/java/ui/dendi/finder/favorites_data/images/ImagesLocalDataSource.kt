@@ -24,8 +24,6 @@ class ImagesLocalDataSource @Inject constructor(
     suspend fun deleteImage(image: Image) =
         dao.deleteImage(image.toFavorite())
 
-    suspend fun deleteAllImage() = dao.clearAll()
-
     private fun Image.toFavorite() = FavoriteImage(
         collections = collections,
         comments = comments,
