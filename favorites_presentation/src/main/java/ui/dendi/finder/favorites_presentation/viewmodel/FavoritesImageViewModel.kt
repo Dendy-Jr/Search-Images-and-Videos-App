@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.Logger
-import ui.dendi.finder.core.core.ResourceProvider
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
 import ui.dendi.finder.core.core.models.Image
@@ -22,7 +21,6 @@ class FavoritesImageViewModel @Inject constructor(
     private val deleteFavoriteImageUseCase: DeleteFavoriteImageUseCase,
     private val dialogManager: DialogManager,
     private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
-    private val resourceProvider: ResourceProvider,
     private val multiChoiceHandler: MultiChoiceHandler<Image>,
     logger: Logger,
 ) : BaseViewModel(logger) {
@@ -66,13 +64,16 @@ class FavoritesImageViewModel @Inject constructor(
 
     fun clearAllImages() {
         dialogManager.show(
-            titleResId = resourceProvider.getString(R.string.delete_all_images_title),
-            messageResId = resourceProvider.getString(R.string.delete_all_saved_images_question),
-            positiveAction = {
+            titleResId = R.string.delete_all_images_title,
+            bodyResId = R.string.delete_all_saved_images_question,
+            positiveButtonResId = R.string.yes,
+            negativeButtonResId = R.string.cancel,
+            onPositiveButtonClick = {
                 viewModelScope.launch {
                     deleteSelectedImages()
                 }
             },
+            onNegativeButtonClick = {},
         )
     }
 

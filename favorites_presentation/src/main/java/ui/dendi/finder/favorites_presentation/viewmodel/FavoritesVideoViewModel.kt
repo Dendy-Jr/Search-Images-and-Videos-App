@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.Logger
-import ui.dendi.finder.core.core.ResourceProvider
 import ui.dendi.finder.core.core.base.BaseViewModel
 import ui.dendi.finder.core.core.managers.DialogManager
 import ui.dendi.finder.core.core.models.Video
@@ -22,7 +21,6 @@ class FavoritesVideoViewModel @Inject constructor(
     private val deleteFavoriteVideoUseCase: DeleteFavoriteVideoUseCase,
     private val dialogManager: DialogManager,
     private val getFavoriteVideosUseCase: GetFavoriteVideosUseCase,
-    private val resourceProvider: ResourceProvider,
     private val multiChoiceHandler: MultiChoiceHandler<Video>,
     logger: Logger,
 ) : BaseViewModel(logger) {
@@ -68,13 +66,16 @@ class FavoritesVideoViewModel @Inject constructor(
 
     fun clearAllVideos() {
         dialogManager.show(
-            titleResId = resourceProvider.getString(R.string.delete_all_videos_title),
-            messageResId = resourceProvider.getString(R.string.delete_all_saved_videos_question),
-            positiveAction = {
+            titleResId = R.string.delete_all_videos_title,
+            bodyResId = R.string.delete_all_saved_videos_question,
+            positiveButtonResId = R.string.yes,
+            negativeButtonResId = R.string.cancel,
+            onPositiveButtonClick = {
                 viewModelScope.launch {
                     deleteSelectedVideos()
                 }
-            }
+            },
+            onNegativeButtonClick = {},
         )
     }
 
