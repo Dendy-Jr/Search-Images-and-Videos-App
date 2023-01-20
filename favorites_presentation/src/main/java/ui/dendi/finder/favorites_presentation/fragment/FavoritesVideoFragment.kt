@@ -60,6 +60,10 @@ class FavoritesVideoFragment :
 
         collectWithLifecycle(viewModel.favoriteVideos) { state ->
             videoAdapter.submitList(state.videos)
+
+            selectOrClearAllTextView.isVisible = state.videos.isNotEmpty()
+            selectionStateTextView.isVisible = state.videos.isNotEmpty()
+
             selectOrClearAllTextView.setText(state.selectAllOperation.titleRes)
             selectionStateTextView.text = getString(
                 R.string.selection_state,
