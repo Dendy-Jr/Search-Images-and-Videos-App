@@ -1,12 +1,12 @@
 package ui.dendi.finder.images_presentation.images
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import timber.log.Timber
 import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.images_presentation.R
@@ -18,6 +18,7 @@ class SearchImagesPagingAdapter(
     ItemCallback
 ), View.OnClickListener, View.OnLongClickListener {
 
+    @SuppressLint("NotifyDataSetChanged")
     fun getImageListItem(position: Int): ImageListItem? {
         notifyDataSetChanged()
         return getItem(position)
@@ -39,7 +40,7 @@ class SearchImagesPagingAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int
+        viewType: Int,
     ): SearchImagesPagingViewHolder {
         val inflate = LayoutInflater.from(parent.context)
         val binding = ImageItemBinding.inflate(inflate, parent, false)
@@ -67,8 +68,6 @@ class SearchImagesPagingAdapter(
             checkbox.tag = item
 
             checkbox.isChecked = item.isChecked
-
-            Timber.d(item.isChecked.toString())
 
             // TODO move `share` into details screen
         }

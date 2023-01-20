@@ -2,6 +2,7 @@
 
 package ui.dendi.finder.images_presentation.images
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isInvisible
@@ -48,6 +49,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         onBind()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun onBind() = with(binding) {
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
@@ -78,6 +80,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
         btnAddToFavorite.setOnClickListener {
             viewModel.addCheckedToFavorites()
+            viewModel.clearAllMultiChoiceImages()
         }
 
         //TODO Add the same logic added/deleted to search video screen, from favorite images and videos screen
@@ -123,7 +126,6 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         lifecycleScope.launch {
             viewModel.imagesState.filterNotNull().collectLatest { state ->
                 adapter.submitData(state.pagingData)
-
                 clearAllMultiChoiceTextView.setText(state.selectAllOperation.titleRes)
             }
         }

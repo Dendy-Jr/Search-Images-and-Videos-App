@@ -28,11 +28,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchImagesViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
-    imagesFilterStorage: ImagesFilterStorage,
     private val saveImageToFavoritesUseCase: SaveImageToFavoritesUseCase,
     private val searchImageUseCase: SearchImagesUseCase,
     private val storage: ImagesStorage,
     private val multiChoiceHandler: MultiChoiceHandler<Image>,
+    imagesFilterStorage: ImagesFilterStorage,
     logger: Logger,
     private val multiChoiceImagesRepository: MultiChoiceImagesRepository
 ) : BaseViewModel(logger) {
@@ -45,15 +45,13 @@ class SearchImagesViewModel @Inject constructor(
     private val imageOrientation = imagesFilterStorage.getOrientation
     private val imageType = imagesFilterStorage.getType
 
-    private val _imagesPagingData = MutableStateFlow<PagingData<Image>>(PagingData.empty())
+    private val imagesPagingData = MutableStateFlow<PagingData<Image>>(PagingData.empty())
 
     private val _imagesState = MutableStateFlow<ImagesState?>(null)
     val imagesState = _imagesState.asStateFlow()
 
-    private val _multiChoiceImagesSize = MutableStateFlow(0)
-
     private val _needShowAddToFavoriteButton = MutableStateFlow(false)
-    val needShowAddToFavoriteButton get() = _needShowAddToFavoriteButton
+    val needShowAddToFavoriteButton = _needShowAddToFavoriteButton.asStateFlow()
 
     init {
         preload()
@@ -67,7 +65,7 @@ class SearchImagesViewModel @Inject constructor(
         ::imagesMerge
     ).collectLatest {
         it.collectLatest { pagingData ->
-            _imagesPagingData.value = pagingData
+            imagesPagingData.value = pagingData
         }
     }
 
@@ -96,7 +94,7 @@ class SearchImagesViewModel @Inject constructor(
             },
             selectAllOperation = SelectAllOperation(
                 R.string.clear_all,
-                multiChoiceHandler::clearAll
+                multiChoiceHandler::clearAll,
             ),
         )
     }
@@ -112,18 +110,12 @@ class SearchImagesViewModel @Inject constructor(
                 multiChoiceImagesRepository.getMultiChoiceImages(),
             )
             val combineFlow = combine(
-                _imagesPagingData,
+                imagesPagingData,
                 multiChoiceHandler.listen(),
                 ::merge
             )
             combineFlow.collectLatest {
                 _imagesState.value = it
-            }
-        }
-
-        viewModelScope.launch {
-            multiChoiceImagesRepository.getMultiChoiceImages().collectLatest {
-                _multiChoiceImagesSize.value = it.size
             }
         }
     }
@@ -139,20 +131,20 @@ class SearchImagesViewModel @Inject constructor(
         }
     }
 
-    fun addToFavorite(images: ImageListItem) {
+    fun addToFavorite(imageItem: ImageListItem) {
         viewModelScope.launch {
             val date = LocalDateTime.now()
-            saveImageToFavoritesUseCase(images.image.copy(date = date.toString()))
+            saveImageToFavoritesUseCase(imageItem.image.copy(date = date.toString()))
         }
     }
 
-    fun launchDetailScreen(images: ImageListItem) {
-        navigateTo(appNavDirections.imageDetailsScreen(images.image))
+    fun launchDetailScreen(imageItem: ImageListItem) {
+        navigateTo(appNavDirections.imageDetailsScreen(imageItem.image))
     }
 
-    fun onImageToggle(images: ImageListItem) {
+    fun onImageToggle(imageItem: ImageListItem) {
         viewModelScope.launch {
-            multiChoiceHandler.toggle(images.image)
+            multiChoiceHandler.toggle(imageItem.image)
             showOrNotFavoriteButton()
         }
     }

@@ -2,10 +2,14 @@
 
 package ui.dendi.finder.videos_presentation.videos
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,9 +20,11 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.*
+import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.videos_presentation.R
 import ui.dendi.finder.videos_presentation.databinding.FragmentVideosBinding
@@ -35,37 +41,53 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         onBind()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun onBind() = with(binding) {
         val kohii = KohiiProvider.get(requireContext())
         kohii.register(this@SearchVideosFragment, memoryMode = MemoryMode.BALANCED)
             .addBucket(view = binding.recyclerView,
                 strategy = Strategy.MULTI_PLAYER,
                 selector = { candidates ->
-                    candidates.take(2)
+                    candidates.take(3)
                 }
             )
 
         val adapter = VideosPagingAdapter(
             kohii = kohii,
-            toVideoDetails = {
-                viewModel.launchDetailsScreen(it)
-            },
-            addToFavorite = {
-                viewModel.addToFavorite(it)
-                requireContext().showToast(getString(R.string.video_added_to_favorites))
-            },
-            shareVideo = {
-                shareItem(it.user, it.pageURL)
-            },
+            listener = object : VideosPagingAdapter.VideoAdapterListener {
+                override fun onVideoChose(video: VideoListItem) {
+                    viewModel.launchDetailsScreen(video)
+                }
+
+                override fun onVideoToggle(video: VideoListItem) {
+                    viewModel.onVideoToggle(video)
+                }
+            }
         )
 
-        ivFilter.setOnClickListener {
+        btnFilter.setOnClickListener {
             val imageFilterBottomDialog = VideoFilterBottomDialog()
             imageFilterBottomDialog.show(parentFragmentManager, imageFilterBottomDialog.tag)
         }
 
+        clearAllMultiChoiceTextView.setOnClickListener {
+            viewModel.clearAllMultiChoiceVideos()
+            btnAddToFavorite.isVisible = false
+            adapter.notifyDataSetChanged()
+        }
+
+        collectWithLifecycle(viewModel.needShowAddToFavoriteButton) {
+            btnAddToFavorite.isVisible = it
+            Timber.d(it.toString())
+        }
+
+        btnAddToFavorite.setOnClickListener {
+            viewModel.addCheckedToFavorites()
+            viewModel.clearAllMultiChoiceVideos()
+        }
+
         searchEditText.setSearchTextChangedClickListener {
-            viewModel.searchVideo(it)
+            viewModel.setSearchBy(it)
         }
 
         collectWithLifecycle(viewModel.searchBy) {
@@ -84,11 +106,37 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         })
 
         recyclerView.scrollToTop(btnScrollToTop)
+        addToFavorite(adapter, recyclerView)
 
-        observeVideos(adapter)
+        collectVideos(adapter)
         observeState(adapter)
         setupRefreshLayout(adapter)
         recyclerView.setupList(adapter, searchEditText)
+    }
+
+    private fun addToFavorite(adapter: PagingDataAdapter<*, *>, recyclerView: RecyclerView) {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.addToFavorite(
+                    (adapter as VideosPagingAdapter).getVideoListItem(viewHolder.bindingAdapterPosition)
+                        ?: return
+                )
+                requireContext().showToast(getString(R.string.added_to_favorite))
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun setupRefreshLayout(adapter: VideosPagingAdapter) {
@@ -97,9 +145,12 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         }
     }
 
-    private fun observeVideos(adapter: VideosPagingAdapter) {
-        collectWithLifecycle(viewModel.videosFlow) { data ->
-            adapter.submitData(data)
+    private fun collectVideos(adapter: VideosPagingAdapter) = with(binding) {
+        lifecycleScope.launch {
+            viewModel.videosState.filterNotNull().collectLatest { state ->
+                adapter.submitData(state.pagingData)
+                clearAllMultiChoiceTextView.setText(state.selectAllOperation.titleRes)
+            }
         }
     }
 

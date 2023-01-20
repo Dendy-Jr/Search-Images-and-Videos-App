@@ -10,6 +10,7 @@ import ui.dendi.finder.app.PixabayDb
 import ui.dendi.finder.favorites_data.images.FavoritesImageDao
 import ui.dendi.finder.favorites_data.videos.FavoritesVideoDao
 import ui.dendi.finder.images_data.local.MultiChoiceImagesDao
+import ui.dendi.finder.videos_data.local.MultiChoiceVideosDao
 import javax.inject.Singleton
 
 @Module
@@ -35,6 +36,10 @@ class DatabaseDaoModule {
     @Provides
     fun multiChoiceImagesDao(db: PixabayDb): MultiChoiceImagesDao =
         db.multiChoiceImagesDao()
+
+    @Provides
+    fun multiChoiceVideosDao(db: PixabayDb): MultiChoiceVideosDao =
+        db.multiChoiceVideosDao()
 
     @Provides
     fun favoriteImageDao(db: PixabayDb): FavoritesImageDao =

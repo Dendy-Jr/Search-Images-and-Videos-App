@@ -1,4 +1,4 @@
-package ui.dendi.finder.videos_domain
+package ui.dendi.finder.videos_domain.repository
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow

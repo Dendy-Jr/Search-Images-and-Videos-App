@@ -37,7 +37,7 @@ class MultiChoiceImagesRepositoryImpl @Inject constructor(
             it.toMultiChoiceImage()
         }
 
-    private fun Image.toMultiChoiceImage() = MultiChoiceImage(
+    private fun Image.toMultiChoiceImage(): MultiChoiceImage = MultiChoiceImage(
         collections = collections,
         comments = comments,
         downloads = downloads,

@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
 import ui.dendi.finder.core.core.models.Video
+import ui.dendi.finder.videos_domain.repository.MultiChoiceVideosRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,6 +15,7 @@ class VideoPagingSource @Inject constructor(
     private val query: String,
     private val remoteDataSource: VideosRemoteDataSource,
     private val type: String?,
+    private val multiChoiceVideosRepository: MultiChoiceVideosRepository,
 ) : PagingSource<Int, Video>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Video> {
@@ -29,7 +31,7 @@ class VideoPagingSource @Inject constructor(
                     query = query,
                     type = type,
                 )
-
+            multiChoiceVideosRepository.insertVideos(videos)
             LoadResult.Page(
                 data = videos,
                 prevKey = if (pageNumber > 1) pageNumber - 1 else null,

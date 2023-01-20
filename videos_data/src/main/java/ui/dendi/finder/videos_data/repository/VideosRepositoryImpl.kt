@@ -13,12 +13,14 @@ import kotlinx.coroutines.flow.flowOn
 import ui.dendi.finder.core.core.models.Video
 import ui.dendi.finder.videos_data.remote.VideoPagingSource
 import ui.dendi.finder.videos_data.remote.VideosRemoteDataSource
-import ui.dendi.finder.videos_domain.VideosRepository
+import ui.dendi.finder.videos_domain.repository.MultiChoiceVideosRepository
+import ui.dendi.finder.videos_domain.repository.VideosRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 class VideosRepositoryImpl @Inject constructor(
     private val remoteDataSource: VideosRemoteDataSource,
+    private val multiChoiceVideosRepository: MultiChoiceVideosRepository,
 ) : VideosRepository {
 
     override fun getPagedVideos(
@@ -38,6 +40,7 @@ class VideosRepositoryImpl @Inject constructor(
                     query = query,
                     remoteDataSource = remoteDataSource,
                     type = type,
+                    multiChoiceVideosRepository = multiChoiceVideosRepository,
                 )
             }
         ).flow.flowOn(Dispatchers.IO)
