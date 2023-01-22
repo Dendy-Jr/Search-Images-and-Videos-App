@@ -1,10 +1,17 @@
 package ui.dendi.finder.app.activity
 
 import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
@@ -21,23 +28,22 @@ class MainActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private val requestPermission = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions(),
-        ::onPermissionsResult
+        RequestPermission(),
+        ::onPermissionResult
     )
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
-        requestPermission.launch(
-            arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-            )
-        )
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
 
         enableBackPressed()
         observeNavigation()
@@ -92,9 +98,41 @@ class MainActivity : BaseActivity() {
             .show()
     }
 
-    private fun onPermissionsResult(grandResults: Map<String, Boolean>) {
-        if (grandResults.entries.all { it.value }) {
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun onPermissionResult(granted: Boolean) {
+        if (granted) {
             showToast(getString(R.string.permissions_granted))
+        } else {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE).not()
+            ) {
+                askUserForOpeningSettings()
+            } else {
+                showToast(getString(R.string.permission_denied))
+            }
+        }
+    }
+
+    private fun askUserForOpeningSettings() {
+        val appSettingsIntent = Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.fromParts("package", packageName, null)
+        )
+        if (packageManager.resolveActivity(
+                appSettingsIntent,
+                PackageManager.MATCH_DEFAULT_ONLY,
+            ) == null
+        ) {
+            showToast(getString(R.string.permissions_denied_forever))
+        } else {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.permission_denied)
+                .setMessage(R.string.permission_denied_forever_message)
+                .setPositiveButton(R.string.open) { _, _ ->
+                    startActivity(appSettingsIntent)
+                }
+                .create()
+                .show()
+
         }
     }
 

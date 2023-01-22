@@ -52,6 +52,8 @@
     <string name="orientation">Orientation:</string>
     <string name="people">people</string>
     <string name="permissions_granted">Permissions granted</string>
+    <string name="permission_denied">Permissions denied</string>
+    <string name="permissions_denied_forever">Permissions denied forever</string>
     <string name="photo">photo</string>
     <string name="pink">pink</string>
     <string name="places">places</string>
@@ -93,4 +95,6 @@
     <string name="tiny">tiny</string>
     <string name="warning">Warning</string>
     <string name="close_the_app">Do you really wand the close the app?</string>
+    <string name="open">open</string>
+    <string name="permission_denied_forever_message">You have denied permissions forever. You can change your decision in the app settings.\n\nWould you like to open app settings?</string>
 </resources>
