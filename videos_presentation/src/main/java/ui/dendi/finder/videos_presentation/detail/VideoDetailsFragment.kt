@@ -84,6 +84,11 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
         btnQuality.setOnClickListener {
             showPopup(it)
         }
+
+        ivSaveToFavorites.setOnClickListener {
+            viewModel.saveVideoToFavorites()
+            requireContext().showToast(R.string.added_to_favorite)
+        }
     }
 
     override fun onSelection(selection: Collection<Playback>) {

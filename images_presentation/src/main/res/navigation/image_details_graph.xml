@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/imageDetailFragment"
-        android:name="ui.dendi.finder.images_presentation.detail.ImageDetailFragment"
+        android:name="ui.dendi.finder.images_presentation.detail.ImageDetailsFragment"
         android:label="fragment_image_details"
         tools:layout="@layout/fragment_image_details">
 

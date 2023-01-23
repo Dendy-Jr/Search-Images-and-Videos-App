@@ -8,7 +8,6 @@ import androidx.work.*
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ui.dendi.finder.core.core.base.BaseFragment
-import ui.dendi.finder.core.core.base.EmptyViewModel
 import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.extension.showToast
 import ui.dendi.finder.core.core.managers.DownloadFileWorkManager
@@ -21,10 +20,10 @@ import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImageDetailsBinding
 
 @AndroidEntryPoint
-class ImageDetailFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_image_details) {
-    override val viewModel: EmptyViewModel by viewModels()
+class ImageDetailsFragment : BaseFragment<ImageDetailsViewModel>(R.layout.fragment_image_details) {
+    override val viewModel: ImageDetailsViewModel by viewModels()
     private val binding: FragmentImageDetailsBinding by viewBinding()
-    private val args: ImageDetailFragmentArgs by navArgs()
+    private val args: ImageDetailsFragmentArgs by navArgs()
     private val workManager by lazy { WorkManager.getInstance(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +45,11 @@ class ImageDetailFragment : BaseFragment<EmptyViewModel>(R.layout.fragment_image
 
         btnDownload.setOnClickListener {
             startDownloadingFile()
+        }
+
+        ivSaveToFavorites.setOnClickListener {
+            viewModel.saveImageToFavorites()
+            requireContext().showToast(R.string.added_to_favorite)
         }
     }
 
