@@ -10,15 +10,14 @@ import javax.inject.Singleton
 
 interface Logger {
 
-    fun log(message: String)
+    fun log(message: String, tag: String)
 }
 
 @Singleton
 class LoggerImpl @Inject constructor() : Logger {
 
-    //TODO add parameter `place`. For example place: String (place = SearchImagesViewModel)
-    override fun log(message: String) {
-        Timber.d(message)
+    override fun log(message: String, tag: String) {
+        Timber.tag(tag).d("message=$message")
     }
 }
 

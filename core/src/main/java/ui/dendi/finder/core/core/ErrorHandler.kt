@@ -1,6 +1,5 @@
 package ui.dendi.finder.core.core
 
-import ui.dendi.finder.core.R
 import ui.dendi.finder.core.core.managers.DialogManager
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,11 +11,12 @@ class ErrorHandler @Inject constructor(
 ) {
 
     fun onError(throwable: Throwable) {
-        dialogManager.show(
-            titleResId = resourceProvider.getString(R.string.error),
-            messageResId = throwable.message.toString(),
-            setNegativeButtonText = resourceProvider.getString(R.string.cancel),
-        )
+//        dialogManager.show(
+//            titleResId = resourceProvider.getString(R.string.error),
+//            messageResId = throwable.message.toString(),
+//            setNegativeButtonText = resourceProvider.getString(R.string.cancel),
+//        )
+
     }
 
     interface ErrorCallback {

@@ -15,6 +15,8 @@ import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.databinding.FavoriteVideoItemBinding
 
+private const val TAG = "FavoritesVideoAdapter"
+
 class FavoritesVideoAdapter(
     private val kohii: Kohii,
     private val listener: VideoAdapterListener,
@@ -54,7 +56,7 @@ class FavoritesVideoAdapter(
         val videoItem = getItem(position) ?: return
         kohii.setUp(videoItem.videos.tiny.url) {
             tag = "${videoItem.videos.tiny.url}+${position}"
-            log("${videoItem.videos.large.url}+${position}")
+            log(message = "${videoItem.videos.large.url}+${position}", tag = TAG)
             repeatMode = Common.REPEAT_MODE_ONE
             preload = true
         }.bind(holder.playerContainer)

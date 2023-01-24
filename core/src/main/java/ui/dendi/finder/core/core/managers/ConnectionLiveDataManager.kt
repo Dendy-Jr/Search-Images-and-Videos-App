@@ -20,6 +20,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import javax.net.SocketFactory
 
+private const val TAG = "ConnectionLiveDataManager"
+
 @Singleton
 class ConnectionLiveDataManager @Inject constructor(
     @ApplicationContext context: Context,
@@ -49,16 +51,16 @@ class ConnectionLiveDataManager @Inject constructor(
 
     private fun createNetworkCallback() = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            log("onAvailable: $network")
+            log(message = "onAvailable: $network", tag = TAG)
             val networkCapabilities = cm.getNetworkCapabilities(network)
             val hasInternetCapability = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
-            log("onAvailable: $network, $hasInternetCapability")
+            log(message = "onAvailable: $network, $hasInternetCapability", tag = TAG)
             if (hasInternetCapability == true) {
                 coroutineScope.launch {
                     val hasInternet = DoesNetworkHaveInternet.execute(network.socketFactory)
                     if (hasInternet) {
                         withContext(Dispatchers.Main) {
-                            log("onAvailable: adding network. $network")
+                            log(message = "onAvailable: adding network. $network", tag = TAG)
                             validNetwork.add(network)
                             checkValidNetwork()
                         }
@@ -68,7 +70,7 @@ class ConnectionLiveDataManager @Inject constructor(
         }
 
         override fun onLost(network: Network) {
-            log("onLost: $network")
+            log(message = "onLost: $network", tag = TAG)
             validNetwork.remove(network)
             checkValidNetwork()
         }
@@ -78,14 +80,14 @@ class ConnectionLiveDataManager @Inject constructor(
 
         fun execute(socketFactory: SocketFactory): Boolean {
             return try {
-                log("PINGING Google...")
+                log(message = "PINGING Google...", tag = TAG)
                 val socket = socketFactory.createSocket() ?: throw IOException("Socket is null.")
                 socket.connect(InetSocketAddress("8.8.8.8", 53), 1500)
                 socket.close()
-                log("PING success.")
+                log(message = "PING success.", tag = TAG)
                 true
             } catch (e: IOException) {
-                log("No Internet Connection. $e")
+                log(message = "No Internet Connection. $e", tag = TAG)
                 false
             }
         }

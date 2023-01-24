@@ -19,6 +19,8 @@ import ui.dendi.finder.core.core.managers.DownloadFileWorkManager.Companion.KEY_
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImageDetailsBinding
 
+private const val TAG = "ImageDetailsFragment"
+
 @AndroidEntryPoint
 class ImageDetailsFragment : BaseFragment<ImageDetailsViewModel>(R.layout.fragment_image_details) {
     override val viewModel: ImageDetailsViewModel by viewModels()
@@ -78,17 +80,17 @@ class ImageDetailsFragment : BaseFragment<ImageDetailsViewModel>(R.layout.fragme
                     when (it.state) {
                         WorkInfo.State.SUCCEEDED -> {
                             requireContext().showToast(R.string.image_uploaded_successfully)
-                            log("${it.outputData.getString(KEY_FILE_URI)}")
+                            log(message = "${it.outputData.getString(KEY_FILE_URI)}", tag = TAG)
                         }
                         WorkInfo.State.FAILED -> {
                             requireContext().showToast(R.string.downloading_failed)
-                            log(getString(R.string.downloading_failed))
+                            log(getString(R.string.downloading_failed), TAG)
                         }
                         WorkInfo.State.RUNNING -> {
-                            log(getString(R.string.download_started))
+                            log(message = getString(R.string.download_started), tag = TAG)
                         }
                         else -> {
-                            log(getString(R.string.something_went_wrong))
+                            log(message = getString(R.string.something_went_wrong), tag = TAG)
                         }
                     }
                 }

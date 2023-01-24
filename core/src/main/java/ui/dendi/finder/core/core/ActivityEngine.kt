@@ -8,6 +8,8 @@ import ui.dendi.finder.core.core.base.BaseActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val TAG = "ActivityEngine"
+
 @Singleton
 class ActivityEngine @Inject constructor(
     application: Application,
@@ -23,32 +25,32 @@ class ActivityEngine @Inject constructor(
                 if (activity is BaseActivity) {
                     currentActivity = activity
                 }
-                log("onActivityCreated")
+                log(message = "onActivityCreated", tag = TAG)
             }
 
             override fun onActivityStarted(activity: Activity) {
-                log("onActivityStarted")
+                log(message = "onActivityStarted", tag = TAG)
             }
 
             override fun onActivityResumed(activity: Activity) {
-                log("onActivityResumed")
+                log(message = "onActivityResumed", tag = TAG)
             }
 
             override fun onActivityPaused(activity: Activity) {
-                log("onActivityPaused")
+                log(message = "onActivityPaused", tag = TAG)
             }
 
             override fun onActivityStopped(activity: Activity) {
-                log("onActivityStopped")
+                log(message = "onActivityStopped", tag = TAG)
             }
 
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-                log("onActivitySaveInstanceState")
+                log(message = "onActivitySaveInstanceState", tag = TAG)
             }
 
             override fun onActivityDestroyed(activity: Activity) {
                 if (activity === currentActivity) currentActivity = null
-                log("onActivityDestroyed")
+                log(message = "onActivityDestroyed", tag = TAG)
             }
         })
     }

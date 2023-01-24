@@ -33,6 +33,8 @@ import ui.dendi.finder.videos_presentation.R
 import ui.dendi.finder.videos_presentation.databinding.FragmentVideoDetailsBinding
 import java.time.LocalDateTime
 
+private const val TAG = "VideoDetailsFragment"
+
 @AndroidEntryPoint
 class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragment_video_details),
     Manager.OnSelectionListener {
@@ -115,26 +117,25 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
     private fun showPopup(view: View) {
         val popupMenu = CustomPopupMenu(view.context, view)
 
-        popupMenu.menu.add(0, 0, Menu.NONE, getString(R.string.large)).apply {
-            //TODO
+        popupMenu.menu.add(GROUP_ID, ITEM_ID_LARGE, Menu.NONE, getString(R.string.large)).apply {
             setIcon(R.drawable.ic_video_quality_4k)
         }
-        popupMenu.menu.add(0, 1, Menu.NONE, getString(R.string.medium)).apply {
+        popupMenu.menu.add(GROUP_ID, ITEM_ID_MEDIUM, Menu.NONE, getString(R.string.medium)).apply {
             setIcon(R.drawable.ic_video_quality_hd)
         }
-        popupMenu.menu.add(0, 2, Menu.NONE, getString(R.string.small)).apply {
+        popupMenu.menu.add(GROUP_ID, ITEM_ID_SMALL, Menu.NONE, getString(R.string.small)).apply {
             setIcon(R.drawable.ic_video_quality_hq)
         }
-        popupMenu.menu.add(0, 3, Menu.NONE, getString(R.string.tiny)).apply {
+        popupMenu.menu.add(GROUP_ID, ITEM_ID_TINY, Menu.NONE, getString(R.string.tiny)).apply {
             setIcon(R.drawable.ic_video_quality_sd)
         }
 
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
-                0 -> viewModel.setVideoQuality(VideoQuality.LARGE)
-                1 -> viewModel.setVideoQuality(VideoQuality.MEDIUM)
-                2 -> viewModel.setVideoQuality(VideoQuality.SMALL)
-                3 -> viewModel.setVideoQuality(VideoQuality.TINY)
+                ITEM_ID_LARGE -> viewModel.setVideoQuality(VideoQuality.LARGE)
+                ITEM_ID_MEDIUM -> viewModel.setVideoQuality(VideoQuality.MEDIUM)
+                ITEM_ID_SMALL -> viewModel.setVideoQuality(VideoQuality.SMALL)
+                ITEM_ID_TINY -> viewModel.setVideoQuality(VideoQuality.TINY)
             }
             return@setOnMenuItemClickListener true
         }
@@ -164,18 +165,21 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
                     when (workInfo.state) {
                         WorkInfo.State.SUCCEEDED -> {
                             requireContext().showToast(R.string.video_uploaded_successfully)
-                            log("${workInfo.outputData.getString(KEY_FILE_URI)}")
+                            log(
+                                message = "${workInfo.outputData.getString(KEY_FILE_URI)}",
+                                tag = TAG
+                            )
                         }
                         WorkInfo.State.FAILED -> {
                             requireContext().showToast(R.string.downloading_failed)
-                            log(getString(R.string.downloading_failed))
+                            log(message = getString(R.string.downloading_failed), tag = TAG)
                         }
                         WorkInfo.State.RUNNING -> {
                             requireContext().showToast(R.string.download_started)
-                            log(getString(R.string.download_started))
+                            log(message = getString(R.string.download_started), tag = TAG)
                         }
                         else -> {
-                            log(getString(R.string.something_went_wrong))
+                            log(message = getString(R.string.something_went_wrong), tag = TAG)
                         }
                     }
                 }
@@ -189,5 +193,13 @@ class VideoDetailsFragment : BaseFragment<VideoDetailsViewModel>(R.layout.fragme
             .replaceAfter("&", "-").replace("&", "")
         val suffix = ".mp4"
         return "$firstTag-$editedUrl$currentDate$suffix"
+    }
+
+    private companion object {
+        const val GROUP_ID = 0
+        const val ITEM_ID_LARGE = 1
+        const val ITEM_ID_MEDIUM = 2
+        const val ITEM_ID_SMALL = 3
+        const val ITEM_ID_TINY = 4
     }
 }
