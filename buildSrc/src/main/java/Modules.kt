@@ -13,4 +13,8 @@ object Modules {
     const val videos_data = ":videos_data"
     const val videos_domain = ":videos_domain"
     const val videos_presentation = ":videos_presentation"
+
+    const val settings_data = ":settings_data"
+    const val settings_domain = ":settings_domain"
+    const val settings_presentation = ":settings_presentation"
 }

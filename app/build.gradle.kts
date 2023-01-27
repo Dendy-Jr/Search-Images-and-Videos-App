@@ -84,6 +84,9 @@ dependencies {
     implementation(project(Modules.videos_data))
     implementation(project(Modules.videos_domain))
     implementation(project(Modules.videos_presentation))
+    implementation(project(Modules.settings_data))
+    implementation(project(Modules.settings_domain))
+    implementation(project(Modules.settings_presentation))
 
     implementation(Dependencies.coroutines)
     implementation(Dependencies.serialization)
