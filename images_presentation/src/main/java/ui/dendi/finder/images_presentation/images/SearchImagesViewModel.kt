@@ -21,6 +21,7 @@ import ui.dendi.finder.images_domain.repository.MultiChoiceImagesRepository
 import ui.dendi.finder.images_domain.usecase.SaveImageToFavoritesUseCase
 import ui.dendi.finder.images_domain.usecase.SearchImagesUseCase
 import ui.dendi.finder.images_presentation.R
+import ui.dendi.finder.settings_domain.use_case.GetItemsPositioningUseCase
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -34,7 +35,8 @@ class SearchImagesViewModel @Inject constructor(
     private val multiChoiceHandler: MultiChoiceHandler<Image>,
     imagesFilterStorage: ImagesFilterStorage,
     logger: Logger,
-    private val multiChoiceImagesRepository: MultiChoiceImagesRepository
+    private val multiChoiceImagesRepository: MultiChoiceImagesRepository,
+    private val getItemsPositioningUseCase: GetItemsPositioningUseCase,
 ) : BaseViewModel(logger) {
 
     private val _searchBy = MutableStateFlow(storage.query)
@@ -52,6 +54,9 @@ class SearchImagesViewModel @Inject constructor(
 
     private val _needShowAddToFavoriteButton = MutableStateFlow(false)
     val needShowAddToFavoriteButton = _needShowAddToFavoriteButton.asStateFlow()
+
+    private val _itemsLayoutManager = getItemsPositioningUseCase.invoke()
+    val itemsLayoutManager = _itemsLayoutManager
 
     init {
         preload()

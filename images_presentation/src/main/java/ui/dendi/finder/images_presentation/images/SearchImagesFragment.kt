@@ -4,12 +4,15 @@ package ui.dendi.finder.images_presentation.images
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +27,7 @@ import ui.dendi.finder.core.core.extension.*
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImagesBinding
+import ui.dendi.finder.settings_domain.ItemsPosition
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -83,6 +87,23 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             viewModel.clearAllMultiChoiceImages()
         }
 
+        collectWithLifecycle(viewModel.itemsLayoutManager) {
+            Log.d("TAG", it.toString())
+            recyclerView.layoutManager = when (it) {
+                ItemsPosition.VERTICAL_SINGLE -> {
+                    LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+                }
+                ItemsPosition.HORIZONTAL_SINGLE ->
+                    LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                ItemsPosition.VERTICAL_DOUBLE -> {
+                    GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+                }
+                ItemsPosition.HORIZONTAL_DOUBLE -> {
+                    GridLayoutManager(requireContext(), 2, RecyclerView.HORIZONTAL, false)
+                }
+            }
+        }
+
         //TODO Add the same logic added/deleted to search video screen, from favorite images and videos screen
         addToFavorite(recyclerView)
 
@@ -99,7 +120,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                target: RecyclerView.ViewHolder,
             ): Boolean {
                 return false
             }

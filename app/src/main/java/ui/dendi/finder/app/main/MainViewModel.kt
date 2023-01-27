@@ -38,6 +38,7 @@ class MainViewModel @Inject constructor(
             MainTab.IMAGES,
             MainTab.VIDEOS,
             MainTab.FAVORITES,
+            MainTab.SETTINGS,
         ).map { it.toItem() }
     }
 
@@ -55,6 +56,9 @@ class MainViewModel @Inject constructor(
         )
         MainTab.FAVORITES -> MainTabBarItem(
             R.navigation.favorites_graph, R.drawable.ic_favorites, R.string.favorites, this
+        )
+        MainTab.SETTINGS -> MainTabBarItem(
+            R.navigation.settings_graph, R.drawable.ic_settings, R.string.settings, this
         )
     }
 }
