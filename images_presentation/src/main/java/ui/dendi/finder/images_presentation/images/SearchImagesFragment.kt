@@ -4,16 +4,12 @@ package ui.dendi.finder.images_presentation.images
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,13 +17,14 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.*
+import ui.dendi.finder.core.core.models.ListColumnType
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImagesBinding
-import ui.dendi.finder.settings_domain.ItemsPosition
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -36,8 +33,8 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     private val binding: FragmentImagesBinding by viewBinding()
     override val viewModel: SearchImagesViewModel by parentViewModel()
 
-    private val adapter = SearchImagesPagingAdapter(
-        object : SearchImagesPagingAdapter.ImageAdapterListener {
+    private val singleColumnAdapter = SearchImagesSingleColumnAdapter(
+        object : SearchImagesSingleColumnAdapter.ImageAdapterListener {
             override fun onImageChosen(image: ImageListItem) {
                 viewModel.launchDetailScreen(image)
             }
@@ -45,8 +42,28 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             override fun onImageToggle(image: ImageListItem) {
                 viewModel.onImageToggle(image)
             }
+
+            override fun addToFavorite(image: ImageListItem) {
+                viewModel.addToFavorite(image)
+                requireContext().showToast(R.string.added_to_favorite)
+            }
         }
     )
+
+    private val multipleColumnsAdapter = SearchImagesMultipleColumnsAdapter(
+        object : SearchImagesMultipleColumnsAdapter.ImageAdapterListener {
+            override fun onImageChosen(image: ImageListItem) {
+                viewModel.launchDetailScreen(image)
+            }
+
+            override fun addToFavorite(image: ImageListItem) {
+                viewModel.addToFavorite(image)
+                requireContext().showToast(R.string.added_to_favorite)
+            }
+        }
+    )
+
+    private var listColumnType: ListColumnType? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +75,6 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
         }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.searchBy.collectLatest {
                 it?.let { searchEditText.setQuery(it) }
@@ -75,7 +91,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         clearAllMultiChoiceTextView.setOnClickListener {
             viewModel.clearAllMultiChoiceImages()
             btnAddToFavorite.isVisible = false
-            adapter.notifyDataSetChanged()
+            singleColumnAdapter.notifyDataSetChanged()
         }
 
         collectWithLifecycle(viewModel.needShowAddToFavoriteButton) {
@@ -87,66 +103,39 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             viewModel.clearAllMultiChoiceImages()
         }
 
-        collectWithLifecycle(viewModel.itemsLayoutManager) {
-            Log.d("TAG", it.toString())
-            recyclerView.layoutManager = when (it) {
-                ItemsPosition.VERTICAL_SINGLE -> {
-                    LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        collectWithLifecycle(viewModel.listColumnType) {
+            listColumnType = it
+            Timber.d(listColumnType.toString())
+
+            listColumnType?.let { listColumnType ->
+                val setAdapter = when (listColumnType) {
+                    ListColumnType.ONE_COLUMN -> singleColumnAdapter
+                    ListColumnType.TWO_COLUMNS -> multipleColumnsAdapter
+                    ListColumnType.THREE_COLUMNS -> multipleColumnsAdapter
+                    ListColumnType.FOUR_COLUMNS -> multipleColumnsAdapter
                 }
-                ItemsPosition.HORIZONTAL_SINGLE ->
-                    LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-                ItemsPosition.VERTICAL_DOUBLE -> {
-                    GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
-                }
-                ItemsPosition.HORIZONTAL_DOUBLE -> {
-                    GridLayoutManager(requireContext(), 2, RecyclerView.HORIZONTAL, false)
-                }
+                recyclerView.setLayoutManager(listColumnType)
+                recyclerView.setupList(setAdapter, searchEditText)
             }
         }
-
-        //TODO Add the same logic added/deleted to search video screen, from favorite images and videos screen
-        addToFavorite(recyclerView)
 
         collectImages()
         observeState()
         setupRefreshLayout()
-        recyclerView.setupList(adapter, searchEditText)
-    }
-
-    private fun addToFavorite(recyclerView: RecyclerView) {
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder,
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                viewModel.addToFavorite(
-                    adapter.getImageListItem(viewHolder.bindingAdapterPosition) ?: return
-                )
-                requireContext().showToast(getString(R.string.added_to_favorite))
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun setupRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            adapter.refresh()
+            singleColumnAdapter.refresh()
+            multipleColumnsAdapter.refresh()
         }
     }
 
     private fun collectImages() = with(binding) {
         lifecycleScope.launch {
             viewModel.imagesState.filterNotNull().collectLatest { state ->
-                adapter.submitData(state.pagingData)
+                lifecycleScope.launch { singleColumnAdapter.submitData(state.pagingData) }
+                lifecycleScope.launch { multipleColumnsAdapter.submitData(state.pagingData) }
                 clearAllMultiChoiceTextView.setText(state.selectAllOperation.titleRes)
             }
         }
@@ -156,8 +145,18 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         val loadStateHolder = DefaultLoadStateAdapter.Holder(
             loadingState,
             swipeRefreshLayout
-        ) { adapter.retry() }
-        adapter.loadStateFlow
+        ) {
+            singleColumnAdapter.retry()
+            multipleColumnsAdapter.retry()
+        }
+        singleColumnAdapter.loadStateFlow
+            .debounce(300)
+            .onEach {
+                loadStateHolder.bind(it.refresh)
+            }
+            .launchIn(lifecycleScope)
+
+        multipleColumnsAdapter.loadStateFlow
             .debounce(300)
             .onEach {
                 loadStateHolder.bind(it.refresh)
@@ -166,7 +165,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun handleListVisibility() = lifecycleScope.launch {
-        getRefreshLoadState(adapter)
+        getRefreshLoadState(singleColumnAdapter)
             .simpleScan(count = 3)
             .collectLatest { (beforePrevious, previous, current) ->
                 binding.recyclerView.isInvisible = current is LoadState.Error
@@ -178,7 +177,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun handleScrollingToTop() = lifecycleScope.launch {
-        getRefreshLoadState(adapter)
+        getRefreshLoadState(singleColumnAdapter)
             .simpleScan(count = 2)
             .collect { (previousState, currentState) ->
                 if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
@@ -188,7 +187,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             }
     }
 
-    private fun getRefreshLoadState(adapter: SearchImagesPagingAdapter): Flow<LoadState> {
+    private fun getRefreshLoadState(adapter: SearchImagesSingleColumnAdapter): Flow<LoadState> {
         return adapter.loadStateFlow.map { it.refresh }
     }
 }

@@ -8,11 +8,12 @@
         android:id="@+id/tvPositioningItems"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
+        android:text="@string/choose_the_positioning_of_items"
         android:textColor="@color/black"
-        android:text="Choose the positioning of items on the application screens"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,28 +29,28 @@
         app:layout_constraintTop_toBottomOf="@id/tvPositioningItems">
 
         <RadioButton
-            android:id="@+id/rbHorizontalSingle"
+            android:id="@+id/rbOneColumn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Single horizontal" />
+            android:text="@string/one_column" />
 
         <RadioButton
-            android:id="@+id/rbVerticalSingle"
+            android:id="@+id/rbTwoColumns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Single vertical" />
+            android:text="@string/two_columns" />
 
         <RadioButton
-            android:id="@+id/rbHorizontalDouble"
+            android:id="@+id/rbThreeColumns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Double horizontal" />
+            android:text="@string/three_columns" />
 
         <RadioButton
-            android:id="@+id/rbVerticalDouble"
+            android:id="@+id/rbFourColumns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Double vertical" />
+            android:text="@string/four_columns" />
 
     </RadioGroup>
 

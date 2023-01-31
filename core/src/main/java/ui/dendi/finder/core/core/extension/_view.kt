@@ -5,8 +5,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.load
 import coil.request.CachePolicy
@@ -39,21 +37,4 @@ fun ImageView.loadImage(url: String) {
         error(R.drawable.ic_image_load_error)
         diskCachePolicy(CachePolicy.ENABLED)
     }
-}
-
-fun RecyclerView.scrollToTop(button: View) {
-    addOnScrollListener(object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            val manager = (recyclerView.layoutManager as? LinearLayoutManager) ?: return
-            val needScroll = manager.findFirstVisibleItemPosition() > 0
-            button.isVisible = needScroll
-
-            button.setOnClickListener {
-                if (needScroll) {
-                    smoothScrollToPosition(0)
-                }
-            }
-        }
-    })
 }

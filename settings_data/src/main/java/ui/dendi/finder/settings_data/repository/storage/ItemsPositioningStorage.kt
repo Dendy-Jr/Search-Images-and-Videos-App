@@ -1,7 +1,7 @@
 package ui.dendi.finder.settings_data.repository.storage
 
+import ui.dendi.finder.core.core.models.ListColumnType
 import ui.dendi.finder.core.core.storage.StorageProvider
-import ui.dendi.finder.settings_domain.ItemsPosition
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,17 +13,16 @@ class ItemsPositioningStorage @Inject constructor(storageProvider: StorageProvid
 
     private val storage = storageProvider.getStorage(ITEMS_POSITIONING_STORAGE)
 
-    var layoutManager: ItemsPosition?
+    var layoutManager: ListColumnType?
         set(value) {
             storage.edit().putString(ITEMS_POSITION, value.toString()).apply()
         }
         get() = toLayoutManager(
             storage.getString(
-                ITEMS_POSITION,
-                ItemsPosition.VERTICAL_SINGLE.toString()
+                ITEMS_POSITION, ListColumnType.ONE_COLUMN.toString()
             )
         )
 
-    private fun toLayoutManager(enumName: String?): ItemsPosition? =
-        ItemsPosition.values().find { it.toString() == enumName }
+    private fun toLayoutManager(enumName: String?): ListColumnType? =
+        ListColumnType.values().find { it.toString() == enumName }
 }

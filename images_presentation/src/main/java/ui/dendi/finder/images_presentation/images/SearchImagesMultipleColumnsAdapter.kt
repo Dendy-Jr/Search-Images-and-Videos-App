@@ -1,6 +1,5 @@
 package ui.dendi.finder.images_presentation.images
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,31 +9,25 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.images_presentation.R
-import ui.dendi.finder.images_presentation.databinding.ImageItemBinding
+import ui.dendi.finder.images_presentation.databinding.ImageItemDoubleColumnBinding
 
-class SearchImagesPagingAdapter(
+class SearchImagesMultipleColumnsAdapter(
     private val listener: ImageAdapterListener,
-) : PagingDataAdapter<ImageListItem, SearchImagesPagingAdapter.SearchImagesPagingViewHolder>(
+) : PagingDataAdapter<ImageListItem, SearchImagesMultipleColumnsAdapter.SearchImagesPagingViewHolder>(
     ItemCallback
 ), View.OnClickListener, View.OnLongClickListener {
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun getImageListItem(position: Int): ImageListItem? {
-        notifyDataSetChanged()
-        return getItem(position)
-    }
 
     override fun onClick(v: View) {
         val image = v.tag as ImageListItem
         when (v.id) {
-            R.id.checkbox -> listener.onImageToggle(image)
-            else -> listener.onImageChosen(image)
+            //TODO change `when` to `if`
+            R.id.container -> listener.onImageChosen(image)
         }
     }
 
     override fun onLongClick(v: View): Boolean {
         val image = v.tag as ImageListItem
-        listener.onImageToggle(image)
+        listener.addToFavorite(image)
         return true
     }
 
@@ -43,12 +36,11 @@ class SearchImagesPagingAdapter(
         viewType: Int,
     ): SearchImagesPagingViewHolder {
         val inflate = LayoutInflater.from(parent.context)
-        val binding = ImageItemBinding.inflate(inflate, parent, false)
+        val binding = ImageItemDoubleColumnBinding.inflate(inflate, parent, false)
 
         binding.apply {
-            root.setOnClickListener(this@SearchImagesPagingAdapter)
-            root.setOnLongClickListener(this@SearchImagesPagingAdapter)
-            checkbox.setOnClickListener(this@SearchImagesPagingAdapter)
+            root.setOnClickListener(this@SearchImagesMultipleColumnsAdapter)
+            root.setOnLongClickListener(this@SearchImagesMultipleColumnsAdapter)
         }
         return SearchImagesPagingViewHolder(binding)
     }
@@ -58,16 +50,12 @@ class SearchImagesPagingAdapter(
     }
 
     inner class SearchImagesPagingViewHolder(
-        private val binding: ImageItemBinding,
+        private val binding: ImageItemDoubleColumnBinding,
     ) : ViewHolder(binding.root) {
 
         fun bind(item: ImageListItem) = with(binding) {
             imageView.loadImage(item.largeImageURL)
-
             root.tag = item
-            checkbox.tag = item
-
-            checkbox.isChecked = item.isChecked
 
             // TODO move `share` into details screen
         }
@@ -86,6 +74,6 @@ class SearchImagesPagingAdapter(
     //TODO duplicate
     interface ImageAdapterListener {
         fun onImageChosen(image: ImageListItem)
-        fun onImageToggle(image: ImageListItem)
+        fun addToFavorite(image: ImageListItem)
     }
 }

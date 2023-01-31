@@ -29,14 +29,14 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchImagesViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
+    private val getItemsPositioningUseCase: GetItemsPositioningUseCase,
     private val saveImageToFavoritesUseCase: SaveImageToFavoritesUseCase,
     private val searchImageUseCase: SearchImagesUseCase,
     private val storage: ImagesStorage,
     private val multiChoiceHandler: MultiChoiceHandler<Image>,
+    private val multiChoiceImagesRepository: MultiChoiceImagesRepository,
     imagesFilterStorage: ImagesFilterStorage,
     logger: Logger,
-    private val multiChoiceImagesRepository: MultiChoiceImagesRepository,
-    private val getItemsPositioningUseCase: GetItemsPositioningUseCase,
 ) : BaseViewModel(logger) {
 
     private val _searchBy = MutableStateFlow(storage.query)
@@ -55,8 +55,8 @@ class SearchImagesViewModel @Inject constructor(
     private val _needShowAddToFavoriteButton = MutableStateFlow(false)
     val needShowAddToFavoriteButton = _needShowAddToFavoriteButton.asStateFlow()
 
-    private val _itemsLayoutManager = getItemsPositioningUseCase.invoke()
-    val itemsLayoutManager = _itemsLayoutManager
+    private val _listColumnType = getItemsPositioningUseCase.invoke()
+    val listColumnType = _listColumnType
 
     init {
         preload()

@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.base.BaseViewModel
-import ui.dendi.finder.settings_domain.ItemsPosition
+import ui.dendi.finder.core.core.models.ListColumnType
 import ui.dendi.finder.settings_domain.use_case.SetItemsPositioningUseCase
 import javax.inject.Inject
 
@@ -15,9 +15,9 @@ class SettingsViewModel @Inject constructor(
     private val setItemsPositioningUseCase: SetItemsPositioningUseCase,
 ) : BaseViewModel(logger) {
 
-    fun setItemsPositioning(position: ItemsPosition) {
+    fun setItemsPositioning(type: ListColumnType) {
         viewModelScope.launch {
-            setItemsPositioningUseCase(position)
+            setItemsPositioningUseCase(type)
         }
     }
 }
