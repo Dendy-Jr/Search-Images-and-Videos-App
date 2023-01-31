@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ui.dendi.finder.core.core.extension.loadImage
 import ui.dendi.finder.core.core.multichoice.ImageListItem
 import ui.dendi.finder.images_presentation.R
-import ui.dendi.finder.images_presentation.databinding.ImageItemSingleLineBinding
+import ui.dendi.finder.images_presentation.databinding.ImageItemSingleColumnBinding
 
 class SearchImagesSingleColumnAdapter(
     private val listener: ImageAdapterListener,
@@ -36,7 +36,7 @@ class SearchImagesSingleColumnAdapter(
         viewType: Int,
     ): SearchImagesPagingViewHolder {
         val inflate = LayoutInflater.from(parent.context)
-        val binding = ImageItemSingleLineBinding.inflate(inflate, parent, false)
+        val binding = ImageItemSingleColumnBinding.inflate(inflate, parent, false)
 
         binding.apply {
             root.setOnClickListener(this@SearchImagesSingleColumnAdapter)
@@ -51,7 +51,7 @@ class SearchImagesSingleColumnAdapter(
     }
 
     inner class SearchImagesPagingViewHolder(
-        private val binding: ImageItemSingleLineBinding,
+        private val binding: ImageItemSingleColumnBinding,
     ) : ViewHolder(binding.root) {
 
         fun bind(item: ImageListItem) = with(binding) {
