@@ -5,17 +5,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.Logger
 import ui.dendi.finder.core.core.base.BaseViewModel
-import ui.dendi.finder.core.core.models.ListColumnType
-import ui.dendi.finder.settings_domain.use_case.SetItemsPositioningUseCase
+import ui.dendi.finder.core.core.models.ImagesColumnType
+import ui.dendi.finder.settings_domain.use_case.SetImagesPositioningUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     logger: Logger,
-    private val setItemsPositioningUseCase: SetItemsPositioningUseCase,
+    private val setItemsPositioningUseCase: SetImagesPositioningUseCase,
 ) : BaseViewModel(logger) {
 
-    fun setItemsPositioning(type: ListColumnType) {
+    fun setItemsPositioning(type: ImagesColumnType) {
         viewModelScope.launch {
             setItemsPositioningUseCase(type)
         }
