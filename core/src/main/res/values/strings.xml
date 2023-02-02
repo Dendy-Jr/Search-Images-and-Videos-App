@@ -103,4 +103,6 @@
     <string name="two_columns">Two columns</string>
     <string name="three_columns">Three columns</string>
     <string name="four_columns">Four columns</string>
+    <string name="image_screens">Image screens</string>
+    <string name="video_screens">Video screens</string>
 </resources>

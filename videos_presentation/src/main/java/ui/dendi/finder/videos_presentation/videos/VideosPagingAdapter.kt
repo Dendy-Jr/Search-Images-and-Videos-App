@@ -1,6 +1,5 @@
 package ui.dendi.finder.videos_presentation.videos
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +17,6 @@ class VideosPagingAdapter(
     private val listener: VideoAdapterListener,
 ) : PagingDataAdapter<VideoListItem, VideosPagingAdapter.VideoViewHolder>(ItemCallback),
     View.OnClickListener, View.OnLongClickListener {
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun getVideoListItem(position: Int): VideoListItem? {
-        notifyDataSetChanged()
-        return getItem(position)
-    }
 
     override fun onClick(v: View) {
         val video = v.tag as VideoListItem

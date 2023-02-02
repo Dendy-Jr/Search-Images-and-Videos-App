@@ -24,6 +24,9 @@
         <item name="icSearchColor">@color/black</item>
         <item name="fontFamily">@font/autour_one</item>
         <item name="strokeColorForColorFilter">@color/black</item>
+
+        <item name="colorGradientStart">#4109A1</item>
+        <item name="colorGradientEnd">#4195E2</item>
     </style>
 
     <style name="Theme.FinderApp.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">

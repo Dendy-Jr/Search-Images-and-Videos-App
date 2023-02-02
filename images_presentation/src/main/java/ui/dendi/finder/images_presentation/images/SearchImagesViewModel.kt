@@ -21,7 +21,7 @@ import ui.dendi.finder.images_domain.repository.MultiChoiceImagesRepository
 import ui.dendi.finder.images_domain.usecase.SaveImageToFavoritesUseCase
 import ui.dendi.finder.images_domain.usecase.SearchImagesUseCase
 import ui.dendi.finder.images_presentation.R
-import ui.dendi.finder.settings_domain.use_case.GetItemsPositioningUseCase
+import ui.dendi.finder.settings_domain.use_case.GetImagesPositioningUseCase
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchImagesViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
-    private val getItemsPositioningUseCase: GetItemsPositioningUseCase,
+    private val getImagesPositioningUseCase: GetImagesPositioningUseCase,
     private val saveImageToFavoritesUseCase: SaveImageToFavoritesUseCase,
     private val searchImageUseCase: SearchImagesUseCase,
     private val storage: ImagesStorage,
@@ -55,7 +55,7 @@ class SearchImagesViewModel @Inject constructor(
     private val _needShowAddToFavoriteButton = MutableStateFlow(false)
     val needShowAddToFavoriteButton = _needShowAddToFavoriteButton.asStateFlow()
 
-    private val _listColumnType = getItemsPositioningUseCase.invoke()
+    private val _listColumnType = getImagesPositioningUseCase.invoke()
     val listColumnType = _listColumnType
 
     init {

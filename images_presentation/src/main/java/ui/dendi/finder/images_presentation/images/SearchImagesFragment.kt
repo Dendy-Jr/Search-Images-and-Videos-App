@@ -17,12 +17,12 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.*
-import ui.dendi.finder.core.core.models.ListColumnType
+import ui.dendi.finder.core.core.models.ImagesColumnType
 import ui.dendi.finder.core.core.multichoice.ImageListItem
+import ui.dendi.finder.core.core.theme.applyTextColorGradient
 import ui.dendi.finder.images_presentation.R
 import ui.dendi.finder.images_presentation.databinding.FragmentImagesBinding
 
@@ -63,7 +63,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         }
     )
 
-    private var listColumnType: ListColumnType? = null
+    private var listColumnType: ImagesColumnType? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,11 +87,13 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         }
 
         recyclerView.scrollToTop(btnScrollToTop)
-
-        clearAllMultiChoiceTextView.setOnClickListener {
-            viewModel.clearAllMultiChoiceImages()
-            btnAddToFavorite.isVisible = false
-            singleColumnAdapter.notifyDataSetChanged()
+        clearAllMultiChoiceTextView.apply {
+            applyTextColorGradient()
+            setOnClickListener {
+                viewModel.clearAllMultiChoiceImages()
+                btnAddToFavorite.isVisible = false
+                singleColumnAdapter.notifyDataSetChanged()
+            }
         }
 
         collectWithLifecycle(viewModel.needShowAddToFavoriteButton) {
@@ -105,14 +107,22 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
 
         collectWithLifecycle(viewModel.listColumnType) {
             listColumnType = it
-            Timber.d(listColumnType.toString())
+            clearAllMultiChoiceTextView.isVisible =
+                if (listColumnType == ImagesColumnType.ONE_COLUMN) {
+                    true
+                } else {
+                    root.applyConstraint {
+                        topToBottom(swipeRefreshLayout, searchEditText, 8)
+                    }
+                    false
+                }
 
             listColumnType?.let { listColumnType ->
                 val setAdapter = when (listColumnType) {
-                    ListColumnType.ONE_COLUMN -> singleColumnAdapter
-                    ListColumnType.TWO_COLUMNS -> multipleColumnsAdapter
-                    ListColumnType.THREE_COLUMNS -> multipleColumnsAdapter
-                    ListColumnType.FOUR_COLUMNS -> multipleColumnsAdapter
+                    ImagesColumnType.ONE_COLUMN -> singleColumnAdapter
+                    ImagesColumnType.TWO_COLUMNS -> multipleColumnsAdapter
+                    ImagesColumnType.THREE_COLUMNS -> multipleColumnsAdapter
+                    ImagesColumnType.FOUR_COLUMNS -> multipleColumnsAdapter
                 }
                 recyclerView.setLayoutManager(listColumnType)
                 recyclerView.setupList(setAdapter, searchEditText)

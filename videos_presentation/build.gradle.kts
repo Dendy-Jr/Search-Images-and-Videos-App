@@ -6,6 +6,7 @@ dependencies {
     "implementation"(project(Modules.core))
     "implementation"(project(Modules.videos_domain))
     "implementation"(project(Modules.videos_data))
+    "implementation"(project(Modules.settings_domain))
 
     // Android Jetpack
     // https://developer.android.com/jetpack/androidx/releases/

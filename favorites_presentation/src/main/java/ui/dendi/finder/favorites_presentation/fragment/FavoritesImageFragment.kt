@@ -9,6 +9,7 @@ import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.extension.collectWithLifecycle
 import ui.dendi.finder.core.core.extension.parentViewModel
 import ui.dendi.finder.core.core.multichoice.ImageListItem
+import ui.dendi.finder.core.core.theme.applyTextColorGradient
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.adapter.FavoritesImageAdapter
 import ui.dendi.finder.favorites_presentation.adapter.ImageAdapterListener
@@ -46,22 +47,26 @@ class FavoritesImageFragment :
         collectWithLifecycle(viewModel.favoriteImagesState) { state ->
             imageAdapter.submitList(state.images)
 
-            selectOrClearAllTextView.isVisible = state.images.isNotEmpty()
-            selectionStateTextView.isVisible = state.images.isNotEmpty()
+            selectOrClearAllTextView.apply {
+                applyTextColorGradient()
+                isVisible = state.images.isNotEmpty()
+                setText(state.selectAllOperation.titleRes)
+                setOnClickListener {
+                    viewModel.selectOrClearAll()
+                }
+            }
 
-            selectOrClearAllTextView.setText(state.selectAllOperation.titleRes)
-            selectionStateTextView.text = getString(
-                R.string.selection_state,
-                state.totalCheckedCount, state.totalCount
-            )
+            selectionStateTextView.apply {
+                isVisible = state.images.isNotEmpty()
+                text = getString(
+                    R.string.selection_state,
+                    state.totalCheckedCount, state.totalCount
+                )
+            }
         }
 
         collectWithLifecycle(viewModel.needShowDeleteButton) { needShowButton ->
             btnDeleteAll.isVisible = needShowButton
-        }
-
-        selectOrClearAllTextView.setOnClickListener {
-            viewModel.selectOrClearAll()
         }
 
         favoritesRecyclerView.adapter = imageAdapter

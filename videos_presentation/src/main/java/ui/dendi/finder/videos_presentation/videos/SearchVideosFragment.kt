@@ -8,8 +8,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,11 +18,11 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.*
 import ui.dendi.finder.core.core.multichoice.VideoListItem
+import ui.dendi.finder.core.core.theme.applyTextColorGradient
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.videos_presentation.R
 import ui.dendi.finder.videos_presentation.databinding.FragmentVideosBinding
@@ -70,21 +68,28 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             imageFilterBottomDialog.show(parentFragmentManager, imageFilterBottomDialog.tag)
         }
 
-        clearAllMultiChoiceTextView.setOnClickListener {
-            viewModel.clearAllMultiChoiceVideos()
-            btnAddToFavorite.isVisible = false
-            adapter.notifyDataSetChanged()
+        clearAllMultiChoiceTextView.apply {
+            applyTextColorGradient()
+            setOnClickListener {
+                viewModel.clearAllMultiChoiceVideos()
+                btnAddToFavorite.isVisible = false
+                adapter.notifyDataSetChanged()
+            }
         }
+
 
         collectWithLifecycle(viewModel.needShowAddToFavoriteButton) {
             btnAddToFavorite.isVisible = it
-            Timber.d(it.toString())
         }
 
         btnAddToFavorite.setOnClickListener {
             viewModel.addCheckedToFavorites()
             viewModel.clearAllMultiChoiceVideos()
         }
+
+//        collectWithLifecycle(viewModel.listColumnType) {
+//            recyclerView.setLayoutManager(it)
+//        }
 
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
@@ -106,37 +111,11 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         })
 
         recyclerView.scrollToTop(btnScrollToTop)
-        addToFavorite(adapter, recyclerView)
 
         collectVideos(adapter)
         observeState(adapter)
         setupRefreshLayout(adapter)
         recyclerView.setupList(adapter, searchEditText)
-    }
-
-    private fun addToFavorite(adapter: PagingDataAdapter<*, *>, recyclerView: RecyclerView) {
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                viewModel.addToFavorite(
-                    (adapter as VideosPagingAdapter).getVideoListItem(viewHolder.bindingAdapterPosition)
-                        ?: return
-                )
-                requireContext().showToast(getString(R.string.added_to_favorite))
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun setupRefreshLayout(adapter: VideosPagingAdapter) {

@@ -11,6 +11,7 @@ import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.extension.collectWithLifecycle
 import ui.dendi.finder.core.core.extension.parentViewModel
 import ui.dendi.finder.core.core.multichoice.VideoListItem
+import ui.dendi.finder.core.core.theme.applyTextColorGradient
 import ui.dendi.finder.core.core.util.KohiiProvider
 import ui.dendi.finder.favorites_presentation.R
 import ui.dendi.finder.favorites_presentation.adapter.FavoritesVideoAdapter
@@ -33,17 +34,14 @@ class FavoritesVideoFragment :
     private fun onBind() = with(binding) {
         val kohii = KohiiProvider.get(requireContext())
         kohii.register(this@FavoritesVideoFragment, memoryMode = MemoryMode.BALANCED)
-            .addBucket(
-                view = rvVideosFavorite,
+            .addBucket(view = rvVideosFavorite,
                 strategy = Strategy.MULTI_PLAYER,
                 selector = { candidates ->
                     candidates.take(2)
-                }
-            )
+                })
 
-        val videoAdapter = FavoritesVideoAdapter(
-            kohii = kohii,
-            listener = object : VideoAdapterListener {
+        val videoAdapter =
+            FavoritesVideoAdapter(kohii = kohii, listener = object : VideoAdapterListener {
                 override fun onVideoDelete(video: VideoListItem) {
                     viewModel.deleteFromFavoritesVideo(video)
                 }
@@ -55,28 +53,30 @@ class FavoritesVideoFragment :
                 override fun onVideoToggle(video: VideoListItem) {
                     viewModel.onVideoToggle(video)
                 }
-            }
-        )
+            })
 
         collectWithLifecycle(viewModel.favoriteVideos) { state ->
             videoAdapter.submitList(state.videos)
 
-            selectOrClearAllTextView.isVisible = state.videos.isNotEmpty()
-            selectionStateTextView.isVisible = state.videos.isNotEmpty()
+            selectOrClearAllTextView.apply {
+                applyTextColorGradient()
+                isVisible = state.videos.isNotEmpty()
+                setText(state.selectAllOperation.titleRes)
+                setOnClickListener {
+                    viewModel.selectOrClearAll()
+                }
+            }
 
-            selectOrClearAllTextView.setText(state.selectAllOperation.titleRes)
-            selectionStateTextView.text = getString(
-                R.string.selection_state,
-                state.totalCheckedCount, state.totalCount
-            )
+            selectionStateTextView.apply {
+                isVisible = state.videos.isNotEmpty()
+                text = getString(
+                    R.string.selection_state, state.totalCheckedCount, state.totalCount
+                )
+            }
         }
 
         collectWithLifecycle(viewModel.needShowDeleteButton) { needShowButton ->
             btnDeleteAll.isVisible = needShowButton
-        }
-
-        selectOrClearAllTextView.setOnClickListener {
-            viewModel.selectOrClearAll()
         }
 
         rvVideosFavorite.adapter = videoAdapter
