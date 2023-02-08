@@ -3,43 +3,42 @@ package ui.dendi.finder.videos_presentation.videos
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kohii.v1.core.Common
+import kohii.v1.core.Playback
 import kohii.v1.exoplayer.Kohii
 import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.videos_presentation.R
-import ui.dendi.finder.videos_presentation.databinding.VideoItemBinding
+import ui.dendi.finder.videos_presentation.databinding.VideoItemMultipleColumnsBinding
 
-class VideosPagingAdapter(
+class SearchVideosMultipleColumnsAdapter(
     private val kohii: Kohii,
     private val listener: VideoAdapterListener,
-) : PagingDataAdapter<VideoListItem, VideosPagingAdapter.VideoViewHolder>(ItemCallback),
-    View.OnClickListener, View.OnLongClickListener {
+) : PagingDataAdapter<VideoListItem, SearchVideosMultipleColumnsAdapter.VideoViewHolder>(
+    ItemCallback
+), View.OnClickListener, View.OnLongClickListener {
 
     override fun onClick(v: View) {
         val video = v.tag as VideoListItem
-        when (v.id) {
-            R.id.checkbox -> listener.onVideoToggle(video)
-            else -> listener.onVideoChose(video)
-        }
+        if (v.id == R.id.container) listener.onVideoChose(video)
     }
 
     override fun onLongClick(v: View): Boolean {
         val video = v.tag as VideoListItem
-        listener.onVideoToggle(video)
+        listener.addToFavorite(video)
         return true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val inflate = LayoutInflater.from(parent.context)
-        val binding = VideoItemBinding.inflate(inflate, parent, false)
+        val binding = VideoItemMultipleColumnsBinding.inflate(inflate, parent, false)
 
         binding.apply {
-            root.setOnClickListener(this@VideosPagingAdapter)
-            root.setOnLongClickListener(this@VideosPagingAdapter)
-            checkbox.setOnClickListener(this@VideosPagingAdapter)
+            container.setOnClickListener(this@SearchVideosMultipleColumnsAdapter)
+            container.setOnLongClickListener(this@SearchVideosMultipleColumnsAdapter)
         }
         return VideoViewHolder(binding)
     }
@@ -50,23 +49,29 @@ class VideosPagingAdapter(
             tag = "${videoItem.videos.tiny.url}+${position}"
             repeatMode = Common.REPEAT_MODE_ONE
             preload = true
+            artworkHintListener = holder
         }.bind(holder.playerContainer)
         holder.bind(getItem(position)!!)
     }
 
     inner class VideoViewHolder(
-        private val binding: VideoItemBinding,
-    ) : RecyclerView.ViewHolder(binding.root) {
+        private val binding: VideoItemMultipleColumnsBinding,
+    ) : RecyclerView.ViewHolder(binding.root), Playback.ArtworkHintListener {
 
         val playerContainer = binding.playerContainer
 
         fun bind(item: VideoListItem) = with(binding) {
-            root.tag = item
-            checkbox.tag = item
-
-            checkbox.isChecked = item.isChecked
-
+            container.tag = item
             // TODO move `share` into details screen
+        }
+
+        override fun onArtworkHint(
+            playback: Playback,
+            shouldShow: Boolean,
+            position: Long,
+            state: Int
+        ) {
+            binding.ivThumbnail.isVisible = shouldShow
         }
     }
 
@@ -80,6 +85,6 @@ class VideosPagingAdapter(
 
     interface VideoAdapterListener {
         fun onVideoChose(video: VideoListItem)
-        fun onVideoToggle(video: VideoListItem)
+        fun addToFavorite(video: VideoListItem)
     }
 }

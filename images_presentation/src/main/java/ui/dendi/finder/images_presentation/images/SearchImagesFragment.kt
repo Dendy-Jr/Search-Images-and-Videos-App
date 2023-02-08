@@ -63,8 +63,6 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
         }
     )
 
-    private var listColumnType: ImagesColumnType? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBind()
@@ -105,10 +103,9 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
             viewModel.clearAllMultiChoiceImages()
         }
 
-        collectWithLifecycle(viewModel.listColumnType) {
-            listColumnType = it
+        collectWithLifecycle(viewModel.imagesColumnType) { imagesColumnType ->
             clearAllMultiChoiceTextView.isVisible =
-                if (listColumnType == ImagesColumnType.ONE_COLUMN) {
+                if (imagesColumnType == ImagesColumnType.ONE_COLUMN) {
                     true
                 } else {
                     root.applyConstraint {
@@ -117,16 +114,14 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
                     false
                 }
 
-            listColumnType?.let { listColumnType ->
-                val setAdapter = when (listColumnType) {
-                    ImagesColumnType.ONE_COLUMN -> singleColumnAdapter
-                    ImagesColumnType.TWO_COLUMNS -> multipleColumnsAdapter
-                    ImagesColumnType.THREE_COLUMNS -> multipleColumnsAdapter
-                    ImagesColumnType.FOUR_COLUMNS -> multipleColumnsAdapter
-                }
-                recyclerView.setLayoutManager(listColumnType)
-                recyclerView.setupList(setAdapter, searchEditText)
+            val setAdapter = when (imagesColumnType) {
+                ImagesColumnType.ONE_COLUMN -> singleColumnAdapter
+                ImagesColumnType.TWO_COLUMNS -> multipleColumnsAdapter
+                ImagesColumnType.THREE_COLUMNS -> multipleColumnsAdapter
+                ImagesColumnType.FOUR_COLUMNS -> multipleColumnsAdapter
             }
+            recyclerView.setLayoutManager(imagesColumnType)
+            recyclerView.setupList(setAdapter, searchEditText)
         }
 
         collectImages()
@@ -198,6 +193,7 @@ class SearchImagesFragment : BaseFragment<SearchImagesViewModel>(R.layout.fragme
     }
 
     private fun getRefreshLoadState(adapter: SearchImagesSingleColumnAdapter): Flow<LoadState> {
+        adapter.loadStateFlow.map { it.refresh }
         return adapter.loadStateFlow.map { it.refresh }
     }
 }

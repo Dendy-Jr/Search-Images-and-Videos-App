@@ -19,10 +19,7 @@ class SearchImagesMultipleColumnsAdapter(
 
     override fun onClick(v: View) {
         val image = v.tag as ImageListItem
-        when (v.id) {
-            //TODO change `when` to `if`
-            R.id.container -> listener.onImageChosen(image)
-        }
+        if (v.id == R.id.container) listener.onImageChosen(image)
     }
 
     override fun onLongClick(v: View): Boolean {
@@ -56,7 +53,6 @@ class SearchImagesMultipleColumnsAdapter(
         fun bind(item: ImageListItem) = with(binding) {
             imageView.loadImage(item.largeImageURL)
             root.tag = item
-
             // TODO move `share` into details screen
         }
     }

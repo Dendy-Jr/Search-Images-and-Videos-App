@@ -5,7 +5,9 @@ package ui.dendi.finder.videos_presentation.videos
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,7 @@ import kotlinx.coroutines.launch
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.base.DefaultLoadStateAdapter
 import ui.dendi.finder.core.core.extension.*
+import ui.dendi.finder.core.core.models.VideosColumnType
 import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.core.core.theme.applyTextColorGradient
 import ui.dendi.finder.core.core.util.KohiiProvider
@@ -46,13 +49,11 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             .addBucket(view = binding.recyclerView,
                 strategy = Strategy.MULTI_PLAYER,
                 selector = { candidates ->
-                    candidates.take(3)
-                }
-            )
+                    candidates.take(6)
+                })
 
-        val adapter = VideosPagingAdapter(
-            kohii = kohii,
-            listener = object : VideosPagingAdapter.VideoAdapterListener {
+        val singleColumnAdapter = SearchVideosSingleColumnAdapter(kohii = kohii,
+            listener = object : SearchVideosSingleColumnAdapter.VideoAdapterListener {
                 override fun onVideoChose(video: VideoListItem) {
                     viewModel.launchDetailsScreen(video)
                 }
@@ -60,8 +61,18 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
                 override fun onVideoToggle(video: VideoListItem) {
                     viewModel.onVideoToggle(video)
                 }
-            }
-        )
+            })
+
+        val multipleColumnsAdapter = SearchVideosMultipleColumnsAdapter(kohii = kohii,
+            listener = object : SearchVideosMultipleColumnsAdapter.VideoAdapterListener {
+                override fun onVideoChose(video: VideoListItem) {
+                    viewModel.launchDetailsScreen(video)
+                }
+
+                override fun addToFavorite(video: VideoListItem) {
+                    viewModel.addToFavorite(video)
+                }
+            })
 
         btnFilter.setOnClickListener {
             val imageFilterBottomDialog = VideoFilterBottomDialog()
@@ -73,10 +84,9 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             setOnClickListener {
                 viewModel.clearAllMultiChoiceVideos()
                 btnAddToFavorite.isVisible = false
-                adapter.notifyDataSetChanged()
+                singleColumnAdapter.notifyDataSetChanged()
             }
         }
-
 
         collectWithLifecycle(viewModel.needShowAddToFavoriteButton) {
             btnAddToFavorite.isVisible = it
@@ -87,9 +97,28 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
             viewModel.clearAllMultiChoiceVideos()
         }
 
-//        collectWithLifecycle(viewModel.listColumnType) {
-//            recyclerView.setLayoutManager(it)
-//        }
+        collectWithLifecycle(viewModel.videosColumnType) { videosColumnType ->
+            clearAllMultiChoiceTextView.isVisible = videosColumnType == VideosColumnType.ONE_COLUMN
+            when (videosColumnType) {
+                VideosColumnType.ONE_COLUMN -> {
+                    swipeRefreshLayout.updateLayoutParams { height = 0.dp }
+                }
+                VideosColumnType.TWO_COLUMNS -> {
+                    twoColumnsVideosDesign()
+                }
+            }
+
+            val setAdapter = when (videosColumnType) {
+                VideosColumnType.ONE_COLUMN -> {
+                    singleColumnAdapter
+                }
+                VideosColumnType.TWO_COLUMNS -> {
+                    multipleColumnsAdapter
+                }
+            }
+            recyclerView.setupList(setAdapter, searchEditText)
+            recyclerView.setLayoutManager(videosColumnType)
+        }
 
         searchEditText.setSearchTextChangedClickListener {
             viewModel.setSearchBy(it)
@@ -98,8 +127,6 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         collectWithLifecycle(viewModel.searchBy) {
             it?.let { searchEditText.setQuery(it) }
         }
-
-        recyclerView.adapter = adapter
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -111,54 +138,87 @@ class SearchVideosFragment : BaseFragment<SearchVideosViewModel>(R.layout.fragme
         })
 
         recyclerView.scrollToTop(btnScrollToTop)
-
-        collectVideos(adapter)
-        observeState(adapter)
-        setupRefreshLayout(adapter)
-        recyclerView.setupList(adapter, searchEditText)
+        collectVideos(singleAdapter = singleColumnAdapter, multipleAdapter = multipleColumnsAdapter)
+        observeState(singleAdapter = singleColumnAdapter, multipleAdapter = multipleColumnsAdapter)
+        setupRefreshLayout(
+            singleAdapter = singleColumnAdapter, multipleAdapter = multipleColumnsAdapter
+        )
     }
 
-    private fun setupRefreshLayout(adapter: VideosPagingAdapter) {
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            adapter.refresh()
+    private fun twoColumnsVideosDesign() = with(binding) {
+        swipeRefreshLayout.margin(left = 10F, top = 8F, right = 10F)
+        btnFilter.margin(top = 16F, bottom = 0F)
+        btnScrollToTop.margin(top = 16F, bottom = 0F)
+        btnFilter.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            topToBottom = searchEditText.id
+            bottomToBottom = ConstraintLayout.LayoutParams.UNSET
+        }
+        btnScrollToTop.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            topToBottom = searchEditText.id
+            bottomToBottom = ConstraintLayout.LayoutParams.UNSET
+        }
+        swipeRefreshLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            height = 300.dp
+            topToBottom = btnFilter.id
+            startToStart = container.id
+            endToEnd = container.id
+            bottomToBottom = ConstraintLayout.LayoutParams.UNSET
         }
     }
 
-    private fun collectVideos(adapter: VideosPagingAdapter) = with(binding) {
+    private fun setupRefreshLayout(
+        singleAdapter: SearchVideosSingleColumnAdapter,
+        multipleAdapter: SearchVideosMultipleColumnsAdapter,
+    ) {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            singleAdapter.refresh()
+            multipleAdapter.refresh()
+        }
+    }
+
+    private fun collectVideos(
+        singleAdapter: SearchVideosSingleColumnAdapter,
+        multipleAdapter: SearchVideosMultipleColumnsAdapter,
+    ) = with(binding) {
         lifecycleScope.launch {
             viewModel.videosState.filterNotNull().collectLatest { state ->
-                adapter.submitData(state.pagingData)
+                lifecycleScope.launch { singleAdapter.submitData(state.pagingData) }
+                lifecycleScope.launch { multipleAdapter.submitData(state.pagingData) }
                 clearAllMultiChoiceTextView.setText(state.selectAllOperation.titleRes)
             }
         }
     }
 
-    private fun observeState(adapter: VideosPagingAdapter) = with(binding) {
+    private fun observeState(
+        singleAdapter: SearchVideosSingleColumnAdapter,
+        multipleAdapter: SearchVideosMultipleColumnsAdapter,
+    ) = with(binding) {
         val loadStateHolder = DefaultLoadStateAdapter.Holder(
-            loadingState,
-            swipeRefreshLayout
-        ) { adapter.retry() }
-        adapter.loadStateFlow
-            .debounce(300)
-            .onEach {
-                loadStateHolder.bind(it.refresh)
-            }
-            .launchIn(lifecycleScope)
+            loadingState, swipeRefreshLayout
+        ) {
+            singleAdapter.retry()
+            multipleAdapter.retry()
+        }
+        singleAdapter.loadStateFlow.debounce(300).onEach {
+            loadStateHolder.bind(it.refresh)
+        }.launchIn(lifecycleScope)
+        multipleAdapter.loadStateFlow.debounce(300).onEach {
+            loadStateHolder.bind(it.refresh)
+        }.launchIn(lifecycleScope)
     }
 
-    private fun handleScrollingToTop(adapter: VideosPagingAdapter) = lifecycleScope.launch {
-        getRefreshLoadState(adapter)
-            .simpleScan(count = 2)
-            .collect { (previousState, currentState) ->
-                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
-                    delay(200)
-                    binding.recyclerView.scrollToPosition(0)
+    private fun handleScrollingToTop(adapter: SearchVideosSingleColumnAdapter) =
+        lifecycleScope.launch {
+            getRefreshLoadState(adapter).simpleScan(count = 2)
+                .collect { (previousState, currentState) ->
+                    if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
+                        delay(200)
+                        binding.recyclerView.scrollToPosition(0)
+                    }
                 }
-            }
-    }
+        }
 
-    private fun getRefreshLoadState(adapter: VideosPagingAdapter): Flow<LoadState> {
-        return adapter.loadStateFlow
-            .map { it.refresh }
+    private fun getRefreshLoadState(adapter: SearchVideosSingleColumnAdapter): Flow<LoadState> {
+        return adapter.loadStateFlow.map { it.refresh }
     }
 }

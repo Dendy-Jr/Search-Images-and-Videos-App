@@ -18,7 +18,7 @@ import ui.dendi.finder.core.core.multichoice.MultiChoiceHandler
 import ui.dendi.finder.core.core.multichoice.MultiChoiceState
 import ui.dendi.finder.core.core.multichoice.VideoListItem
 import ui.dendi.finder.core.core.navigation.AppNavDirections
-import ui.dendi.finder.settings_domain.use_case.GetImagesPositioningUseCase
+import ui.dendi.finder.settings_domain.use_case.GetVideosPositioningUseCase
 import ui.dendi.finder.videos_data.local.SearchVideosStorage
 import ui.dendi.finder.videos_data.local.VideosFilterStorage
 import ui.dendi.finder.videos_domain.repository.MultiChoiceVideosRepository
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class SearchVideosViewModel @Inject constructor(
     private val appNavDirections: AppNavDirections,
     private val saveVideoToFavoritesUseCase: SaveVideoToFavoritesUseCase,
-    private val getItemsPositioningUseCase: GetImagesPositioningUseCase,
+    private val getVideosPositioningUseCase: GetVideosPositioningUseCase,
     private val searchVideosUseCase: SearchVideosUseCase,
     private val searchVideosStorage: SearchVideosStorage,
     private val multiChoiceHandler: MultiChoiceHandler<Video>,
@@ -56,8 +56,8 @@ class SearchVideosViewModel @Inject constructor(
     private val _needShowAddToFavoriteButton = MutableStateFlow(false)
     val needShowAddToFavoriteButton = _needShowAddToFavoriteButton.asStateFlow()
 
-    private val _listColumnType = getItemsPositioningUseCase.invoke()
-    val listColumnType = _listColumnType
+    private val _videosColumnType = getVideosPositioningUseCase.invoke()
+    val videosColumnType = _videosColumnType
 
     init {
         preload()
@@ -163,6 +163,13 @@ class SearchVideosViewModel @Inject constructor(
                     saveVideoToFavoritesUseCase(it.copy(date = date.toString()))
                 }
             }
+        }
+    }
+
+    fun addToFavorite(video: VideoListItem) {
+        viewModelScope.launch {
+            val date = LocalDateTime.now()
+            saveVideoToFavoritesUseCase(video.video.copy(date = date.toString()))
         }
     }
 

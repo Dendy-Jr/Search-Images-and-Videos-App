@@ -18,12 +18,12 @@ class ImagesPositioningRepositoryImpl @Inject constructor(
     private val storage: ImagesPositioningStorage,
 ) : ImagesPositioningRepository {
 
-    override suspend fun setItemsPositioning(type: ImagesColumnType) =
+    override suspend fun setImagesPositioning(type: ImagesColumnType) =
         withContext(Dispatchers.IO) {
             storage.layoutManager = type
         }
 
-    override fun getItemsPositioning(): Flow<ImagesColumnType> = flow {
+    override fun getImagesPositioning(): Flow<ImagesColumnType> = flow {
         emit(storage.layoutManager ?: ImagesColumnType.ONE_COLUMN)
     }
 }

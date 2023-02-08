@@ -5,7 +5,7 @@ import ui.dendi.finder.core.core.models.ImagesColumnType
 
 interface ImagesPositioningRepository {
 
-    suspend fun setItemsPositioning(type: ImagesColumnType)
+    suspend fun setImagesPositioning(type: ImagesColumnType)
 
-    fun getItemsPositioning(): Flow<ImagesColumnType>
+    fun getImagesPositioning(): Flow<ImagesColumnType>
 }

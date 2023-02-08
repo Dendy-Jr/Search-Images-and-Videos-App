@@ -55,8 +55,8 @@ class SearchImagesViewModel @Inject constructor(
     private val _needShowAddToFavoriteButton = MutableStateFlow(false)
     val needShowAddToFavoriteButton = _needShowAddToFavoriteButton.asStateFlow()
 
-    private val _listColumnType = getImagesPositioningUseCase.invoke()
-    val listColumnType = _listColumnType
+    private val _imagesColumnType = getImagesPositioningUseCase.invoke()
+    val imagesColumnType = _imagesColumnType
 
     init {
         preload()

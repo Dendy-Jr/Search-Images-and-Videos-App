@@ -11,6 +11,6 @@ class SetImagesPositioningUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(type: ImagesColumnType) {
-        repository.setItemsPositioning(type)
+        repository.setImagesPositioning(type)
     }
 }

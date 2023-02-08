@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ui.dendi.finder.core.core.base.BaseFragment
 import ui.dendi.finder.core.core.models.ImagesColumnType
+import ui.dendi.finder.core.core.models.VideosColumnType
 import ui.dendi.finder.core.core.theme.applyTextColorGradient
 import ui.dendi.finder.settings_presentation.databinding.SettingsFragmentBinding
 
@@ -36,11 +37,20 @@ class SettingsFragment : BaseFragment<SettingsViewModel>(R.layout.settings_fragm
                 R.id.rbTwoColumnsImage -> ImagesColumnType.TWO_COLUMNS
                 R.id.rbThreeColumnsImage -> ImagesColumnType.THREE_COLUMNS
                 R.id.rbFourColumnsImage -> ImagesColumnType.FOUR_COLUMNS
-                else -> {
-                    return@setOnCheckedChangeListener
-                }
+                else -> return@setOnCheckedChangeListener
             }
             viewModel.setItemsPositioning(item)
+        }
+
+        radioGroupVideo.setOnCheckedChangeListener { _, checkedId ->
+            val radioButton = radioGroupVideo.findViewById<RadioButton>(checkedId)
+
+            val item = when (radioButton.id) {
+                R.id.rbOneColumnVideo -> VideosColumnType.ONE_COLUMN
+                R.id.rbTwoColumnsVideo -> VideosColumnType.TWO_COLUMNS
+                else -> return@setOnCheckedChangeListener
+            }
+            viewModel.setVideosPositioning(item)
         }
     }
 }

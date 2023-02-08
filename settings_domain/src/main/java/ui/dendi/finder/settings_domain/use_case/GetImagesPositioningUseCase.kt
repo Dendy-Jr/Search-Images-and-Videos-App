@@ -12,6 +12,6 @@ class GetImagesPositioningUseCase @Inject constructor(
 ) {
 
     operator fun invoke(): Flow<ImagesColumnType> {
-        return repository.getItemsPositioning()
+        return repository.getImagesPositioning()
     }
 }
