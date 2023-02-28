@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.hilt.work.HiltWorker
@@ -30,6 +31,7 @@ class DownloadFileWorkManager @AssistedInject constructor(
     private val notificationManager =
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun doWork(): Result {
         displayNotification()
 
@@ -54,6 +56,7 @@ class DownloadFileWorkManager @AssistedInject constructor(
         return Result.failure()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun displayNotification() {
         val channel = NotificationChannel(
             CHANNEL_ID,
@@ -66,7 +69,7 @@ class DownloadFileWorkManager @AssistedInject constructor(
         notificationManager.createNotificationChannel(channel)
 
         val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.mipmap.finder_icon)
             .setContentTitle(CHANNEL_DESC)
             .setOngoing(true)
             .setProgress(0, 0, true)
